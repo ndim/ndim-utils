@@ -26,8 +26,8 @@
 #     +- category--branch--version
 #      +- category--branch--version--revision
 #
-# The ARCH_HOOKDIR is ~/.arch-hooks or ~/.arch-params/hooks - the first directory 
-# found is used.
+# The ARCH_HOOKDIR is ~/.arch-hooks or ~/.arch-params/hooks - the
+# first directory found is used.
 #
 # In each directory from ARCH_HOOKDIR downwards, there may
 # be a directory structure like
@@ -42,9 +42,9 @@
 # ??script* naming scheme allows to determine the call sequence
 # easily.
 #
-# If the ARCH_HOOKDIR, archive, category, version, revision match (ARCH_HOOKDIR
-# always matches) and the =ACTION subdirectory exists, alle the hook
-# scripts in the =ACTION subdirectory are called in sequence.
+# If the ARCH_HOOKDIR, archive, category, version, revision match
+# (ARCH_HOOKDIR always matches) and the =ACTION subdirectory exists,
+# all the hook scripts in the =ACTION subdirectory are called in sequence.
 #
 # Note that the more general hook scripts are called for each and
 # every action on more specialized items - e.g. hooks in ARCH_HOOKDIR are
@@ -108,7 +108,8 @@ if [ "$ARCH_REVISION" != "" ]; then
     ARCH_ONLY_VERSION="$(tla parse-package-name --vsn ${ARCH_REVISION})"
     ARCH_ONLY_BRANCH="$(tla parse-package-name --branch ${ARCH_REVISION})"
     ARCH_ONLY_CATEGORY="$(tla parse-package-name --category ${ARCH_REVISION})"
-    export ARCH_ONLY_LEVEL ARCH_ONLY_VERSION ARCH_ONLY_BRANCH ARCH_ONLY_CATEGORY
+    export ARCH_ONLY_LEVEL ARCH_ONLY_VERSION
+    export ARCH_ONLY_BRANCH ARCH_ONLY_CATEGORY
 
     ARCH_CATEGORY="${ARCH_ONLY_CATEGORY}"
     ARCH_BRANCH="${ARCH_CATEGORY}--${ARCH_ONLY_BRANCH}"
@@ -142,7 +143,8 @@ for dir in \
 	      if [ -x "$hook" ]; then
 		  complete="$PWD/$hook"
 		  name="${complete#$ARCH_HOOKDIR/}"
-		  "$verbose" && echo "Executing $ARCH_HOOK_ACTION hook script: $name"
+		  "$verbose" && \
+		      echo "Executing $ARCH_HOOK_ACTION hook script: $name"
 		  "$hook"
 		  status="$?"
 		  if [ "$status" -eq 0 ]; then
