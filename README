@@ -1,1 +1,19 @@
+ndim-utils - ndim's utility collection
 Miscellaneous utilities I wrote for me.
+
+Copyright (C) 2004 Hans Ulrich Niedermann
+
+I build and install it as follows:
+
+/======================================================================\
+
+	./autogen.mk
+	./configure \
+		--prefix="$HOME/tmp/prefix" \
+		--bindir="$HOME/bin" \
+		--enable-maintainer-mode \
+		--enable-tlascripts="$HOME/.arch-params"
+	make
+	make install
+
+\======================================================================/

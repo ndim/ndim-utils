@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 16:06:28 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-23
+
+    Summary:
+      Describe now cleaner build
+    Revision:
+      ndim-utils--main--0.1--patch-23
+
+    Describe now cleaner build
+    
+
+    modified files:
+     ChangeLog README autogen.mk
+
+
 2004-03-16 16:02:43 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-22
 
     Summary:

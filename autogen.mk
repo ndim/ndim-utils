@@ -6,9 +6,12 @@ GEN_CONF = config.status config.log include/config.h include/stamp-h1 include/st
 GENERATED_FILES = $(GEN_RECONF) $(GEN_ACAM) $(GEN_CONF)
 GENERATED_DIRS = autom4te.cache
 
+# AUTORECONF_OPTS = --verbose -Wall
+AUTORECONF_OPTS =
+
 .PHONY: init
 init:
-	autoreconf --install --symlink --verbose -Wall
+	autoreconf --install --symlink $(AUTORECONF_OPTS)
 	@echo "You may run ./configure now -- probably as \"./configure --help\"."
 
 .PHONY: clean
