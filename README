@@ -1,5 +1,7 @@
+========================================================================
 ndim-utils - ndim's utility collection
 Miscellaneous utilities I wrote for me.
+==============================
 
 Copyright (C) 2004 Hans Ulrich Niedermann
 
@@ -19,7 +21,10 @@ Copyright (C) 2004 Hans Ulrich Niedermann
 
 If you also find those utilities useful, then use them :-)
 
+
+========================================================================
 Contents:
+==============================
 
   cdburn/
     Burn CDs without clicking and remembering all those options.
@@ -36,9 +41,12 @@ Contents:
   tla/
     Utility scripts for use with tla, mainly hooks.
 
-I build and install it as follows:
 
-/======================================================================\
+========================================================================
+I build and install it as follows:
+==============================
+
+      /---------------------------------------------\
 
 	./autogen.mk
 	./configure \
@@ -47,7 +55,9 @@ I build and install it as follows:
 	make
 	make install
 
-\======================================================================/
+      \---------------------------------------------/
 
 Then I have a few symlinks to the scripts in $HOME/root/ndim-utils/bin
 in ~/.arch-params and other places.
+
+
