@@ -1,0 +1,6 @@
+#!/bin/sh
+
+xmms-shell -e currenttrack | sed 's/^Current song: [0-9]\+\. /np: /'
+
+
+# arch-tag: 8147ab0e-150a-4600-ae0f-25b79fff40d9

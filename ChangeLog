@@ -2,6 +2,23 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-05-06 18:27:26 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-48
+
+    Summary:
+      add 'np:' script
+    Revision:
+      ndim-utils--main--0.1--patch-48
+
+    add 'np:' script
+    
+
+    new files:
+     misc-scripts/np
+
+    modified files:
+     ChangeLog misc-scripts/Makefile.am
+
+
 2004-05-03 13:47:03 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-47
 
     Summary:
