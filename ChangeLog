@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 21:06:58 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-28
+
+    Summary:
+      compose mail addr via vars
+    Revision:
+      ndim-utils--main--0.1--patch-28
+
+    compose mail addr via vars
+    
+
+    modified files:
+     ChangeLog tla/commit-sendlog
+
+
 2004-03-16 20:42:03 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-27
 
     Summary:

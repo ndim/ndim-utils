@@ -1,6 +1,7 @@
 #!/bin/bash
 
-email="${ARCH_ONLY_CATEGORY}-summary@arch.n-dimensional.de"
+arch_summary_domain="arch.n-dimensional.de"
+email="${ARCH_ONLY_CATEGORY}-summary@${arch_summary_domain}"
 
 (
 echo "From: $(tla my-id)"
