@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
+"""Improve formatting of column output of misc. commands
 
-bin_df = '/bin/df'
+Examples are "df" and "mount".
+"""
 
 colors = { 'ok':   '\033[0;32;40m',
            'warn': '\033[1;33;40m',

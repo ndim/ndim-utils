@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-09 02:56:13 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-56
+
+    Summary:
+      colfilter: add descriptive comment
+    Revision:
+      ndim-utils--main--0.1--patch-56
+
+    colfilter: add descriptive comment
+    
+
+    modified files:
+     ChangeLog misc-scripts/colfilter
+
+
 2004-06-09 02:53:25 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-55
 
     Summary:
