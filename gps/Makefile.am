@@ -2,6 +2,8 @@ PATH := $(HOME)/root/gpspoint/bin:$(PATH)
 LD_LIBRARY_PATH := $(HOME)/root/gpspoint/lib:$(LD_LIBRARY_PATH)
 export PATH LD_LIBRARY_PATH
 
+EXTRA_DIST = geocoord.py pop-z61.raw-route utmlist2gpd.py guntool.py
+
 #.PHONY: all
 #all: pop-z61.gpd
 #	cat $^
