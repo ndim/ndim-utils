@@ -39,7 +39,7 @@ mkisofs \
 	-v ${MKISOFS_OPT} \
 	"$dir" \
 | cdrecord \
-	dev=/dev/hdc \
+	dev=ATAPI:0,0,0 \
 	driveropts=burnfree \
 	-verbose -verbose -eject \
 	-waiti ${CDRECORD_OPT} \

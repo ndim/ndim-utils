@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-08-30 23:09:43 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-79
+
+    Summary:
+      use CD burn device notation for kernel 2.6
+    Revision:
+      ndim-utils--main--0.1--patch-79
+
+    use CD burn device notation for kernel 2.6
+    
+
+    modified files:
+     ChangeLog cdburn/burn-directory
+
+
 2004-08-13 22:43:52 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-78
 
     Summary:
