@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-09 02:07:18 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-50
+
+    Summary:
+      arch inventory housekeeping
+    Revision:
+      ndim-utils--main--0.1--patch-50
+
+    arch inventory housekeeping
+    
+
+    modified files:
+     ChangeLog admin-py/whois/.arch-inventory
+
+
 2004-06-09 02:06:16 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-49
 
     Summary:

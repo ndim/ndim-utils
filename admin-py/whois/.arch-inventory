@@ -2,3 +2,4 @@
 
 precious ^domain-list$
 precious ^whoislist$
+precious ^whois\.(html|pyc|pyo)$
