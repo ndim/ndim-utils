@@ -20,6 +20,7 @@ AC_CONFIG_FILES([
 	Makefile
 	cdburn/Makefile
 	tla/Makefile
+	include/Makefile
 	misc-scripts/Makefile
 	pkg-info/Makefile
 	misc/Makefile

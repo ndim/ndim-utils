@@ -1,25 +1,28 @@
 #include <stdio.h>
 
 #include "config.h"
-#include "pkg-info.h"
+#include "package-version.h"
+#include "build-info.h"
 
 int main()
 {
   printf("%s %s - %s\n"
 	 "Copyright (C) 1998-%s Hans Ulrich Niedermann\n\n"
-	 "  Bugreports:   %s\n"
-	 "  Build date:   %s\n"
-	 "  TLA Archive:  %s\n"
-	 "  TLA Revision: %s\n"
+	 "Revision:\n  %s\n"
+	 "Build date:\n  %s\n"
+	 "Bugreports:\n  %s\n"
+	 "%s"
 	 ,
 	 PACKAGE_TARNAME,
 	 PACKAGE_VERSION,
 	 PACKAGE_NAME,
+
 	 DATE_YEAR,
-	 PACKAGE_BUGREPORT,
+
+         TLA_REVISION,
 	 BUILD_DATE,
-	 TLA_ARCHIVE,
-	 TLA_REVISION
+	 PACKAGE_BUGREPORT,
+	 ""
 	 );
   return 0;
 }

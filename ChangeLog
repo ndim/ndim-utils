@@ -2,6 +2,24 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-19 13:46:09 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-35
+
+    Summary:
+      Create revision from ChangeLog, without using tla at all
+    Revision:
+      ndim-utils--main--0.1--patch-35
+
+    Create revision from ChangeLog, without using tla at all
+    
+
+    new files:
+     include/.arch-ids/Makefile.am.id include/Makefile.am
+
+    modified files:
+     ChangeLog Makefile.am configure.ac pkg-info/Makefile.am
+     pkg-info/pkg-info.c
+
+
 2004-03-17 07:50:57 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-34
 
     Summary:
