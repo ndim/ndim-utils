@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-17 07:50:57 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-34
+
+    Summary:
+      Comment about IO redirection and running in background
+    Revision:
+      ndim-utils--main--0.1--patch-34
+
+    Comment about IO redirection and running in background
+    
+
+    modified files:
+     ChangeLog tla/commit-archive-mirror
+
+
 2004-03-17 07:46:51 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-33
 
     Summary:
