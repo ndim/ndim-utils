@@ -16,6 +16,11 @@ AC_PROG_INSTALL
 
 ########################################################################
 
+pkgdocdir="${datadir}/doc/${PACKAGE_TARNAME}"
+AC_SUBST(pkgdocdir)
+
+########################################################################
+
 AC_CONFIG_FILES([
 	Makefile
 	cdburn/Makefile
@@ -39,6 +44,8 @@ Configuration:
   CC:      $CC
   prefix:  $prefix
   bindir:  $bindir
+
+  docs:    $pkgdocdir
 
 You may run "make" and "make install" now.
 EOF

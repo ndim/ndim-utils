@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-19 15:15:22 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-36
+
+    Summary:
+      define pkgdocdir
+    Revision:
+      ndim-utils--main--0.1--patch-36
+
+    define pkgdocdir
+    
+
+    modified files:
+     ChangeLog Makefile.am configure.ac
+
+
 2004-03-19 13:46:09 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-35
 
     Summary:
