@@ -2,6 +2,24 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-15 12:25:48 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-8
+
+    Summary:
+      inventory cleanup
+    Revision:
+      ndim-utils--main--0.1--patch-8
+
+    inventory cleanup
+    
+
+    new files:
+     .arch-ids/AUTHORS.id .arch-ids/NEWS.id AUTHORS NEWS
+     include/.arch-ids/.arch-inventory.id include/.arch-inventory
+
+    modified files:
+     ChangeLog
+
+
 2004-03-15 12:23:25 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-7
 
     Summary:
