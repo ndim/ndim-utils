@@ -1,1 +1,3 @@
 junk ^(config\.h|stamp-h)(\.in2?)?
+junk ^(build-info|package-version)\.h$
+
