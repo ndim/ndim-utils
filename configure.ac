@@ -1,7 +1,7 @@
 ########################################################################
 
 AC_PREREQ(2.59)
-AC_INIT([ndim utility collection], [0.0.0],
+AC_INIT([ndim utility collection], [0.1.0],
 	[hun@n-dimensional.de], [ndim-utils])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
@@ -38,6 +38,7 @@ AC_CONFIG_FILES([
 	misc/Makefile
 	gps/Makefile
 	admin-py/Makefile
+	admin-py/setup.py
 	palm-scripts/Makefile
 	palm-scripts/pilot
 	])

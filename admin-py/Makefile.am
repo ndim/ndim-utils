@@ -1,4 +1,4 @@
-EXTRA_DIST = whois.py whois-tool.py whoislist setup.py
+EXTRA_DIST = whois.py whois-tool.py whoislist setup.py.in
 DISTCLEANFILES = whoislist.gz
 
 nameservers: domain-list whois-tool.py whoislist

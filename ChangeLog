@@ -2,6 +2,26 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-11 01:58:12 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-67
+
+    Summary:
+      automatic version for python module, ship m4 stuff, and call it 0.1.0
+    Revision:
+      ndim-utils--main--0.1--patch-67
+
+    automatic version for python module, ship m4 stuff, and call it 0.1.0
+    
+
+    new files:
+     admin-py/.arch-ids/setup.py.in.id admin-py/setup.py.in
+
+    removed files:
+     admin-py/setup.py
+
+    modified files:
+     ChangeLog Makefile.am admin-py/Makefile.am configure.ac
+
+
 2004-06-11 01:57:03 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-66
 
     Summary:
