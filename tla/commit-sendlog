@@ -3,6 +3,8 @@
 arch_summary_domain="arch.n-dimensional.de"
 email="${ARCH_ONLY_CATEGORY}-summary@${arch_summary_domain}"
 
+# We may want to start that as a background process if it starts to
+# take too long...
 (
 echo "From: $(tla my-id)"
 echo "Date: $(date)"
