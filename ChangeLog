@@ -2,6 +2,21 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-04-06 13:46:18 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-41
+
+    Summary:
+      cleanup: make distcheck works
+    Revision:
+      ndim-utils--main--0.1--patch-41
+
+    cleanup: make distcheck works
+    
+
+    modified files:
+     ChangeLog cdburn/Makefile.am pkg-info/Makefile.am
+     tla/Makefile.am
+
+
 2004-03-24 18:08:48 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-40
 
     Summary:
