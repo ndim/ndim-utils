@@ -2,6 +2,23 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-21 12:29:57 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-71
+
+    Summary:
+      Overflow/Accumulation fix
+    Revision:
+      ndim-utils--main--0.1--patch-71
+
+    Executive summary:
+    - handle overflowing 32bit counters
+    - handle steadily incrementing counter values
+    
+    Implemented by splitting parser into multiple stages.
+
+    modified files:
+     ChangeLog traffic/ppp-traffic-analysis.py
+
+
 2004-06-21 11:43:21 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-70
 
     Summary:

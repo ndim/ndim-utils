@@ -23,9 +23,6 @@ and admire the statistics.
 
 TODO:
  - Get log files from router via HTTP, updating (local) ppp log file.
- - Handle monotonously incrementing traffic counters (present since milou).
-   This suggests a multi level approach to parsing.
-   FIXME
  
 """
 
@@ -86,51 +83,21 @@ class ByteStats(Stats):
     pass
 
 
-class TrafficStats:
+class Stage2:
 
-    def __init__(self, logfile):
-        self._readlog(logfile)
-
-    def _readlog(self, logfile):
-        
+    def __init__(self):
         self.sent = ByteStats()
         self.rcvd = ByteStats()
         self.traf = ByteStats()
-        last_date = None
-        last_pid = None
 
-        # go through lines, accumulating values for each day
-        while True:
-            line = logfile.readline()
-            if not line:
-                self.sent.append(sent)
-                self.rcvd.append(rcvd)
-                self.traf.append(sent+rcvd)
-                break
-       		     
-            arr = line.strip().split()
-            if len(arr) == 0:
-                continue
-            assert(len(arr) == 11)
-            assert(arr[5] == "Sent" and arr[7] == "bytes," and arr[8] == "received" and arr[10] == "bytes.")
-            
-            cur_date = "%s %2d" % (arr[0],int(arr[1]))
-            if not(last_date):
-                sent = 0
-                rcvd = 0
-                last_date = cur_date
-            elif cur_date != last_date:
-                self.sent.append(sent)
-                self.rcvd.append(rcvd)
-                self.traf.append(sent+rcvd)
-                sent = 0
-                rcvd = 0
-                last_date = cur_date
-                
-            sent += int(arr[6])
-            rcvd += int(arr[9])
-            
+    def event(self, timestamp, host, pid, rcvd, sent):
+        # print "stage2 event:", vars()
+        self.sent.append(sent)
+        self.rcvd.append(rcvd)
+        self.traf.append(sent+rcvd)
 
+    def result(self):
+        return self
 
     def write_stats(self, outfile, detailed = False):
 
@@ -174,6 +141,93 @@ class TrafficStats:
                     outfile.write("        %-10s %9s\n" % (name,format_byte_value(value)))
 
 
+class Stage1:
+
+    def __init__(self):
+        self.next = Stage2()
+
+        self.last_pid = None
+        self.last_date = None
+        
+        self.last_rcvd = None
+        self.last_sent = None
+
+    def event(self, timestamp, host, pid, rcvd, sent):
+        #print "stage1 event:", vars()
+        #print "             ", vars(self)
+        if host == "milou":
+            if not self.last_pid:
+                self.next.event(timestamp, host, pid, rcvd, sent)
+                self.last_pid = pid
+            elif self.last_pid == pid:
+                if rcvd < self.last_rcvd:
+                    rcvd += 2**32
+                if sent < self.last_sent:
+                    sent += 2**32
+                r = rcvd - self.last_rcvd
+                s = sent - self.last_sent
+                assert(r >= 0)
+                assert(s >= 0)
+                self.next.event(timestamp, host, pid, r, s)
+            else:
+                self.next.event(timestamp, host, pid, rcvd, sent)
+                self.last_pid = pid
+        elif host == "gw":
+            date = "%s %2d" % (timestamp[0], int(timestamp[1]))
+            if not self.last_date:
+                self.next.event(timestamp, host, pid, rcvd, sent)
+                self.last_date = date
+            elif self.last_date == date:
+                r = rcvd - self.last_rcvd
+                s = sent - self.last_sent
+                assert(r >= 0)
+                assert(s >= 0)
+                self.next.event(timestamp, host, pid, r, s)
+            else:
+                self.next.event(timestamp, host, pid, rcvd, sent)
+                self.last_date = date
+        self.last_rcvd = rcvd
+        self.last_sent = sent
+                
+
+    def result(self):
+        return self.next.result()
+
+
+class LogParser:
+
+    def __init__(self, logfile):
+        self.logfile = logfile
+        self.next = Stage1()
+
+    def parse(self):       
+        for line in self.logfile.readlines():
+            if not line:
+                continue
+    
+            arr = line.strip().split()
+            if len(arr) == 0:
+                continue
+            assert(len(arr) == 11)
+            assert(arr[5] == "Sent" and arr[7] == "bytes,"
+                   and arr[8] == "received" and arr[10] == "bytes.")
+
+            self.next.event(timestamp = arr[0:2],
+                            host = arr[3],
+                            pid = arr[4],
+                            sent = int(arr[6]),
+                            rcvd = int(arr[9]))
+
+
+    def result(self):
+        return self.next.result()
+
+
+########################################################################
+# Main program
+########################################################################
+
+
 syntax = """
 Syntax: %s [<infile> [<outfile>]]
 
@@ -196,17 +250,13 @@ def main():
     if len(sys.argv) >= 3:
         #sys.stderr.write("Non-standard report file: %s\n" % sys.argv[2])
         outfile = open(sys.argv[2], "w") # open report file
-    stats = TrafficStats(infile)
+    parser = LogParser(infile)
+    parser.parse()
+    stats = parser.result()
     stats.write_stats(outfile, True)
 
 
 if __name__ == '__main__':
-    print """
-    Sorry, but this script "%s" is currently out of order.
-    There is a serious bug which makes it unusable.
-    Fix that first, and only then run it again.
-    """ % sys.argv[0]
-    sys.exit(1)
     main()
 
 # arch-tag: d02a3a85-d37d-4c29-8c6d-348f630823b1
