@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "prefix=@prefix@"
+echo "bindir=@bindir@"
+echo "libdir=@libdir@"
+echo "PREFIX=@PREFIX@"
+echo "BINDIR=@BINDIR@"
+echo "LIBDIR=@LIBDIR@"
+echo "UQ_PREFIX=@UQ_PREFIX@"
+echo "UQ_BINDIR=@UQ_BINDIR@"
+echo "UQ_LIBDIR=@UQ_LIBDIR@"

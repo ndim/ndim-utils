@@ -1,7 +1,7 @@
 ########################################################################
 
 AC_PREREQ(2.59)
-AC_INIT([ndim utility collection], [0.1.0],
+AC_INIT([ndim utility collection], [0.1.1],
 	[hun@n-dimensional.de], [ndim-utils])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
@@ -16,6 +16,7 @@ AC_PROG_INSTALL
 
 NDIM_CHECK_SYSTEM_CONFIG
 NDIM_CHECK_HOTPLUG
+NDIM_CHECK_CONFIGURATION
 
 ########################################################################
 
@@ -34,6 +35,7 @@ AC_CONFIG_FILES([
 	tla/Makefile
 	include/Makefile
 	misc-scripts/Makefile
+	pkg-info/ndim-utils-info.sh
 	pkg-info/Makefile
 	misc/Makefile
 	admin-py/Makefile

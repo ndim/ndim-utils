@@ -24,5 +24,19 @@ int main()
 	 PACKAGE_BUGREPORT,
 	 ""
 	 );
+  /*
+  printf("prefix %s\n"
+	 "bindir %s\n"
+	 "libdir %s\n",
+	 prefix, bindir, libdir);
+  */
+  printf("Q_PREFIX %s\n"
+	 "Q_BINDIR %s\n"
+	 "Q_LIBDIR %s\n",
+	 Q_PREFIX, Q_BINDIR, Q_LIBDIR);
+  printf("UQ_PREFIX %s\n"
+	 "UQ_BINDIR %s\n"
+	 "UQ_LIBDIR %s\n",
+	 UQ_PREFIX, UQ_BINDIR, UQ_LIBDIR);
   return 0;
 }
