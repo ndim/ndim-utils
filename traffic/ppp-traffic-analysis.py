@@ -293,14 +293,17 @@ class Stage1:
                 self.next.event(timestamp, host, pid, rcvd, sent)
                 self.last_pid = pid
             elif self.last_pid == pid:
-                if rcvd < self.last_rcvd:
+
+                while rcvd < self.last_rcvd:
                     rcvd += 2**32
-                if sent < self.last_sent:
-                    sent += 2**32
                 r = rcvd - self.last_rcvd
-                s = sent - self.last_sent
                 assert(r >= 0)
+                
+                while sent < self.last_sent:
+                    sent += 2**32
+                s = sent - self.last_sent
                 assert(s >= 0)
+                
                 self.next.event(timestamp, host, pid, r, s)
             else:
                 self.next.event(timestamp, host, pid, rcvd, sent)

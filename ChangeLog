@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-08-30 23:10:04 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-80
+
+    Summary:
+      fix bug in overflow handling
+    Revision:
+      ndim-utils--main--0.1--patch-80
+
+    fix bug in overflow handling
+    
+
+    modified files:
+     ChangeLog traffic/ppp-traffic-analysis.py
+
+
 2004-08-30 23:09:43 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-79
 
     Summary:
