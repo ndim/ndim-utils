@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-17 07:46:51 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-33
+
+    Summary:
+      Use /dev/null as input - archive-mirror may call ssh and call for pass phrases
+    Revision:
+      ndim-utils--main--0.1--patch-33
+
+    Use /dev/null as input - archive-mirror may call ssh and call for pass phrases
+    
+
+    modified files:
+     ChangeLog tla/commit-archive-mirror
+
+
 2004-03-17 07:43:53 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-32
 
     Summary:

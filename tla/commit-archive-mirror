@@ -2,6 +2,6 @@
 
 tla archive-mirror \
     "${ARCH_ARCHIVE}" "${ARCH_ARCHIVE}-MIRROR" \
-    "${ARCH_CATEGORY}" >& /dev/null &
+    "${ARCH_CATEGORY}" < /dev/null >& /dev/null &
 
 exit 0
