@@ -10,7 +10,7 @@ fi
 
 volumeid="$dir"
 [ "$VOLUMEID" != "" ] && volumeid="$VOLUMEID"
-name="Hans Ulrich Niedermann"
+name="$(awk -F : "(\$1 == \"$USER\") { print \$5; }" /etc/passwd | awk -F , '{ print $1; }')"
 publisher="$name"
 preparer="$name"
 

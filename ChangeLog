@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 13:46:18 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-18
+
+    Summary:
+      Automatically extract user name from /etc/passwd
+    Revision:
+      ndim-utils--main--0.1--patch-18
+
+    Automatically extract user name from /etc/passwd
+    
+
+    modified files:
+     ChangeLog cdburn/burn-directory
+
+
 2004-03-16 12:58:10 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-17
 
     Summary:
