@@ -3,6 +3,7 @@
 int main(int argc, char *argv[])
 {
 	int i;
+	printf("#nr parameter\n");
 	for (i=0; i<argc; i++) 
-		printf("arg %d is %s\n", i, argv[i]);
+		printf("%3d %s\n", i, argv[i]);
 }

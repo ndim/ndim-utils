@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-15 12:23:25 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-7
+
+    Summary:
+      improved output format
+    Revision:
+      ndim-utils--main--0.1--patch-7
+
+    improved output format
+    
+
+    modified files:
+     ChangeLog params/params.c
+
+
 2004-03-15 12:03:29 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-6
 
     Summary:
