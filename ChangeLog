@@ -2,6 +2,29 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 12:58:10 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-17
+
+    Summary:
+      clean inventory, re-add pkg-info
+    Revision:
+      ndim-utils--main--0.1--patch-17
+
+    clean inventory, re-add pkg-info
+    
+
+    new files:
+     pkg-info/.arch-ids/.arch-inventory.id pkg-info/.arch-ids/=id
+     pkg-info/.arch-ids/Makefile.am.id
+     pkg-info/.arch-ids/pkg-info.c.id pkg-info/.arch-inventory
+     pkg-info/Makefile.am pkg-info/pkg-info.c
+
+    modified files:
+     ChangeLog misc/.arch-inventory {arch}/=tagging-method
+
+    new directories:
+     pkg-info pkg-info/.arch-ids
+
+
 2004-03-16 12:51:35 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-16
 
     Summary:
