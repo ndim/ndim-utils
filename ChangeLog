@@ -2,6 +2,28 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2005-02-08 22:50:31 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-89
+
+    Summary:
+      remove nfat stuff
+    Revision:
+      ndim-utils--main--0.1--patch-89
+
+    remove nfat stuff
+    
+
+    removed files:
+     nfat/.arch-ids/=id nfat/.arch-ids/Makefile.am.id
+     nfat/.arch-inventory nfat/Makefile.am nfat/libnfat.c
+     nfat/libnfat.h nfat/nfat.c nfat/nfattest.c nfat/syslogtest.c
+
+    modified files:
+     .arch-inventory ChangeLog
+
+    removed directories:
+     nfat nfat/.arch-ids
+
+
 2005-02-01 02:55:33 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-88
 
     Summary:
