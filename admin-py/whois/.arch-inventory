@@ -1,0 +1,4 @@
+# arch-tag: 0f82726b-2316-4150-b1e0-6609fadd520a
+
+precious ^domain-list$
+precious ^whoislist$
