@@ -1,0 +1,34 @@
+# This is an example route:
+# - Each line describes a waypoint.
+# - The East/North Columns only need to contain the changed numbers at
+#   the end.
+# - The Zone only needs to be mentioned if it changes.
+#
+# ID	East	North	Zone
+0	493440	5396330	32U
+1	360	5396300
+2	550	600
+3	350	720
+4	93530	97240
+5	480	510
+6	93320	98240
+7	070	370
+8	92400	98240
+9	390	310
+10	590	330
+11	570	740
+12	500	730
+13	92470	99290
+14	380	660
+15	320	700
+16	260	860
+17	91960	99860
+18	91880	5400240
+19	815	290
+20	760	300
+21	630	250
+22	610	300
+23	580	290
+24	560	340
+25	600	360
+# arch-tag: f4ba5f37-8901-4eb2-ab06-89efdefcf13b

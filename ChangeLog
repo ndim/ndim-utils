@@ -2,6 +2,27 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-05-03 13:42:52 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-44
+
+    Summary:
+      added gps files
+    Revision:
+      ndim-utils--main--0.1--patch-44
+
+    added gps files
+    
+
+    new files:
+     gps/.arch-ids/=id gps/Makefile.am gps/geocoord.py
+     gps/guntool.py gps/pop-z61.raw-route gps/utmlist2gpd.py
+
+    modified files:
+     ChangeLog {arch}/=tagging-method
+
+    new directories:
+     gps gps/.arch-ids
+
+
 2004-04-07 00:51:04 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-43
 
     Summary:
