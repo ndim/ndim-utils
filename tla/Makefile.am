@@ -4,8 +4,7 @@ tlahook_SCRIPTS = arch-meta-hook commit-sendlog commit-archive-mirror
 
 pkgdoc_DATA = arch-meta-hook.txt
 
-clean-generic:
-	rm -f arch-meta-hook.txt
+CLEANFILES = arch-meta-hook.txt
 
 arch-meta-hook.txt: arch-meta-hook Makefile
 	(read; read; \
