@@ -11,6 +11,7 @@ AM_INIT_AUTOMAKE([gnu 1.8 dist-bzip2])
 
 AC_PROG_CC
 AC_PROG_INSTALL
+AM_PROG_LIBTOOL
 
 ########################################################################
 
@@ -38,6 +39,7 @@ AC_CONFIG_FILES([
 	pkg-info/ndim-utils-info.sh
 	pkg-info/Makefile
 	misc/Makefile
+	nfat/Makefile
 	admin-py/Makefile
 	admin-py/setup.py
 	palm-scripts/Makefile

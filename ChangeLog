@@ -2,6 +2,28 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2005-01-31 14:58:31 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-84
+
+    Summary:
+      added ndim's file access tracker
+    Revision:
+      ndim-utils--main--0.1--patch-84
+
+    added ndim's file access tracker
+    
+
+    new files:
+     nfat/.arch-ids/=id nfat/.arch-ids/Makefile.am.id
+     nfat/.arch-inventory nfat/Makefile.am nfat/libnfat.c
+     nfat/nfat.c nfat/nfattest.c nfat/syslogtest.c
+
+    modified files:
+     ChangeLog configure.ac {arch}/=tagging-method
+
+    new directories:
+     nfat nfat/.arch-ids
+
+
 2004-10-27 15:38:30 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-83
 
     Summary:

@@ -1,0 +1,4 @@
+precious ^libnfat\.la$
+precious ^libnfat_la-libnfat.lo$
+
+# arch-tag: cd480562-bb95-4a2b-ae8c-bce9c386f840
