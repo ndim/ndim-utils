@@ -2,7 +2,9 @@ TESTS = nfattest.sh
 
 #bin_PROGRAMS =
 
-check_PROGRAMS = syslogtest nfattest nfattest.sh
+check_PROGRAMS = syslogtest nfattest
+
+check_SCRIPTS = nfattest.sh
 
 lib_LTLIBRARIES = libnfat.la
 
@@ -12,9 +14,9 @@ nfattest.sh: nfattest libnfat.la Makefile
 	echo 'LD_PRELOAD=$${this}/.libs/libnfat.so $${this}/$<' >> $@
 	chmod +x $@
 
-libnfat_la_SOURCES = libnfat.c
-libnfat_la_CFLAGS = -save-temps
-libnfat_la_LDFLAGS = -ldl
+libnfat_la_SOURCES = libnfat.c libnfat.h
+libnfat_la_CFLAGS = -save-temps -Werror
+libnfat_la_LDFLAGS = -ldl -Werror
 
 nfattest_SOURCES = nfattest.c
 
