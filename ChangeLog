@@ -2,6 +2,32 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-15 13:19:48 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-9
+
+    Summary:
+      moving towards new automake/autoconf
+    Revision:
+      ndim-utils--main--0.1--patch-9
+
+    moving towards new automake/autoconf
+    
+
+    new files:
+     .arch-ids/autogen.mk.id autogen.mk
+
+    removed files:
+     .arch-ids/autogen.sh.id autogen.sh
+
+    modified files:
+     ChangeLog configure.ac
+
+    renamed files:
+     .arch-ids/configure.in.id
+       ==> .arch-ids/configure.ac.id
+     configure.in
+       ==> configure.ac
+
+
 2004-03-15 12:25:48 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-8
 
     Summary:
