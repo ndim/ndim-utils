@@ -1,1 +1,1 @@
-SUBDIRS = cdburn params percheck
+SUBDIRS = cdburn params misc-scripts

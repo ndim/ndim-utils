@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ "$1" = "" ]; then
+    echo "Syntax: $(basename "$0") <host/ip>"
+    exit 1
+fi
+
+while true
+do
+    if ping -c 1 $*
+    then
+	echo -ne "\007"
+    fi
+    sleep 1
+done

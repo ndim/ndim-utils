@@ -1,0 +1,63 @@
+#!/bin/sh
+
+case $1 in
+    -h )
+    echo "Usage: xnest <display> <window manager>" ;
+    echo "Example: xnest :1 blackbox" ;
+    exit 0 ;;
+
+    :* )
+    display=$1 ;;
+
+    * )
+    display=":1" ;;
+esac
+
+case $2 in
+    blackbox )
+    window_manager="blackbox -display ${display}" ;;
+
+    fvwm2 )
+    window_manager="fvwm2 -display ${display}" ;;
+
+    gnome )
+    window_manager="gnome-session --display ${display}" ;;
+
+    ion )
+    window_manager="ion -display ${display}" ;;
+
+    mwm )
+    window_manager="mwm -display ${display}" ;;
+
+    twm )
+    window_manager="twm -display ${display}" ;;
+
+    wmaker )
+    window_manager="wmaker -display ${display}" ;;
+
+    * )
+    window_manager="fvwm95 -display ${display}" ;;
+esac
+
+shift
+
+MCOOKIE=3D$(mcookie)
+
+xauth add $(hostname)/unix$display . $MCOOKIE
+xauth add localhost/unix$display . $MCOOKIE
+
+geometry="1024x768"
+geometry="640x480"
+Xnest -geometry "$geometry" -depth 24 $display &
+
+Xnest_pid=$!
+
+sleep 1
+
+$window_manager
+
+kill $!
+
+xauth remove $(hostname)/unix$display localhost/unix$display
+
+exit 0

@@ -2,6 +2,43 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-15 11:45:38 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-5
+
+    Summary:
+      add xnest, bing, percheck
+    Revision:
+      ndim-utils--main--0.1--patch-5
+
+    add xnest, bing, percheck
+    
+
+    new files:
+     misc-scripts/.arch-ids/bing.id misc-scripts/.arch-ids/xnest.id
+     misc-scripts/bing misc-scripts/xnest
+
+    modified files:
+     ChangeLog Makefile.am configure.in misc-scripts/Makefile.am
+     misc-scripts/percheck
+
+    renamed files:
+     percheck/.arch-ids/=id
+       ==> misc-scripts/.arch-ids/=id
+     percheck/.arch-ids/Makefile.am.id
+       ==> misc-scripts/.arch-ids/Makefile.am.id
+     percheck/.arch-ids/percheck.id
+       ==> misc-scripts/.arch-ids/percheck.id
+
+    new directories:
+     misc-scripts/.arch-ids
+
+    removed directories:
+     percheck/.arch-ids
+
+    renamed directories:
+     percheck
+       ==> misc-scripts
+
+
 2004-03-15 11:30:07 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-4
 
     Summary:
