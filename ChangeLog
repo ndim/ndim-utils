@@ -2,6 +2,23 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-05-03 13:44:30 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-45
+
+    Summary:
+      added one.c
+    Revision:
+      ndim-utils--main--0.1--patch-45
+
+    added one.c
+    
+
+    new files:
+     misc/one.c
+
+    modified files:
+     ChangeLog misc/Makefile.am
+
+
 2004-05-03 13:42:52 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-44
 
     Summary:
