@@ -16,6 +16,13 @@ Function:
 If either filename is not given, stdout/stdin are used.
 """
 
+"""
+Possible ways to evolution:
+
+ * change it into some kind of "DNS lint" which checks that whois and DNS
+   are all consistent.
+"""
+
 
 import sys
 import string
@@ -29,13 +36,22 @@ def write_nameserver_report(domains,output):
         domain = line.strip()
         if (not domain) or (domain[0] in ['#']):
             continue
-        result = eng.whois(domain)
-        sys.stderr.write("\n")
-        sys.stderr.write(str(result))
-        sys.stderr.write("\n")
-        output.write(string.join([domain] + result.nameservers,' '))
-        output.write("\n")
-        output.flush()
+        result = None
+        try:
+            result = eng.whois(domain)
+        except whois.NoWhoisServerError:
+            pass
+        if result:
+            sys.stderr.write("\n")
+            sys.stderr.write(str(result))
+            sys.stderr.write("\n")
+            # FIXME: handle strings like "ns.foobar.de 1.2.3.4"
+            output.write(string.join([domain] + result.nameservers,' '))
+            output.write("\n")
+            output.flush()
+        else:
+            output.write("%s #\n" % domain);
+            output.flush()
 
 
 if __name__ == '__main__':

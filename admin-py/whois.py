@@ -22,6 +22,17 @@ class ServerQueryError(Exception):
         return "Error asking %s about %s" % (self.server, self.domain)
         
 
+class NoWhoisServerError(Exception):
+
+    """No whois server for this domain"""
+
+    def __init__(self, domain):
+        self.domain = domain
+
+    def __str__(self):
+        return "No whois server for domain %s" % (self.domain)
+
+
 class UnhandledWhoisServer(Exception):
 
     """No parser for this whois server"""
@@ -291,7 +302,7 @@ class WhoisEngine:
         try:
             whois_server = self.whois_servers[tld]
         except KeyError:
-            return None
+            raise NoWhoisServerError(domain)
         s = self.connected_socket(whois_server)
         query = domain
         if tld == "de":

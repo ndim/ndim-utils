@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-07-19 22:30:04 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-77
+
+    Summary:
+      handle case of non-existing whois servers (e.g. .tv only has a web interface
+    Revision:
+      ndim-utils--main--0.1--patch-77
+
+    handle case of non-existing whois servers (e.g. .tv only has a web interface
+    
+
+    modified files:
+     ChangeLog admin-py/whois-tool.py admin-py/whois.py
+
+
 2004-07-19 22:29:28 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-76
 
     Summary:
