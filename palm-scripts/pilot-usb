@@ -1,0 +1,4 @@
+# uncomment one of these
+#mode="try-everything"
+#mode="ppp-only"
+#mode="permissions-only"

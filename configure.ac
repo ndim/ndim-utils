@@ -24,6 +24,7 @@ AC_SUBST(tlahookdir)
 
 AC_CONFIG_FILES([
 	Makefile
+	m4/Makefile
 	cdburn/Makefile
 	tla/Makefile
 	include/Makefile
@@ -32,6 +33,7 @@ AC_CONFIG_FILES([
 	misc/Makefile
 	gps/Makefile
 	admin-py/Makefile
+	palm-scripts/Makefile
 	])
 AC_OUTPUT
 

@@ -68,7 +68,13 @@ find_tty() {
     tmp="$(cat "$usbserial" | grep "module:visor" | awk "/vendor:${vendor} product:${product} num_ports:${num_ports} port:${port}/ {print \$1;}")"
     ttyno="$(echo "$tmp" | sed 's/://g')"
     tty="/dev/ttyUSB${ttyno}"
-    if [ -c "$tty" ]; then echo "$tty"; fi
+    if [ -c "$tty" ]; then
+	echo "$tty"
+	echo "Found pilot on tty device $tty" >&2
+    else
+	echo "No tty device found for pilot!" >&2
+	exit 1
+    fi
 }
 
 
@@ -77,7 +83,9 @@ find_tty() {
 
 start_pppd() {
     local DNS EXT_IF EXT_IP PPP_IP_SELF PPP_IP_PALM PPP_PID
-    
+
+    echo "Starting ppp daemon."
+
     beep -f "$freq" -l "$beeplen" -r 3 -d "$beepdelay"
 
     DNS="$(awk 'BEGIN { n=0; } /^nameserver/ && (n == 0) { a[0]=$2; n=n+1; } /^nameserver/ && (n == 1) && (a[0] != $2) { a[1]=$2; n=n+1; } END {print a[0]" "a[1];}' < /etc/resolv.conf)"
@@ -135,46 +143,62 @@ echo "pppd killed. Removing SNAT entry and routing." >> "$log"
 iptables -t nat -D POSTROUTING -o "${EXT_IF}" -s "${PPP_IP_PALM}" -j SNAT --to-source "$EXT_IP" >> "$log" 2>&1
 echo 0 > /proc/sys/net/ipv4/ip_forward
 
-rm -f "$symdev" 2>&1
-chown 0 "$tty" 2>&1
 echo "Cleanup finished." >> "$log"
 
 beep -f "$freq" -l "$beeplen" -r 3 -D "$beepdelay" >> "$log" 2>&1
 beep -f "$[ $freq / 2 ]" -l "$[ 2*$beeplen ]" -r 1 >> "$log" 2>&1
 EOF
+    chmod +x "$REMOVER"
+    echo "Wrote cleanup script to $REMOVER"
 }
 
 
 ########################################################################
-# Main program
+# set permissions
 
-tty="$(find_tty)"
-rm -f "$symdev"
-ln -s "$tty" "$symdev"
-chown "$user" "$tty"
+set_permissions() {
+    echo "Setting permissions."
+    chown "$user" "$tty"
+}
 
-if [ -f "/tmp/ndim-pilot" ]; then
-    start_pppd
-    exit 0
-else
-    exit 0
-fi
 
-if [ -d "${backup_dir}" ] && [ "$(ls -1 "${backup_dir}/" | wc -l)" -eq 0 ]; then
-    # If there is an empty directory, do our backup to it
+########################################################################
+# Setup symlink
+
+setup_symlink() {
+    echo "Setting up symlink from $tty to $symdev"
+    rm -f "$symdev"
+    ln -s "$tty" "$symdev"
+}
+
+
+########################################################################
+# Execute backup
+
+execute_backup() {
+    set_permissions
+    echo "Starting backup."
     beep -f "$freq" -l "$beeplen" -r 1 -d "$beepdelay"
     su - "$user" -c "pilot-xfer -p '${tty}' -b '${backup_dir}'" &
     XFER_PID="$!"
     echo "Running pilot-xfer for backup (pid ${XFER_PID}, in background)."
     cat>>"$REMOVER"<<EOF
     kill "$XFER_PID" >> "$log" 2>&1 || kill -9 "$XFER_PID" >> "$log" 2>&1
-    rm -f "$symdev" 2>&1
     chown 0 "$tty" 2>&1
     beep -f "$freq" -l "$beeplen" -r 1 -D "$beepdelay" >> "$log" 2>&1
     beep -f "$[ $freq / 2 ]" -l "$[ 2*$beeplen ]" -r 1 >> "$log" 2>&1
 EOF
-elif [ -d "${upload_dir}" ] && [ "$(ls -1 "${upload_dir}/" | wc -l)" -gt 0 ]; then
-    # non-empty upload directory exists
+    chmod +x "$REMOVER"
+    echo "Wrote cleanup script to $REMOVER"
+}
+
+
+########################################################################
+# Upload files
+
+upload_files() {
+    set_permissions
+    echo "Starting file upload."
     beep -f "$freq" -l "$beeplen" -r 2 -d "$beepdelay"
     su - "$user" -c "pilot-xfer -p '${tty}' -i ${upload_dir}/*" &
     XFER_PID="$!"
@@ -186,17 +210,72 @@ elif [ -d "${upload_dir}" ] && [ "$(ls -1 "${upload_dir}/" | wc -l)" -gt 0 ]; th
 	    rm -f *
 	fi
     fi
-    rm -f "$symdev" 2>&1
     chown 0 "$tty" 2>&1
     beep -f "$freq" -l "$beeplen" -r 2 -D "$beepdelay" >> "$log" 2>&1
     beep -f "$[ $freq / 2 ]" -l "$[ 2*$beeplen ]" -r 1 >> "$log" 2>&1
 EOF
-else
-    start_pppd
-fi
+    chmod +x "$REMOVER"
+    echo "Wrote cleanup script to $REMOVER"
+}
 
-chmod +x "$REMOVER"
-echo "Wrote cleanup script to $REMOVER"
+
+########################################################################
+# Try everything
+
+try_everything() {
+    echo "Trying everything."
+    if [ -d "${backup_dir}" ] && [ "$(ls -1 "${backup_dir}/" | wc -l)" -eq 0 ]; then
+        # If there is an empty directory, do our backup to it
+	execute_backup
+    elif [ -d "${upload_dir}" ] && [ "$(ls -1 "${upload_dir}/" | wc -l)" -gt 0 ]; then
+        # non-empty upload directory exists
+	upload_files
+    else
+	start_pppd
+    fi
+}
+
+
+########################################################################
+# Main program
+
+# default config
+mode=try-everything
+
+# read config file
+for configfile in \
+    /etc/default/pilot-usb \
+    /etc/sysconfig/pilot-usb
+  do
+  if [ -f "$configfile" ]; then
+      echo "Reading config file $configfile"
+      . "$configfile"
+      exit
+  fi
+done
+
+tty="$(find_tty)"
+chown 0.0 "$tty"
+chmod 0600 "$tty"
+
+case "$mode" in
+    permissions-only)
+	set_permissions
+	setup_symlink
+	# No cleanup script, because there is no way we can know what
+	# is going to be done with the device and for how long.
+	;;
+    ppp-only)
+	start_pppd
+	;;
+    try-everything)	
+	try_everything
+	;;
+    *)
+	echo "Unhandled mode: $mode"
+	exit 1
+	;;
+esac
 
 exit 0
 

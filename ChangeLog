@@ -2,6 +2,29 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-10 12:00:49 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-61
+
+    Summary:
+      palm hotplug script cleanup (more flexible, do installation)
+    Revision:
+      ndim-utils--main--0.1--patch-61
+
+    palm hotplug script cleanup (more flexible, do installation)
+    
+
+    new files:
+     m4/.arch-ids/=id m4/.arch-ids/systemconfig.m4.id
+     m4/Makefile.am m4/systemconfig.m4
+     palm-scripts/.arch-ids/pilot-usb.id palm-scripts/pilot-usb
+
+    modified files:
+     ChangeLog Makefile.am configure.ac palm-scripts/Makefile.am
+     palm-scripts/pilot
+
+    new directories:
+     m4 m4/.arch-ids
+
+
 2004-06-10 11:15:28 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-60
 
     Summary:
