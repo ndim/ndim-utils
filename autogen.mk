@@ -11,7 +11,7 @@ AUTORECONF_OPTS =
 
 .PHONY: init
 init:
-	autoreconf --install --symlink $(AUTORECONF_OPTS)
+	autoreconf --verbose --install --symlink $(AUTORECONF_OPTS)
 	@echo "You may run ./configure now -- probably as \"./configure --help\"."
 
 .PHONY: clean
