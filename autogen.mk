@@ -15,7 +15,12 @@ init:
 clean:
 	rm -rf $(GENERATED_DIRS)
 	rm -f $(GENERATED_FILES)
-	find $$(pwd) -type f -name 'Makefile.am' -print | \
+	find . -type f -name 'Makefile.am' -print | \
 		while read file; do \
-			rm -f "$$(basename "$file" .am).am"; \
+			echo "$$file" | grep -q '{arch}' && continue; \
+			echo "$$file: Removing created files."; \
+			base="$$(dirname "$$file")/$$(basename "$$file" .am)"; \
+			rm -f "$${base}"; \
+			rm -f "$${base}.in"; \
 		done
+	find . -type f -name '*~' -exec rm -f {} \;
