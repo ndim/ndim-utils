@@ -2,6 +2,44 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-15 19:36:46 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-11
+
+    Summary:
+      Yet more automake/autoconf cleanup
+    Revision:
+      ndim-utils--main--0.1--patch-11
+
+    Yet more automake/autoconf cleanup
+    
+
+    new files:
+     misc/.arch-ids/pkg-info.c.id misc/pkg-info.c
+
+    modified files:
+     .arch-inventory ChangeLog Makefile.am autogen.mk configure.ac
+     include/.arch-inventory
+
+    renamed files:
+     params/.arch-ids/.arch-inventory.id
+       ==> misc/.arch-ids/.arch-inventory.id
+     params/.arch-ids/=id
+       ==> misc/.arch-ids/=id
+     params/.arch-ids/Makefile.am.id
+       ==> misc/.arch-ids/Makefile.am.id
+     params/.arch-ids/params.c.id
+       ==> misc/.arch-ids/params.c.id
+
+    new directories:
+     misc/.arch-ids
+
+    removed directories:
+     params/.arch-ids
+
+    renamed directories:
+     params
+       ==> misc
+
+
 2004-03-15 19:17:30 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-10
 
     Summary:

@@ -1,1 +1,1 @@
-junk ^(config\.h|stamp-h)(\.in)?$
+junk ^(config\.h|stamp-h)(\.in2?)?

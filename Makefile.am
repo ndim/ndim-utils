@@ -1,1 +1,1 @@
-SUBDIRS = cdburn params misc-scripts
+SUBDIRS = cdburn misc misc-scripts

@@ -2,7 +2,7 @@ AC_PREREQ(2.59)
 AC_INIT([ndim utility collection], [0.0.0],
 	[hun@n-dimensional.de], [ndim-utils])
 AC_CONFIG_HEADER([include/config.h])
-AC_CONFIG_SRCDIR(params/params.c)
+AC_CONFIG_SRCDIR(misc/pkg-info.c)
 AM_INIT_AUTOMAKE([gnu 1.8])
 
 AM_MAINTAINER_MODE
@@ -14,7 +14,7 @@ AC_CONFIG_FILES([
 	Makefile
 	cdburn/Makefile
 	misc-scripts/Makefile
-	params/Makefile
+	misc/Makefile
 	])
 AC_OUTPUT
 
@@ -28,4 +28,6 @@ Configuration:
   CC:      $CC
   prefix:  $prefix
   bindir:  $bindir
+
+You may run "make" and "make install" now.
 EOF
