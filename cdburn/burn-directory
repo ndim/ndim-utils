@@ -1,0 +1,37 @@
+#!/bin/sh
+
+dir="$1"
+
+if [ "" != "$2" ]
+then
+	echo "No second argument allowed"
+	exit 1
+fi
+
+volumeid="$dir"
+[ "$VOLUMEID" != "" ] && volumeid="$VOLUMEID"
+name="Hans Ulrich Niedermann"
+publisher="$name"
+preparer="$name"
+
+echo "Burning $dir to CD"
+echo "mkisofs  options: $MKISOFS_OPT"
+echo "cdrecord options: $CDRECORD_OPT"
+echo
+
+
+mkisofs \
+	-volid "$volumeid" \
+	-preparer "$preparer" \
+	-publisher "$publisher" \
+	-joliet -r \
+	-translation-table \
+	-v ${MKISOFS_OPT} \
+	"$dir" \
+| cdrecord \
+	dev=/dev/hdc \
+	driveropts=burnfree \
+	-verbose -verbose -eject \
+	-waiti ${CDRECORD_OPT} \
+	-data -
+

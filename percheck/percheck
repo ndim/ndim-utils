@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+# syntax: perchech.sh file1 file2 ...
+#
+# displays permissions of all files and all directories above
+#
+
+file="$1"
+
+while [ "x$file" != "x" ]
+do
+    until false
+    do
+        ls -ald "$file"
+        if [ "$file" = "/" ]; then break; fi
+        file="$(dirname "$file")"
+        if [ "$file" = "." ]
+        then
+            file="$(pwd)"
+        fi
+    done
+    shift
+    file="$1"
+done
