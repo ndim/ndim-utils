@@ -8,4 +8,5 @@ junk ^configure$
 junk ^install-sh$
 junk ^missing$
 junk ^mkinstalldirs$
-junk \.tar\.(gz|bz2)$
+junk \.tar(\.(gz|bz2|Z))?$
+junk \.zip$

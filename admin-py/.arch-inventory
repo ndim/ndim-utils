@@ -7,4 +7,4 @@ precious ^whois\.(html|pyc|pyo)$
 precious ^build$
 precious ^dist$
 precious ^MANIFEST$
-
+precious ^setup.py$
