@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-09 14:22:47 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-58
+
+    Summary:
+      py-whois: import all required modules
+    Revision:
+      ndim-utils--main--0.1--patch-58
+
+    py-whois: import all required modules
+    
+
+    modified files:
+     ChangeLog admin-py/whois-tool.py admin-py/whois.py
+
+
 2004-06-09 03:03:51 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-57
 
     Summary:

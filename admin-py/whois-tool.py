@@ -18,6 +18,7 @@ If either filename is not given, stdout/stdin are used.
 
 
 import sys
+import string
 import time
 from whois import WhoisEngine
 

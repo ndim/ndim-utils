@@ -7,7 +7,6 @@
 import socket
 import select
 import re
-import string
 import time
 
 
