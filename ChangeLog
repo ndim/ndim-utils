@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-11 01:56:29 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-65
+
+    Summary:
+      start improving parser/interpreter code structure
+    Revision:
+      ndim-utils--main--0.1--patch-65
+
+    start improving parser/interpreter code structure
+    
+
+    modified files:
+     ChangeLog admin-py/whois.py
+
+
 2004-06-11 01:55:36 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-64
 
     Summary:

@@ -10,11 +10,21 @@ import re
 import time
 
 
+class DomainInfos:
+
+    def __init__(self, domain):
+        self.domain = domain
+        self.nameservers = []
+
+    def add_nameserver(self, nameserver):
+        self.nameservers.append(nameserver)
+
+
 class AbstractParser:
 
     """Abstract parser for whois data"""
 
-    def parse(self, page):
+    def parse(self, page, infos):
         """Parse the whois results in page.
 
         Return the parsed data in a format which has to be properly
@@ -26,7 +36,7 @@ class DenicParser(AbstractParser):
 
     """Parse results from Denic whois server."""
 
-    def parse(self,page):
+    def parse(self, page, infos):
         """Parse result of whois server.
 
         Returns only nameservers so far.
@@ -67,7 +77,7 @@ class CrsnicParser(AbstractParser):
 
     """Parse results from crsnic whois server"""
 
-    def parse(self,page):
+    def parse(self, page, infos):
         """Parse result of whois server.
 
         Returns only nameservers so far.
@@ -107,7 +117,7 @@ class NameParser(AbstractParser):
 
     """Parse results from whois.nic.name"""
 
-    def parse(self,page):
+    def parse(self, page, infos):
         """Parse result of whois server.
 
         Returns only nameservers so far.
