@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 12:51:35 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-16
+
+    Summary:
+      clean inventory
+    Revision:
+      ndim-utils--main--0.1--patch-16
+
+    clean inventory
+    
+
+    modified files:
+     ChangeLog misc/.arch-inventory
+
+
 2004-03-16 12:45:41 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-15
 
     Summary:

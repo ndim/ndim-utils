@@ -1,3 +1,3 @@
 junk ^params$
-junk ^.deps$
-junk .o$
+junk ^\.deps$
+junk \.o$
