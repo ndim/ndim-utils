@@ -2,6 +2,27 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-10 11:15:28 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-60
+
+    Summary:
+      added palm script stuff
+    Revision:
+      ndim-utils--main--0.1--patch-60
+
+    added palm script stuff
+    
+
+    new files:
+     palm-scripts/.arch-ids/=id palm-scripts/Makefile.am
+     palm-scripts/pilot palm-scripts/pilot.usermap
+
+    modified files:
+     ChangeLog Makefile.am
+
+    new directories:
+     palm-scripts palm-scripts/.arch-ids
+
+
 2004-06-09 14:59:30 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-59
 
     Summary:

@@ -1,0 +1,203 @@
+#!/bin/sh
+# Hotplug script for handling Palm PDAs
+# Written by Hans Ulrich Niedermann in 2003, 2004
+#
+# Functions:
+# - if there is "~user/palm/backups/$(date -I)/", back up into that directory
+# - if there are files in "~user/palm/upload/", they are uploaded and deleted
+# - otherwise, a pppd is started
+#
+# If the device is disconnected prematurely, the transfer/backup/ppp process
+# is killed.
+#
+
+#########################################################################
+# Settings
+
+log="/var/log/pilotusb.log"
+
+exec 1>> "$log"
+exec 2>> "$log"
+
+symdev="/dev/pilot"
+
+freq=2500
+beeplen=50
+beepdelay=80
+
+date="$(date -I)"
+user=ndim
+palm_root=/home/${user}/palm
+backup_root=${palm_root}/backups
+backup_dir="${backup_root}/${date}"
+upload_dir="${palm_root}/upload"
+
+echo "========================================================================"
+echo "$date"
+
+
+########################################################################
+# Find TTY this device is on
+
+find_tty() {
+    local tmp ttyno
+
+#    if [ -c /udev/visor ]; then
+#    	tty="/udev/visor"
+#	echo "$tty"
+#	return
+#    fi
+
+    for tmp in /proc/tty/driver/usb-serial /proc/tty/driver/usbserial
+    do
+	if [ -f "$tmp" ]; then
+	    echo "Using usbserial: $tmp" >&2
+	    usbserial="$tmp"
+	    break
+	fi
+    done
+    if [ "$usbserial" = "" ]; then
+	echo "Fatal: No /proc/.../usbserial found." >&2
+	exit 1
+    fi
+
+    local vendor="0830"
+    local product="0060"
+    local num_ports="2"
+    local port="2"
+    tmp="$(cat "$usbserial" | grep "module:visor" | awk "/vendor:${vendor} product:${product} num_ports:${num_ports} port:${port}/ {print \$1;}")"
+    ttyno="$(echo "$tmp" | sed 's/://g')"
+    tty="/dev/ttyUSB${ttyno}"
+    if [ -c "$tty" ]; then echo "$tty"; fi
+}
+
+
+########################################################################
+# Start PPP daemon
+
+start_pppd() {
+    local DNS EXT_IF EXT_IP PPP_IP_SELF PPP_IP_PALM PPP_PID
+    
+    beep -f "$freq" -l "$beeplen" -r 3 -d "$beepdelay"
+
+    DNS="$(awk 'BEGIN { n=0; } /^nameserver/ && (n == 0) { a[0]=$2; n=n+1; } /^nameserver/ && (n == 1) && (a[0] != $2) { a[1]=$2; n=n+1; } END {print a[0]" "a[1];}' < /etc/resolv.conf)"
+    if echo "$DNS" | grep -qE "[0-9]"; then
+    	DNS="ms-dns $DNS"
+    fi
+
+    # Device to default route, assuming 193.7.176.1 is routed over the default route
+    EXT_IF="$(ip -4 route get 193.7.176.1 | grep ' dev ' | sed 's#^.* dev \([^ ]\+\).*$#\1#g')"
+    EXT_IP="$(ip -4 addr show dev "${EXT_IF}" | awk '($1 == "inet") { split($2, a, /\//); print a[1]; exit; }')"
+
+    PPP_IP_SELF="10.0.0.1"
+    PPP_IP_PALM="10.20.30.40"
+    
+    echo 1 > /proc/sys/net/ipv4/ip_forward
+
+    iptables -t nat -D POSTROUTING -o "${EXT_IF}" -s "${PPP_IP_PALM}" -j SNAT --to-source "$EXT_IP" || echo "Ignore this error."
+    iptables -t nat -A POSTROUTING -o "${EXT_IF}" -s "${PPP_IP_PALM}" -j SNAT --to-source "$EXT_IP" \
+	|| exit $?
+
+    echo "Running:"
+    echo "/usr/sbin/pppd "${tty}" "${PPP_IP_SELF}:${PPP_IP_PALM}" passive \
+	local noauth debug nodeflate nobsdcomp noccp nopcomp \
+	nodetach ${DNS}"
+    echo "tty: \"$tty\""
+    echo "extif: \"$EXT_IF\""
+    echo "extip: \"$EXT_IP\""
+
+    /usr/sbin/pppd "${tty}" "${PPP_IP_SELF}:${PPP_IP_PALM}" passive \
+	local noauth debug nodeflate nobsdcomp noccp nopcomp \
+	nodetach ${DNS} &
+
+    sleep 1
+    PPP_PID="$!"
+    echo "pppd has PID ${PPP_PID}"
+
+    cat>>"$REMOVER"<<EOF
+#!/bin/sh
+
+# exec output redirection doesn't work here
+# exec 2>> "$log"
+# echo 1>> "$log"
+
+date="\$(date)"
+echo "\$date removing pppd stuff" >> "$log"
+echo "killing pppd ${PPP_PID}" >> "$log"
+
+if ! kill "${PPP_PID}" >> "$log" 2>&1; then
+	echo "kill-9ing pppd ${PPP_PID}" >> "$log"
+	kill -9 "${PPP_PID}" >> "$log" 2>&1
+fi
+
+echo "pppd killed. Removing SNAT entry and routing." >> "$log"
+
+iptables -t nat -D POSTROUTING -o "${EXT_IF}" -s "${PPP_IP_PALM}" -j SNAT --to-source "$EXT_IP" >> "$log" 2>&1
+echo 0 > /proc/sys/net/ipv4/ip_forward
+
+rm -f "$symdev" 2>&1
+chown 0 "$tty" 2>&1
+echo "Cleanup finished." >> "$log"
+
+beep -f "$freq" -l "$beeplen" -r 3 -D "$beepdelay" >> "$log" 2>&1
+beep -f "$[ $freq / 2 ]" -l "$[ 2*$beeplen ]" -r 1 >> "$log" 2>&1
+EOF
+}
+
+
+########################################################################
+# Main program
+
+tty="$(find_tty)"
+rm -f "$symdev"
+ln -s "$tty" "$symdev"
+chown "$user" "$tty"
+
+if [ -f "/tmp/ndim-pilot" ]; then
+    start_pppd
+    exit 0
+else
+    exit 0
+fi
+
+if [ -d "${backup_dir}" ] && [ "$(ls -1 "${backup_dir}/" | wc -l)" -eq 0 ]; then
+    # If there is an empty directory, do our backup to it
+    beep -f "$freq" -l "$beeplen" -r 1 -d "$beepdelay"
+    su - "$user" -c "pilot-xfer -p '${tty}' -b '${backup_dir}'" &
+    XFER_PID="$!"
+    echo "Running pilot-xfer for backup (pid ${XFER_PID}, in background)."
+    cat>>"$REMOVER"<<EOF
+    kill "$XFER_PID" >> "$log" 2>&1 || kill -9 "$XFER_PID" >> "$log" 2>&1
+    rm -f "$symdev" 2>&1
+    chown 0 "$tty" 2>&1
+    beep -f "$freq" -l "$beeplen" -r 1 -D "$beepdelay" >> "$log" 2>&1
+    beep -f "$[ $freq / 2 ]" -l "$[ 2*$beeplen ]" -r 1 >> "$log" 2>&1
+EOF
+elif [ -d "${upload_dir}" ] && [ "$(ls -1 "${upload_dir}/" | wc -l)" -gt 0 ]; then
+    # non-empty upload directory exists
+    beep -f "$freq" -l "$beeplen" -r 2 -d "$beepdelay"
+    su - "$user" -c "pilot-xfer -p '${tty}' -i ${upload_dir}/*" &
+    XFER_PID="$!"
+    echo "Running pilot-xfer for upload (pid ${XFER_PID}, in background)."
+    cat>>"$REMOVER"<<EOF
+    kill "$XFER_PID" >> "$log" 2>&1 || kill -9 "$XFER_PID" >> "$log" 2>&1
+    if cd "${upload_dir}"; then
+    	if [ "${upload_dir}" = "\$(pwd)" ]; then
+	    rm -f *
+	fi
+    fi
+    rm -f "$symdev" 2>&1
+    chown 0 "$tty" 2>&1
+    beep -f "$freq" -l "$beeplen" -r 2 -D "$beepdelay" >> "$log" 2>&1
+    beep -f "$[ $freq / 2 ]" -l "$[ 2*$beeplen ]" -r 1 >> "$log" 2>&1
+EOF
+else
+    start_pppd
+fi
+
+chmod +x "$REMOVER"
+echo "Wrote cleanup script to $REMOVER"
+
+exit 0
+
+# arch-tag: 590d55a5-9ca1-4bd4-9083-247e41518175
