@@ -1,3 +1,5 @@
+EXTRA_DIST = whois.py whois-tool.py whoislist
+
 nameservers: domain-list whois-tool.py whoislist
 	python2 whois-check.py $< $@.new
 	mv $@.new $@
