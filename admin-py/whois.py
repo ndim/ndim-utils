@@ -10,14 +10,75 @@ import re
 import time
 
 
+class ServerQueryError(Exception):
+
+    """Server query failed somehow"""
+
+    def __init__(self, server, domain):
+        self.server = server
+        self.domain = domain
+
+    def __str__(self):
+        return "Error asking %s about %s" % (self.server, self.domain)
+        
+
+class UnhandledWhoisServer(Exception):
+
+    """No parser for this whois server"""
+
+    def __init__(self, server):
+        self.server = server
+
+    def __str__(self):
+        return "No parser handling %s" % (self.server)
+
+
+class WhoisParseError(Exception):
+
+    """Error parsing whois reply"""
+
+    def __init__(self, page, lineno):
+        self.page = page
+        self.lineno = lineno
+
+    def __str__(self):
+        return "%d: %s" % (self.lineno,
+                           self.page.splitlines()[self.lineno-1])
+
+
 class DomainInfos:
+
+    """Collects all the information about a domain"""
 
     def __init__(self, domain):
         self.domain = domain
+        self.status = None
         self.nameservers = []
 
     def add_nameserver(self, nameserver):
-        self.nameservers.append(nameserver)
+        self.nameservers.append(nameserver.lower())
+
+    def set_status(self, status):
+        self.status = status.lower()
+
+    def set_encoded_domain(self, encoding, domain):
+        self.encoded_domain = domain.lower()
+        self.encoding = encoding.lower()
+
+    def set_i18n_domain(self, domain):
+        self.i18n_domain = domain.lower()
+
+    def set_updated(self, updated):
+        self.updated = updated
+
+    def __str__(self):
+        x = "DomainInfos for domain %s:\n" % self.domain
+        ks = vars(self).keys()
+        ks.sort()
+        for k in ks:
+            if not k == 'domain':
+                x += "    %s: %s\n" % (k,vars(self)[k])
+        return x
 
 
 class AbstractParser:
@@ -29,7 +90,7 @@ class AbstractParser:
 
         Return the parsed data in a format which has to be properly
         designed yet."""
-        return [ "unknown" ]
+        return infos
 
 
 class DenicParser(AbstractParser):
@@ -69,8 +130,16 @@ class DenicParser(AbstractParser):
             elif linetype == 'value':
                 (key, value) = match.groups()
                 if key in ["nserver"]:
-                    nameservers.append(value.lower())
-        return nameservers
+                    infos.add_nameserver(value)
+                if key in ["status"]:
+                    infos.set_status(value)
+                if key in ["domain"]:
+                    infos.set_i18n_domain(value)
+                if key in ["domain-ace"]:
+                    infos.set_encoded_domain("ace", value)
+                if key in ["changed"]:
+                    infos.set_updated(value)
+        return infos
     
 
 class CrsnicParser(AbstractParser):
@@ -108,9 +177,13 @@ class CrsnicParser(AbstractParser):
                 break
             elif linetype == 'value':
                 (key, value) = match.groups()
-                if key in ["nserver","Name Server"]:
-                    nameservers.append(value.lower())
-        return nameservers
+                if key in ["Name Server"]:
+                    infos.add_nameserver(value)
+                if key in ["Status"]:
+                    infos.set_status(value)
+                if key in ["Updated Date"]:
+                    infos.set_updated(value)
+        return infos
 
 
 class NameParser(AbstractParser):
@@ -148,9 +221,13 @@ class NameParser(AbstractParser):
                 break
             elif linetype == 'value':
                 (key, value) = match.groups()
-                if key in ["nserver","Name Server"]:
-                    nameservers.append(value.lower())
-        return nameservers
+                if key in ["Name Server"]:
+                    infos.add_nameserver(value)
+                if key in ["Domain Status"]:
+                    infos.set_status(value)
+                if key in ["Updated On"]:
+                    infos.set_updated(value)
+        return infos
 
 
 class WhoisEngine:
@@ -166,7 +243,8 @@ class WhoisEngine:
         }
 
 
-    def __init__(self):
+    def __init__(self, rawdata = None):
+        self.rawdata = rawdata
         # read in list of whois servers
         f = open("whoislist","r")
         self.whois_servers = {}
@@ -231,13 +309,20 @@ class WhoisEngine:
 
     def whois(self,domain):
         """Execute and parse whois query for the given domain"""
+        infos = DomainInfos(domain)
         (server,page) = self.query_whois(domain)
+        if self.rawdata:
+            self.rawdata.write(page)
         # page = open("testdata","r").read()
-        if page and WhoisEngine.parser_list.has_key(server):
-            cls = WhoisEngine.parser_list[server]
-            parser = cls()
-            return parser.parse(page)
+        if page:
+            if WhoisEngine.parser_list.has_key(server):
+                cls = WhoisEngine.parser_list[server]
+                parser = cls()
+                return parser.parse(page,infos)
+            else:
+                raise UnhandledWhoisServer(server)
         else:
-            return ['UNKNOWN/UNHANDLED']
+            raise ServerQueryError(server,domain)
+
 
 # arch-tag: ff80d68a-8a64-468b-9e69-51c6157580b2

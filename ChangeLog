@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-11 02:45:28 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-68
+
+    Summary:
+      whois.py: understand more information from servers
+    Revision:
+      ndim-utils--main--0.1--patch-68
+
+    whois.py: understand more information from servers
+    
+
+    modified files:
+     ChangeLog admin-py/whois-tool.py admin-py/whois.py
+
+
 2004-06-11 01:58:12 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-67
 
     Summary:

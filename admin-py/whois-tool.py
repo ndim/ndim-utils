@@ -20,17 +20,20 @@ If either filename is not given, stdout/stdin are used.
 import sys
 import string
 import time
-from whois import WhoisEngine
+import whois
 
 
 def write_nameserver_report(domains,output):
-    eng = WhoisEngine()
+    eng = whois.WhoisEngine(sys.stderr)
     for line in domains.readlines():
         domain = line.strip()
         if (not domain) or (domain[0] in ['#']):
             continue
         result = eng.whois(domain)
-        output.write(string.join([domain] + result,' '))
+        sys.stderr.write("\n")
+        sys.stderr.write(str(result))
+        sys.stderr.write("\n")
+        output.write(string.join([domain] + result.nameservers,' '))
         output.write("\n")
         output.flush()
 
