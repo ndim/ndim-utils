@@ -2,6 +2,27 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 12:45:41 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-15
+
+    Summary:
+      moved pkg-info to separate dir, add ps2lj4 script
+    Revision:
+      ndim-utils--main--0.1--patch-15
+
+    moved pkg-info to separate dir, add ps2lj4 script
+    
+
+    new files:
+     misc-scripts/.arch-ids/ps2lj4.id misc-scripts/ps2lj4
+
+    removed files:
+     misc/.arch-ids/pkg-info.c.id misc/pkg-info.c
+
+    modified files:
+     ChangeLog Makefile.am configure.ac misc-scripts/Makefile.am
+     misc/Makefile.am
+
+
 2004-03-16 01:42:52 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-14
 
     Summary:

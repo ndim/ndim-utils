@@ -1,2 +1,2 @@
-EXTRA_DIST = percheck bing xnest umlxterm
-bin_SCRIPTS = percheck bing xnest umlxterm
+EXTRA_DIST = percheck bing xnest umlxterm ps2lj4
+bin_SCRIPTS = percheck bing xnest umlxterm ps2lj4

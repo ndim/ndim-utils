@@ -1,1 +1,1 @@
-SUBDIRS = cdburn misc misc-scripts
+SUBDIRS = cdburn misc misc-scripts pkg-info

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+while [ "x$1" != "x" ]
+do
+	psfile="$1"
+	lj4file=`basename "$psfile" .ps`.lj4
+	shift
+
+	echo "%%%%%%%%%% Converting $psfile to $lj4file..."
+	gs -dNOPAUSE -dBATCH -sDEVICE=ljet4 -sOutputFile="$lj4file" "$psfile"
+	status=$?
+	if [ $status -ne 0 ]
+	then
+		echo "%%%%%%%%%% Conversion $psfile to $lj4file failed (exit status $status)."
+		exit $status
+	else
+		echo "%%%%%%%%%% Conversion $psfile to $lj4file completed."
+	fi
+	
+done
+
