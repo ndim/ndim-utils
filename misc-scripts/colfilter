@@ -1,0 +1,125 @@
+#!/usr/bin/python
+
+
+bin_df = '/bin/df'
+
+colors = { 'ok':   '\033[0;32;40m',
+           'warn': '\033[1;33;40m',
+           'err':  '\033[1;31;40m',
+           'ttl':  '\033[1;37;40m',
+           'rst':  '\033[0m',
+           }
+
+color_terms = ("xterm","screen","vt100","linux")
+
+
+#def ansi(fg,hi=0,bg=40):
+#    return '\033[%d;%d;%dm' % (hi,fg,bg)
+
+#for bg in range(40,48):
+#    for hi in (0,1):
+#        for fg in range(30,38):
+#            print ansi(fg,hi,bg), '%d|%d|%d' % (hi,fg,bg),
+#        print '\033[0m'
+
+
+def cmp_arr(a,b):
+    """compare arrays by comparing elements"""
+    ret = cmp(len(a),len(b))
+    if ret: return ret
+    for t in zip(a,b):
+        ret = cmp(t[0],t[1])
+        if ret: return ret
+    return 0
+
+
+def column_filter(infile, outfile, mode = None):
+
+    # read lines, and digest into columns
+    a = []
+    lastline = None
+    df_arr = "Filesystem 1K-blocks Used Available Use% Mounted on".split()
+    for line in infile.readlines():
+        arr = line.split()
+        if cmp_arr(arr,df_arr) == 0:
+            mode = "df"
+        if mode == "df":
+            if lastline:
+                arr.insert(0,lastline)
+                a.append(arr)
+                lastline = None
+            elif len(arr) == 1:
+                lastline = line.strip()
+            else:
+                a.append(arr)
+        else:
+            a.append(arr)
+
+    # prepare special formatting
+    color = False
+    if mode == "df":
+        a[0][-2] = "%s %s" % (a[0][-2],a[0][-1])
+        del(a[0][-1])
+        if outfile.isatty():
+            import os
+            if os.environ["TERM"] in color_terms:
+                color = True
+
+    # determine and store width of widest column elements
+    w = []
+    for j in range(len(a[0])):
+        ll = [ len(x[j]) for x in a ]
+        m = max(ll)
+        w.append(m)
+
+    # output (pretty-printed) formatted columns
+    for y in a:
+        line = ""
+        assert(len(w) == len(y))
+        for x in zip(w,y,range(len(y))):
+            t = (x[1], ' ' * (x[0]-len(x[1])))
+            if mode == "df":
+                if x[2] not in (0,len(w)-1):
+                    t = (t[1], t[0])
+            line = line + "%s%s " % t
+        if color:
+            typ = 'ttl'
+            try:
+                perc = int(y[4][:-1])
+                avail = int(y[3])
+                if perc < 75 or avail > 2**19:
+                    typ = 'ok'
+                elif perc < 95 or avail > 2**20:
+                    typ = 'warn'
+                else:
+                    typ = 'err'
+            except ValueError:
+                pass
+            line = colors[typ] + line + colors['rst'] + "\n"
+        else:
+            line = line + "\n"
+        outfile.write(line)
+
+
+def main(argv):
+
+    # parse command line
+    mode = None
+    if len(argv) == 1:
+        pass
+    elif len(argv) == 3 and argv[1] == '-m' and argv[2] == 'df':
+        mode = "df"
+    else:
+        sys.stderr.write("Illegal command line arguments.\n")
+        sys.exit(1)
+
+    # run filter
+    column_filter(sys.stdin, sys.stdout, mode)
+
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
+
+
+# arch-tag: e16cac07-2445-4216-912a-7245ee45bb35
