@@ -47,6 +47,9 @@ import urllib2
 import os
 
 
+router_host = "milou"
+
+
 def format_byte_value(value):
     # print "format value:", repr(value)
     if value > 1024*1014*1024*1024:
@@ -64,23 +67,27 @@ def format_byte_value(value):
 
 class Stats:
 
+    """Statistics for a number sampled at discrete times."""
+
     def __init__(self):
         self.values = []
 
-    def append(self,value):
+    def append(self, value):
         x = float(value)
         if len(self.values) == 0:
-            self.mavg9 = value
-            self.mavg5 = value
-            self.avg = value
-            self.max = value
-            self.min = value
-            self.total = value
+            self.mavg9 = x
+            self.mavg4 = x
+            self.mavg1 = x
+            self.avg = x
+            self.max = x
+            self.min = x
+            self.total = x
         else:
-            self.mavg9 = 0.9*self.mavg9 + 0.1*x
-            self.mavg5 = 0.5*self.mavg5 + 0.5*x
+            self.mavg9 = (9*self.mavg9 + 1*x)/10
+            self.mavg4 = (4*self.mavg4 + 1*x)/5
+            self.mavg1 = (1*self.mavg1 + 1*x)/2
             cnt = len(self.values)
-            self.avg = (cnt*self.avg + value) / (cnt+1)
+            self.avg = (cnt*self.avg + x) / (cnt+1)
             self.total += x
             if x > self.max:
                 self.max = x
@@ -97,12 +104,20 @@ class Stats:
 
 class ByteStats(Stats):
 
+    """Special statistic for a counted number of bytes"""
+
     pass
 
 
 class Stage2:
 
-    def __init__(self):
+    """Stage2 of the ppp log line parser
+
+    Actually does something with the extracted values.
+    """
+
+    def __init__(self, host):
+        self.host = host
         self.sent = ByteStats()
         self.rcvd = ByteStats()
         self.traf = ByteStats()
@@ -135,13 +150,20 @@ class Stage2:
                     outfile.write(" %9s/%s" % (format_byte_value(val*mult),unit))
                 outfile.write("\n")
 
+        outfile.write("Traffic statistics for router \"%s\"\n\n" % (self.host))
+
         report("Average traffic (arithmetic average)", lambda x: x.avg)
-        report("Average traffic (moving average, 1:9)", lambda x: x.mavg9)
-        report("Average traffic (moving average, 1:1)", lambda x: x.mavg5)
         outfile.write("\n")
+
+        report("Average traffic (moving average, 1:9)", lambda x: x.mavg9)
+        report("Average traffic (moving average, 1:4)", lambda x: x.mavg4)
+        report("Average traffic (moving average, 1:1)", lambda x: x.mavg1)
+        outfile.write("\n")
+
         report("Maximum traffic (based on maximum daily values)",
                lambda x: x.max)
         outfile.write("\n")
+
         report("Minimum traffic (based on minimum daily values)",
                lambda x: x.min)
 
@@ -160,8 +182,17 @@ class Stage2:
 
 class Stage1:
 
-    def __init__(self):
-        self.next = Stage2()
+    """Stage 1 of the ppp log parser.
+
+    Preprocess the logs, accounting for
+    - 32bit counter overflows
+    - multiple values per day
+    - accumulating counters with same ppp PID
+    """
+
+    def __init__(self, host):
+        self.host = host
+        self.next = Stage2(host)
 
         self.last_pid = None
         self.last_date = None
@@ -172,7 +203,7 @@ class Stage1:
     def event(self, timestamp, host, pid, rcvd, sent):
         #print "stage1 event:", vars()
         #print "             ", vars(self)
-        if host == "milou":
+        if host == self.host:
             if not self.last_pid:
                 self.next.event(timestamp, host, pid, rcvd, sent)
                 self.last_pid = pid
@@ -189,23 +220,10 @@ class Stage1:
             else:
                 self.next.event(timestamp, host, pid, rcvd, sent)
                 self.last_pid = pid
-        elif host == "gw":
-            date = "%s %2d" % (timestamp[0], int(timestamp[1]))
-            if not self.last_date:
-                self.next.event(timestamp, host, pid, rcvd, sent)
-                self.last_date = date
-            elif self.last_date == date:
-                r = rcvd - self.last_rcvd
-                s = sent - self.last_sent
-                assert(r >= 0)
-                assert(s >= 0)
-                self.next.event(timestamp, host, pid, r, s)
-            else:
-                self.next.event(timestamp, host, pid, rcvd, sent)
-                self.last_date = date
-        self.last_rcvd = rcvd
-        self.last_sent = sent
-                
+            self.last_rcvd = rcvd
+            self.last_sent = sent
+        else:
+            raise Exception("Unhandled host name: \"%s\"" % host)
 
     def result(self):
         return self.next.result()
@@ -213,9 +231,9 @@ class Stage1:
 
 class LogFileParser:
 
-    def __init__(self, logfile):
+    def __init__(self, logfile, host):
         self.logfile = logfile
-        self.next = Stage1()
+        self.next = Stage1(host)
 
     def parse(self):       
         for line in self.logfile.readlines():
@@ -283,10 +301,9 @@ class HTTPParser:
                 
 
 
-def update_logs(log_file):
+def update_logs(log_file, router_host):
 
-    router = "milou"
-    log_url = "http://" + router + "/cgi-bin/viewlogs?"
+    log_url = "http://" + router_host + "/cgi-bin/viewlogs?"
     sys.stderr.write("Getting log files from \"%s\"..." % log_url)
     for n in range(30,0,-1):
         log_url += "daemon.log.%d.gz+" % n
@@ -319,7 +336,8 @@ def update_logs(log_file):
     if dirty:
         # no, we don't create empty log files
         sys.stderr.write("Writing updated log file to %s..." % log_file)
-        f = os.fdopen(os.open(log_file, os.O_WRONLY|os.O_CREAT|os.O_EXCL, 0600),"w")
+        fd = os.open(log_file, os.O_WRONLY|os.O_CREAT|os.O_EXCL, 0600)
+        f = os.fdopen(fd,"w")
         for x in content:
             f.write(x)
         f.close()
@@ -332,7 +350,7 @@ def update_logs(log_file):
 
 
 def main():
-    
+
     if len(sys.argv) > 3:
         sys.stderr.write("Syntax error: Too many parameters\n")
         v = { 'prog': sys.argv[0] }
@@ -341,7 +359,7 @@ def main():
 
     infile = sys.stdin
     if len(sys.argv) >= 2:
-        update_logs(sys.argv[1])
+        update_logs(sys.argv[1], router_host)
         #sys.stderr.write("Non-standard log file: %s\n" % sys.argv[1])
         infile = open(sys.argv[1], "r") # open log file
 
@@ -351,7 +369,7 @@ def main():
         outfile = open(sys.argv[2], "w") # open report file
         
     sys.stderr.write("Parsing log file...")
-    parser = LogFileParser(infile)
+    parser = LogFileParser(infile, router_host)
     parser.parse()
     stats = parser.result()
     sys.stderr.write(" done.\n")
