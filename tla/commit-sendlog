@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "$ARCH_REVISION" = "" ]; then
+    echo "$0 called without ARCH_REVISION set. Aborting."
+    exit 1
+fi
+
 arch_summary_domain="arch.n-dimensional.de"
 email="${ARCH_ONLY_CATEGORY}-summary@${arch_summary_domain}"
 
