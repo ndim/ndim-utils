@@ -2,6 +2,27 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-21 11:43:21 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-70
+
+    Summary:
+      add ppp-traffic-analysis.py stuff
+    Revision:
+      ndim-utils--main--0.1--patch-70
+
+    add ppp-traffic-analysis.py stuff
+    
+
+    new files:
+     traffic/.arch-ids/=id traffic/Makefile.am
+     traffic/ppp-traffic-analysis.py
+
+    modified files:
+     ChangeLog Makefile.am configure.ac
+
+    new directories:
+     traffic traffic/.arch-ids
+
+
 2004-06-11 03:06:49 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-69
 
     Summary:

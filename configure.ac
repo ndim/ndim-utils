@@ -41,6 +41,7 @@ AC_CONFIG_FILES([
 	admin-py/setup.py
 	palm-scripts/Makefile
 	palm-scripts/pilot
+	traffic/Makefile
 	])
 AC_OUTPUT
 
