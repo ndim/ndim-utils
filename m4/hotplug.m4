@@ -5,7 +5,6 @@
 AC_DEFUN([NDIM_CHECK_HOTPLUG],
 [
 AC_MSG_CHECKING([for hotplug directory])
-hotplugdir="$sysconfdir/hotplug"
 while read dir; do
 	if test -d "$dir"; then
 		hotplugdir="$dir"
@@ -18,6 +17,7 @@ $sysconfdir/hotplug
 /etc/hotplug
 EOF
 unset dir
+hotplugdir="$sysconfdir/hotplug"
 AC_SUBST([hotplugdir])
 AC_MSG_RESULT([$hotplugdir])
 hotplugusbdir="${hotplugdir}/usb"

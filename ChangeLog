@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-11 01:57:03 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-66
+
+    Summary:
+      use defaults more friendly for non-root test installs
+    Revision:
+      ndim-utils--main--0.1--patch-66
+
+    use defaults more friendly for non-root test installs
+    
+
+    modified files:
+     ChangeLog m4/hotplug.m4 m4/systemconfig.m4
+
+
 2004-06-11 01:56:29 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-65
 
     Summary:

@@ -5,7 +5,6 @@
 AC_DEFUN([NDIM_CHECK_SYSTEM_CONFIG],
 [
 AC_MSG_CHECKING([for system configuration directory])
-configdir="$sysconfdir"
 while read dir; do
 	if test -d "$dir"; then
 		configdir="$dir"
@@ -16,6 +15,7 @@ done <<EOF
 /etc/default
 EOF
 unset dir
+configdir="$sysconfdir"
 AC_SUBST([configdir])
 AC_MSG_RESULT([$configdir])
 ])
