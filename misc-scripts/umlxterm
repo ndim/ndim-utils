@@ -1,0 +1,3 @@
+#!/bin/sh
+# specially colored xterm for UML
+exec xterm -bg blue -fg white -cr yellow "$@"

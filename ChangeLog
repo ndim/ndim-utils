@@ -2,6 +2,23 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 01:19:39 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-13
+
+    Summary:
+      added umlxterm script
+    Revision:
+      ndim-utils--main--0.1--patch-13
+
+    added umlxterm script
+    
+
+    new files:
+     misc-scripts/.arch-ids/umlxterm.id misc-scripts/umlxterm
+
+    modified files:
+     ChangeLog configure.ac misc-scripts/Makefile.am
+
+
 2004-03-15 19:59:28 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-12
 
     Summary:
