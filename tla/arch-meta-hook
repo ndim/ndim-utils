@@ -53,7 +53,7 @@
 # All of these hook scripts are called with the following variables
 # set (example values given):
 #
-#    ARCH_HOOK_ACTION      the tla action, e.g. commit or make-pristine
+#    ARCH_HOOK_ACTION the tla action, e.g. commit or make-pristine
 #    ARCH_ARCHIVE     me@host--2004-me
 #    ARCH_CATEGORY    category
 #    ARCH_BRANCH      category--branch

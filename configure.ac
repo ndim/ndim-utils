@@ -1,3 +1,5 @@
+########################################################################
+
 AC_PREREQ(2.59)
 AC_INIT([ndim utility collection], [0.0.0],
 	[hun@n-dimensional.de], [ndim-utils])
@@ -5,13 +7,26 @@ AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
 AM_INIT_AUTOMAKE([gnu 1.8 dist-bzip2])
 
+########################################################################
+
 AM_MAINTAINER_MODE
 
 AC_PROG_CC
 AC_PROG_INSTALL
 
-tlascriptdir="$HOME/.arch-params"
+########################################################################
+
+AC_ARG_ENABLE(tlascripts,
+[  --enable-tlascripts=PATH  whether and where to install tla scripts
+],[
+tlascriptdir="${enableval}"
 AC_SUBST(tlascriptdir)
+],[
+tlascriptdir=''
+])
+AM_CONDITIONAL(TLA_SCRIPTS, test "x$tlascriptdir" != "x")
+
+########################################################################
 
 AC_CONFIG_FILES([
 	Makefile
@@ -22,6 +37,8 @@ AC_CONFIG_FILES([
 	misc/Makefile
 	])
 AC_OUTPUT
+
+########################################################################
 
 cat<<EOF
 

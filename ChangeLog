@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 16:02:43 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-22
+
+    Summary:
+      Make tla script install configurable
+    Revision:
+      ndim-utils--main--0.1--patch-22
+
+    Make tla script install configurable
+    
+
+    modified files:
+     ChangeLog configure.ac tla/Makefile.am tla/arch-meta-hook
+
+
 2004-03-16 14:42:40 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-21
 
     Summary:
