@@ -2,6 +2,21 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-17 07:43:53 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-32
+
+    Summary:
+      changes to shut up splint, exit codes for tla scripts
+    Revision:
+      ndim-utils--main--0.1--patch-32
+
+    changes to shut up splint, exit codes for tla scripts
+    
+
+    modified files:
+     ChangeLog misc/params.c pkg-info/pkg-info.c
+     tla/commit-archive-mirror tla/commit-sendlog
+
+
 2004-03-16 21:51:29 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-31
 
     Summary:

@@ -3,7 +3,7 @@
 #include "config.h"
 #include "pkg-info.h"
 
-int main(int argc, char *argv[])
+int main()
 {
   printf("%s %s - %s\n"
 	 "Copyright (C) 1998-%s Hans Ulrich Niedermann\n\n"

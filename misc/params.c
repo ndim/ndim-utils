@@ -6,4 +6,5 @@ int main(int argc, char *argv[])
 	printf("#nr parameter\n");
 	for (i=0; i<argc; i++) 
 		printf("%3d %s\n", i, argv[i]);
+	return 0;
 }

@@ -18,3 +18,5 @@ tla get-changeset "${ARCH_REVISION}" "${dir}"
 tla show-changeset --diffs "${dir}"
 rm -rf "${dir}"
 ) | /usr/sbin/sendmail "${email}"
+
+exit 0
