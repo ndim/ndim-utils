@@ -2,6 +2,26 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 20:34:49 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-26
+
+    Summary:
+      Add all arch scripts, install into seperate directory
+    Revision:
+      ndim-utils--main--0.1--patch-26
+
+    Add all arch scripts, install into seperate directory
+    
+
+    new files:
+     tla/.arch-ids/commit-archive-mirror.id
+     tla/.arch-ids/commit-sendlog.id tla/commit-archive-mirror
+     tla/commit-sendlog
+
+    modified files:
+     ChangeLog Makefile.am configure.ac tla/.arch-inventory
+     tla/Makefile.am
+
+
 2004-03-16 20:25:38 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-25
 
     Summary:

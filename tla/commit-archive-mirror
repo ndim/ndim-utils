@@ -1,0 +1,5 @@
+#!/bin/bash
+
+tla archive-mirror \
+    "${ARCH_ARCHIVE}" "${ARCH_ARCHIVE}-MIRROR" \
+    "${ARCH_CATEGORY}" >& /dev/null &

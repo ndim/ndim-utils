@@ -16,18 +16,6 @@ AC_PROG_INSTALL
 
 ########################################################################
 
-AC_ARG_ENABLE(tlascripts,
-[  --enable-tlascripts=PATH  whether and where to install tla scripts
-],[
-tlascriptdir="${enableval}"
-AC_SUBST(tlascriptdir)
-],[
-tlascriptdir=''
-])
-AM_CONDITIONAL(TLA_SCRIPTS, test "x$tlascriptdir" != "x")
-
-########################################################################
-
 AC_CONFIG_FILES([
 	Makefile
 	cdburn/Makefile

@@ -1,15 +1,8 @@
-EXTRA_DIST = arch-meta-hook
+EXTRA_DIST = arch-meta-hook commit-sendlog commit-archive-mirror
 
-if TLA_SCRIPTS
-
-tlascript_SCRIPTS = hook
-CLEANFILES = $(tlascript_SCRIPTS)
+bin_SCRIPTS = arch-meta-hook commit-sendlog commit-archive-mirror
 
 pkgdata_DATA = arch-meta-hook.txt
-
-hook: arch-meta-hook
-	cp $< $@
-	chmod +x $@
 
 arch-meta-hook.txt: arch-meta-hook Makefile
 	(read; read; \
@@ -19,5 +12,3 @@ arch-meta-hook.txt: arch-meta-hook Makefile
 		echo "$$line"; \
 	done) < $< | \
 	sed -e 's/^# //g' -e 's/^#$$//g' > $@
-
-endif

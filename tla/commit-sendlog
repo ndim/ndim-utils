@@ -1,0 +1,17 @@
+#!/bin/bash
+
+email="${ARCH_ONLY_CATEGORY}-summary@arch.n-dimensional.de"
+
+(
+echo "From: $(tla my-id)"
+echo "Date: $(date)"
+echo "Subject: Summary for ${ARCH_REVISION}"
+echo "To: ${ARCH_ONLY_CATEGORY} arch summaries <${email}>"
+echo
+tla cat-archive-log "${ARCH_ARCHIVE}/${ARCH_REVISION}"
+echo
+dir="${ARCH_REVISION}.changeset-$$"
+tla get-changeset "${ARCH_REVISION}" "${dir}"
+tla show-changeset --diffs "${dir}"
+rm -rf "${dir}"
+) | /usr/sbin/sendmail "${email}"
