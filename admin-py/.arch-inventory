@@ -2,4 +2,6 @@
 
 precious ^domain-list$
 precious ^whoislist$
+precious ^whoislist\.gz$
 precious ^whois\.(html|pyc|pyo)$
+precious ^build$
