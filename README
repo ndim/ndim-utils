@@ -26,6 +26,9 @@ If you also find those utilities useful, then use them :-)
 Contents:
 ==============================
 
+  admin-py/
+    Some admin tools written in python. Mostly whois and DNS stuff.
+
   cdburn/
     Burn CDs without clicking and remembering all those options.
 
@@ -35,11 +38,17 @@ Contents:
   misc-scripts/
     Miscellanrous scripts.
 
+  palm-scripts/
+    Hotplug scripts for using a Palm device (upload, backup, PPP).
+
   pkg-info/
     Information about the ndim-utils package.
 
   tla/
     Utility scripts for use with tla, mainly hooks.
+
+  traffic/
+    Analyze ppp logs from a LEAF Bering router.
 
 
 ========================================================================
@@ -60,4 +69,11 @@ I build and install it as follows:
 Then I have a few symlinks to the scripts in $HOME/root/ndim-utils/bin
 in ~/.arch-params and other places.
 
+
+========================================================================
+Stuff to fix
+==============================
+
+ - seperate independent parts into independent modules
+   (e.g. the tla scripts and the palm hotplug scripts)
 
