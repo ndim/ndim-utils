@@ -1,9 +1,9 @@
-EXTRA_DIST = pilot pilot.usermap pilot-usb
+EXTRA_DIST = pilot pilot.in pilot.usermap pilot-usb
 
-hotplugusbdir = $(sysconfdir)/hotplug/usb
+# hotplugusbdir = $(sysconfdir)/hotplug/usb
 
 # We should choose our poison at configure time
-configdir = $(sysconfdir)/sysconfig
+# configdir = $(sysconfdir)/sysconfig
 # configdir = $(sysconfdir)/default
 
 hotplugusb_SCRIPTS = pilot

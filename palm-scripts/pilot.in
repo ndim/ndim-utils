@@ -65,14 +65,15 @@ find_tty() {
     local product="0060"
     local num_ports="2"
     local port="2"
-    tmp="$(cat "$usbserial" | grep "module:visor" | awk "/vendor:${vendor} product:${product} num_ports:${num_ports} port:${port}/ {print \$1;}")"
+    # FIXME: how do we find out which device is the one we were called for?
+    tmp="$(cat "$usbserial" | grep "module:visor" | awk "/vendor:${vendor} product:${product} num_ports:${num_ports} port:${port}/ {print \$1;}" | tail -n1)"
     ttyno="$(echo "$tmp" | sed 's/://g')"
     tty="/dev/ttyUSB${ttyno}"
     if [ -c "$tty" ]; then
 	echo "$tty"
 	echo "Found pilot on tty device $tty" >&2
     else
-	echo "No tty device found for pilot!" >&2
+	echo "No tty device found for pilot (\"$tty\")!" >&2
 	exit 1
     fi
 }
@@ -140,7 +141,8 @@ fi
 
 echo "pppd killed. Removing SNAT entry and routing." >> "$log"
 
-iptables -t nat -D POSTROUTING -o "${EXT_IF}" -s "${PPP_IP_PALM}" -j SNAT --to-source "$EXT_IP" >> "$log" 2>&1
+iptables -t nat -D POSTROUTING -o "${EXT_IF}" -s "${PPP_IP_PALM}" \
+    -j SNAT --to-source "$EXT_IP" >> "$log" 2>&1
 echo 0 > /proc/sys/net/ipv4/ip_forward
 
 echo "Cleanup finished." >> "$log"
@@ -240,23 +242,28 @@ try_everything() {
 # Main program
 
 # default config
-mode=try-everything
+mode="permissions-only"
 
 # read config file
 for configfile in \
+    @configdir@/pilot-usb \
     /etc/default/pilot-usb \
     /etc/sysconfig/pilot-usb
   do
   if [ -f "$configfile" ]; then
       echo "Reading config file $configfile"
       . "$configfile"
-      exit
+      break
   fi
 done
 
-tty="$(find_tty)"
-chown 0.0 "$tty"
-chmod 0600 "$tty"
+if tty="$(find_tty)"
+then
+    chown 0.0 "$tty"
+    chmod 0600 "$tty"
+else
+    exit 1
+fi
 
 case "$mode" in
     permissions-only)
@@ -278,5 +285,3 @@ case "$mode" in
 esac
 
 exit 0
-
-# arch-tag: 590d55a5-9ca1-4bd4-9083-247e41518175

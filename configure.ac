@@ -14,6 +14,11 @@ AC_PROG_INSTALL
 
 ########################################################################
 
+NDIM_CHECK_SYSTEM_CONFIG
+NDIM_CHECK_HOTPLUG
+
+########################################################################
+
 pkgdocdir="${datadir}/doc/${PACKAGE_TARNAME}"
 AC_SUBST(pkgdocdir)
 
@@ -34,6 +39,7 @@ AC_CONFIG_FILES([
 	gps/Makefile
 	admin-py/Makefile
 	palm-scripts/Makefile
+	palm-scripts/pilot
 	])
 AC_OUTPUT
 

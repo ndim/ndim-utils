@@ -5,11 +5,9 @@
 AC_DEFUN([NDIM_CHECK_SYSTEM_CONFIG],
 [
 AC_MSG_CHECKING([for system configuration directory])
-configdir="/etc"
-while read dir
-do
-	if [ -d "$dir" ]
-	then
+configdir="$sysconfdir"
+while read dir; do
+	if test -d "$dir"; then
 		configdir="$dir"
 		break
 	fi
