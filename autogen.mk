@@ -1,13 +1,14 @@
 #!/usr/bin/make -f
 
 GEN_RECONF = COPYING INSTALL install-sh missing depcomp include/config.h.in
-GEN_ACAM = aclocal.m4 configure 
+GEN_ACAM = aclocal.m4 configure config.guess config.sub compile mkinstalldirs
 GEN_CONF = config.status config.log include/config.h include/stamp-h1 include/stamp-h2
-GENERATED_FILES = $(GEN_RECONF) $(GEN_ACAM) $(GEN_CONF)
+GEN_LIBTOOL = ltmain.sh libtool
+GENERATED_FILES = $(GEN_RECONF) $(GEN_ACAM) $(GEN_CONF) $(GEN_LIBTOOL)
 GENERATED_DIRS = autom4te.cache
 
-# AUTORECONF_OPTS = --verbose -Wall
-AUTORECONF_OPTS =
+AUTORECONF_OPTS = --verbose -Wall
+# AUTORECONF_OPTS =
 
 .PHONY: init
 init:
