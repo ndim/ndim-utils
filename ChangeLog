@@ -2,6 +2,28 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-08-13 22:43:52 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-78
+
+    Summary:
+      moved gps stuff to ndim-gpsutils--main--0.0.0
+    Revision:
+      ndim-utils--main--0.1--patch-78
+
+    moved gps stuff to ndim-gpsutils--main--0.0.0
+    
+
+    removed files:
+     gps/.arch-ids/=id gps/Makefile.am gps/geocoord.py
+     gps/guntool.py gps/pop-z61.raw-route gps/setup.py
+     gps/utmlist2gpd.py
+
+    modified files:
+     ChangeLog Makefile.am configure.ac
+
+    removed directories:
+     gps gps/.arch-ids
+
+
 2004-07-19 22:30:04 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-77
 
     Summary:

@@ -36,7 +36,6 @@ AC_CONFIG_FILES([
 	misc-scripts/Makefile
 	pkg-info/Makefile
 	misc/Makefile
-	gps/Makefile
 	admin-py/Makefile
 	admin-py/setup.py
 	palm-scripts/Makefile
