@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-11 01:55:36 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-64
+
+    Summary:
+      remove whoislist.gz in distclean (fix distcheck)
+    Revision:
+      ndim-utils--main--0.1--patch-64
+
+    remove whoislist.gz in distclean (fix distcheck)
+    
+
+    modified files:
+     ChangeLog admin-py/Makefile.am
+
+
 2004-06-10 12:39:52 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-63
 
     Summary:
