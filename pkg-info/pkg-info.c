@@ -7,10 +7,10 @@ int main(int argc, char *argv[])
 {
   printf("%s %s - %s\n"
 	 "Copyright (C) 1998-%s Hans Ulrich Niedermann\n\n"
-	 "Bugreports:   %s\n"
-	 "Build date:   %s\n"
-	 "TLA Archive:  %s\n"
-	 "TLA Revision: %s\n"
+	 "  Bugreports:   %s\n"
+	 "  Build date:   %s\n"
+	 "  TLA Archive:  %s\n"
+	 "  TLA Revision: %s\n"
 	 ,
 	 PACKAGE_TARNAME,
 	 PACKAGE_VERSION,
