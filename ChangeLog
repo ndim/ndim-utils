@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 01:42:52 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-14
+
+    Summary:
+      add tla revision to package info
+    Revision:
+      ndim-utils--main--0.1--patch-14
+
+    add tla revision to package info
+    
+
+    modified files:
+     .arch-inventory ChangeLog misc/Makefile.am misc/pkg-info.c
+
+
 2004-03-16 01:19:39 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-13
 
     Summary:
