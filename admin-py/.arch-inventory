@@ -5,3 +5,6 @@ precious ^whoislist$
 precious ^whoislist\.gz$
 precious ^whois\.(html|pyc|pyo)$
 precious ^build$
+precious ^dist$
+precious ^MANIFEST$
+
