@@ -1,0 +1,23 @@
+AC_PREREQ(2.50)
+AC_INIT(README)
+AM_INIT_AUTOMAKE(ndim-utils, 0.0.1)
+AM_MAINTAINER_MODE
+
+AC_PROG_CC
+AC_PROG_INSTALL
+
+AC_OUTPUT([
+Makefile
+params/Makefile
+percheck/Makefile
+cdburn/Makefile
+])
+
+cat<<EOF
+
+Configuration:
+  srcdir: $srcdir
+  CC:     $CC
+  prefix: $prefix
+EOF
+
