@@ -19,5 +19,6 @@ Configuration:
   srcdir: $srcdir
   CC:     $CC
   prefix: $prefix
+  bindir: $bindir
 EOF
 
