@@ -5,19 +5,40 @@
 # displays permissions of all files and all directories above
 #
 
-file="$1"
-
-while shift
-do
-    until false
-    do
-        if [ "$file" = "." ]
-        then
-            file="$(pwd)"
-        fi
-        ls -ald "$file"
-        if [ "$file" = "/" ]; then break; fi
-        file="$(dirname "$file")"
-    done
-    file="$1"
+notfirstone=false
+while :; do
+	file="$1"
+	if shift; then :; else break; fi
+	if test ! -e "$file"; then
+		echo "percheck: file or directory not found: ${file}" >&2
+		continue
+	fi
+	case "$file" in
+		/*)
+			;;
+		..|../*)
+			file="${file/#../$(dirname $PWD)}" ;;
+		.|../*)
+			file="${file/#./$PWD}" ;;
+		*)
+			file="$PWD/${file}" ;;
+	esac
+	echo "fullfile=$file"
+	file="$(dirname "$file")/$(basename "$file")"
+	echo "    file=$file"
+	declare -a files
+	files=()
+	n=0
+	while :; do
+		files[$n]="$file"
+		if [ "$file" = "/" ]; then break; fi
+		file="$(dirname "$file")"
+		n="$[ $n + 1 ]"
+	done
+	if "$notfirstone"; then
+		echo
+	fi
+	notfirstone=:
+	ls -ald "${files[@]}"
 done
+
