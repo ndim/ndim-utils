@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-22 11:53:14 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-74
+
+    Summary:
+      handle multiple entries per day
+    Revision:
+      ndim-utils--main--0.1--patch-74
+
+    handle multiple entries per day
+    
+
+    modified files:
+     ChangeLog traffic/ppp-traffic-analysis.py
+
+
 2004-06-21 15:11:41 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-73
 
     Summary:

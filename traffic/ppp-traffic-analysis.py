@@ -46,8 +46,24 @@ import sys
 import urllib2
 import os
 
-
 router_host = "milou"
+
+
+debug_level = 3
+def debug(level, msg, params = None):
+    if debug_level >= level:
+        x = msg
+        if not params:
+            x = msg
+        elif type(params) == type(()):
+            x = msg % params
+        elif type(params) == type({}):
+            x = msg % params
+        else:
+            x = msg % (params)
+        sys.stderr.write(x)
+        if msg[-1:] != '\n' and msg[-3:] != '...':
+            sys.stderr.write('\n')
 
 
 def format_byte_value(value):
@@ -109,9 +125,9 @@ class ByteStats(Stats):
     pass
 
 
-class Stage2:
+class Stage3:
 
-    """Stage2 of the ppp log line parser
+    """Stage3 of the ppp log line parser
 
     Actually does something with the extracted values.
     """
@@ -121,17 +137,28 @@ class Stage2:
         self.sent = ByteStats()
         self.rcvd = ByteStats()
         self.traf = ByteStats()
+        self.finished = False
 
     def event(self, timestamp, host, pid, rcvd, sent):
-        # print "stage2 event:", vars()
+        assert(not self.finished)
+        debug(4,"stage3 event: %s", repr(vars()))
+        debug(4,"              %s", repr(vars(self)))
+        debug(3,"counting sent %d, rcvd %d for %s %2d.", (sent,rcvd,timestamp[0],timestamp[1]))
         self.sent.append(sent)
         self.rcvd.append(rcvd)
         self.traf.append(sent+rcvd)
 
+    def finish(self):
+        assert(not self.finished)
+        debug(4,"stage3 finis: %s", repr(vars(self)))
+        self.finished = True
+
     def result(self):
+        assert(self.finished)
         return self
 
     def write_stats(self, outfile, detailed = False):
+        assert(self.finished)
 
         def report(msg,fun):
             outfile.write("%s:\n" % msg)
@@ -180,13 +207,69 @@ class Stage2:
                     outfile.write("        %-10s %9s\n" % (name,format_byte_value(value)))
 
 
+class Stage2:
+
+    """Stage 2 of the ppp log parser.
+
+    Handles
+    - multiple values per day
+    """
+
+    def __init__(self, host):
+        self.host = host
+        self.next = Stage3(host)
+
+        self.last_date = None
+
+        self.accu_rcvd = None
+        self.accu_sent = None
+
+        self.finished = False
+
+
+    def event(self, timestamp, host, pid, rcvd, sent):
+        assert(not self.finished)
+        date = "%s %2d" % (timestamp[0], timestamp[1])
+        debug(4,"stage2 event: %s", repr(vars()))
+        debug(4,"              %s", repr(vars(self)))
+        if not self.last_date:
+            self.last_date = date
+            self.last_timestamp = timestamp
+            self.accu_rcvd = rcvd
+            self.accu_sent = sent
+        elif cmp(date,self.last_date) == 0:
+            self.accu_rcvd += rcvd
+            self.accu_sent += sent
+        else:
+            self.next.event(self.last_timestamp, host, pid, self.accu_rcvd, self.accu_sent)
+            self.last_date = date
+            self.last_timestamp = timestamp
+            self.accu_rcvd = rcvd
+            self.accu_sent = sent
+        self.last_host = host
+        self.last_pid = pid
+
+
+    def finish(self):
+        assert(not self.finished)
+        debug(4,"stage2 finis: %s", repr(vars(self)))
+        self.finished = True
+        if self.last_date:
+            self.next.event(self.last_timestamp, self.last_host, self.last_pid,
+                            self.accu_rcvd, self.accu_sent)
+        self.next.finish()
+
+
+    def result(self):
+        return self.next.result()
+
+
 class Stage1:
 
     """Stage 1 of the ppp log parser.
 
     Preprocess the logs, accounting for
     - 32bit counter overflows
-    - multiple values per day
     - accumulating counters with same ppp PID
     """
 
@@ -195,14 +278,16 @@ class Stage1:
         self.next = Stage2(host)
 
         self.last_pid = None
-        self.last_date = None
         
         self.last_rcvd = None
         self.last_sent = None
 
+        self.finished = False
+
     def event(self, timestamp, host, pid, rcvd, sent):
-        #print "stage1 event:", vars()
-        #print "             ", vars(self)
+        assert(not self.finished)
+        debug(4,"stage1 event: %s", repr(vars()))
+        debug(4,"              %s", repr(vars(self)))
         if host == self.host:
             if not self.last_pid:
                 self.next.event(timestamp, host, pid, rcvd, sent)
@@ -225,7 +310,14 @@ class Stage1:
         else:
             raise Exception("Unhandled host name: \"%s\"" % host)
 
+    def finish(self):
+        assert(not self.finished)
+        debug(4,"stage1 finis: %s", repr(vars(self)))
+        self.finished = True
+        self.next.finish()
+
     def result(self):
+        assert(self.finished)
         return self.next.result()
 
 
@@ -239,20 +331,26 @@ class LogFileParser:
         for line in self.logfile.readlines():
             if not line:
                 continue
-    
-            arr = line.strip().split()
+            stripped = line.strip()
+            if not stripped:
+                continue
+            debug(3,"line:         %s", repr(stripped))
+            
+            arr = stripped.split()
             if len(arr) == 0:
                 continue
             assert(len(arr) == 11)
             assert(arr[5] == "Sent" and arr[7] == "bytes,"
                    and arr[8] == "received" and arr[10] == "bytes.")
 
-            self.next.event(timestamp = arr[0:2],
+            timestrs = arr[2].split(':')
+            timesint = (int(timestrs[0]), int(timestrs[1]), int(timestrs[2]))
+            self.next.event(timestamp = (arr[0], int(arr[1]), timesint),
                             host = arr[3],
                             pid = arr[4],
                             sent = int(arr[6]),
                             rcvd = int(arr[9]))
-
+        self.next.finish()
 
     def result(self):
         return self.next.result()
@@ -304,14 +402,14 @@ class HTTPParser:
 def update_logs(log_file, router_host):
 
     log_url = "http://" + router_host + "/cgi-bin/viewlogs?"
-    sys.stderr.write("Getting log files from \"%s\"..." % log_url)
+    debug(1,"Getting log files from \"%s\"...", log_url)
     for n in range(30,0,-1):
         log_url += "daemon.log.%d.gz+" % n
     log_url += "daemon.log.0+daemon.log"
 
     parser = HTTPParser(log_url)
     parser.parse()
-    sys.stderr.write(" done.\n")
+    debug(1," done.\n")
 
     logfile_present = os.path.exists(log_file)
 
@@ -328,20 +426,20 @@ def update_logs(log_file, router_host):
 
     if dirty and logfile_present:
         bak = "%s.bak" % log_file
-        sys.stderr.write("Renaming old log file %s to %s\n" %
-                         (log_file, bak))
+        debug(1,"Renaming old log file %s to %s...",
+              (log_file, bak))
         os.rename(log_file, bak)
-        sys.stderr.write(" done.\n")
+        debug(1," done.\n")
 
     if dirty:
         # no, we don't create empty log files
-        sys.stderr.write("Writing updated log file to %s..." % log_file)
+        debug(1,"Writing updated log file to %s...", log_file)
         fd = os.open(log_file, os.O_WRONLY|os.O_CREAT|os.O_EXCL, 0600)
         f = os.fdopen(fd,"w")
         for x in content:
             f.write(x)
         f.close()
-        sys.stderr.write(" done.\n")
+        debug(1," done.\n")
 
     
 ########################################################################
@@ -352,27 +450,27 @@ def update_logs(log_file, router_host):
 def main():
 
     if len(sys.argv) > 3:
-        sys.stderr.write("Syntax error: Too many parameters\n")
+        debug(0,"Syntax error: Too many parameters\n")
         v = { 'prog': sys.argv[0] }
-        sys.stderr.write(__doc__ % v)
+        debug(0, __doc__, v)
         sys.exit(1)
 
     infile = sys.stdin
     if len(sys.argv) >= 2:
+        debug(2, "Non-standard log file: %s\n", sys.argv[1])
         update_logs(sys.argv[1], router_host)
-        #sys.stderr.write("Non-standard log file: %s\n" % sys.argv[1])
         infile = open(sys.argv[1], "r") # open log file
 
     outfile = sys.stdout
     if len(sys.argv) >= 3:
-        #sys.stderr.write("Non-standard report file: %s\n" % sys.argv[2])
+        debug(2,"Non-standard report file: %s\n", sys.argv[2])
         outfile = open(sys.argv[2], "w") # open report file
         
-    sys.stderr.write("Parsing log file...")
+    debug(1,"Parsing current log file...")
     parser = LogFileParser(infile, router_host)
     parser.parse()
     stats = parser.result()
-    sys.stderr.write(" done.\n")
+    debug(1," done.\n")
     
     stats.write_stats(outfile, True)
 
