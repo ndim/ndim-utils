@@ -1,8 +1,8 @@
 EXTRA_DIST = arch-meta-hook commit-sendlog commit-archive-mirror
 
-bin_SCRIPTS = arch-meta-hook commit-sendlog commit-archive-mirror
+tlahook_SCRIPTS = arch-meta-hook commit-sendlog commit-archive-mirror
 
-pkgdata_DATA = arch-meta-hook.txt
+pkgdoc_DATA = arch-meta-hook.txt
 
 arch-meta-hook.txt: arch-meta-hook Makefile
 	(read; read; \

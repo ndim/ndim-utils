@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-19 15:24:19 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-37
+
+    Summary:
+      tla hook scripts are now installed into seperate directory
+    Revision:
+      ndim-utils--main--0.1--patch-37
+
+    tla hook scripts are now installed into seperate directory
+    
+
+    modified files:
+     ChangeLog configure.ac tla/Makefile.am
+
+
 2004-03-19 15:15:22 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-36
 
     Summary:

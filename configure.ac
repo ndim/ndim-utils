@@ -19,6 +19,9 @@ AC_PROG_INSTALL
 pkgdocdir="${datadir}/doc/${PACKAGE_TARNAME}"
 AC_SUBST(pkgdocdir)
 
+tlahookdir="${datadir}/${PACKAGE_TARNAME}/tla-hooks"
+AC_SUBST(tlahookdir)
+
 ########################################################################
 
 AC_CONFIG_FILES([
@@ -44,8 +47,6 @@ Configuration:
   CC:      $CC
   prefix:  $prefix
   bindir:  $bindir
-
-  docs:    $pkgdocdir
 
 You may run "make" and "make install" now.
 EOF
