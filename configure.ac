@@ -9,8 +9,6 @@ AM_INIT_AUTOMAKE([gnu 1.8 dist-bzip2])
 
 ########################################################################
 
-AM_MAINTAINER_MODE
-
 AC_PROG_CC
 AC_PROG_INSTALL
 

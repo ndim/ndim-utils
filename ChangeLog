@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-05-03 13:47:03 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-47
+
+    Summary:
+      get off the AM_MAINTAINER_MODE train
+    Revision:
+      ndim-utils--main--0.1--patch-47
+
+    get off the AM_MAINTAINER_MODE train
+    
+
+    modified files:
+     ChangeLog configure.ac
+
+
 2004-05-03 13:46:19 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-46
 
     Summary:
