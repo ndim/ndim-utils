@@ -2,6 +2,23 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-10 12:39:52 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-63
+
+    Summary:
+      arch inventory housekeeping
+    Revision:
+      ndim-utils--main--0.1--patch-63
+
+    arch inventory housekeeping
+    
+
+    new files:
+     palm-scripts/.arch-inventory
+
+    modified files:
+     ChangeLog
+
+
 2004-06-10 12:39:00 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-62
 
     Summary:
