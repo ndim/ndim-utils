@@ -1,9 +1,26 @@
-
 #!/usr/bin/python
 
 
 """
-traffic.py - evaluate ppp traffic log and create some statistics.
+%(prog)s - evaluate ppp traffic log and create some statistics.
+
+Syntax:
+
+  %(prog)s
+    - Read ppp log from stdin.
+    - Print statistics on stdout.
+    
+  %(prog)s <LOGFILE>
+    - Update file <LOGFILE> via HTTP. Save old version to
+      <LOGFILE>.bak if necessary.
+    - Read ppp log from <LOGFILE>.
+    - Print statistics on stdout.
+    
+  %(prog)s <LOGFILE> <REPORTFILE>
+    - Update file <LOGFILE> via HTTP. Save old version to
+      <LOGFILE>.bak if necessary.
+    - Read ppp log from <LOGFILE>.
+    - Print statistics into <REPORTFILE>.
 
 Manually find log lines on router via:
 
@@ -15,19 +32,19 @@ The lines will look like:
 
 Collect these lines in a file, say, ppp.log.
 
-Then run
+This program was designed with a LEAF Bering 2 router in mind, but any
+linux router with PPP should do.
 
-    traffic.py ppp.log
-
-and admire the statistics.
 
 TODO:
- - Get log files from router via HTTP, updating (local) ppp log file.
+ - nothing :)
  
 """
 
 
 import sys
+import urllib2
+import os
 
 
 def format_byte_value(value):
@@ -194,7 +211,7 @@ class Stage1:
         return self.next.result()
 
 
-class LogParser:
+class LogFileParser:
 
     def __init__(self, logfile):
         self.logfile = logfile
@@ -224,35 +241,121 @@ class LogParser:
 
 
 ########################################################################
+# HTTP Access stuff
+########################################################################
+
+
+class HTTPParser:
+
+    def __init__(self, url):
+        self.x = urllib2.urlopen(url)
+        self.lines = []
+
+    def handle_log_line(self, log_line):
+        arr = log_line.split()
+        if (arr[5] == "Sent" and arr[7] == "bytes,"
+            and arr[8] == "received" and arr[10] == "bytes."
+            and arr[4][:5] == "pppd[" and arr[4][-2:] == ']:'):
+            #print "LOG:", repr(log_line)
+            self.lines.append(log_line+'\n')
+
+    def parse(self):
+        code_begin = "<tr><td><div><code>\n"
+        code_end = "</code></div></td></tr>\n"
+        ignore = True
+        for line in self.x.readlines():
+            if (line == code_begin):
+                ignore = False
+                continue
+            elif line == code_end:
+                ignore = True
+                continue
+            else:
+                pass
+
+            if not ignore:
+                if line[-5:] == '<br>\n':
+                    self.handle_log_line(line[:-5])
+                else:
+                    pass # some error message like "file doesn't exist"
+                #print repr(line[:-4])
+                #print repr(line[-4:])
+                
+
+
+def update_logs(log_file):
+
+    router = "milou"
+    log_url = "http://" + router + "/cgi-bin/viewlogs?"
+    sys.stderr.write("Getting log files from \"%s\"..." % log_url)
+    for n in range(30,0,-1):
+        log_url += "daemon.log.%d.gz+" % n
+    log_url += "daemon.log.0+daemon.log"
+
+    parser = HTTPParser(log_url)
+    parser.parse()
+    sys.stderr.write(" done.\n")
+
+    logfile_present = os.path.exists(log_file)
+
+    if logfile_present:
+        content = open(log_file, "r").readlines()
+    else:
+        content = []
+
+    dirty = False
+    for new_line in parser.lines:
+        if new_line not in content:
+            content.append(new_line)
+            dirty = True
+
+    if dirty and logfile_present:
+        bak = "%s.bak" % log_file
+        sys.stderr.write("Renaming old log file %s to %s\n" %
+                         (log_file, bak))
+        os.rename(log_file, bak)
+        sys.stderr.write(" done.\n")
+
+    if dirty:
+        # no, we don't create empty log files
+        sys.stderr.write("Writing updated log file to %s..." % log_file)
+        f = os.fdopen(os.open(log_file, os.O_WRONLY|os.O_CREAT|os.O_EXCL, 0600),"w")
+        for x in content:
+            f.write(x)
+        f.close()
+        sys.stderr.write(" done.\n")
+
+    
+########################################################################
 # Main program
 ########################################################################
 
 
-syntax = """
-Syntax: %s [<infile> [<outfile>]]
-
-  <infile>   Name of ppp log file to read. Defaults to stdin.
-  <outfile>  Name of traffic report to write. Defaults to stdout.
-  
-""" % (sys.argv[0])
-
-
 def main():
+    
     if len(sys.argv) > 3:
         sys.stderr.write("Syntax error: Too many parameters\n")
-        sys.stderr.write(syntax)
+        v = { 'prog': sys.argv[0] }
+        sys.stderr.write(__doc__ % v)
         sys.exit(1)
+
     infile = sys.stdin
-    outfile = sys.stdout
     if len(sys.argv) >= 2:
+        update_logs(sys.argv[1])
         #sys.stderr.write("Non-standard log file: %s\n" % sys.argv[1])
         infile = open(sys.argv[1], "r") # open log file
+
+    outfile = sys.stdout
     if len(sys.argv) >= 3:
         #sys.stderr.write("Non-standard report file: %s\n" % sys.argv[2])
         outfile = open(sys.argv[2], "w") # open report file
-    parser = LogParser(infile)
+        
+    sys.stderr.write("Parsing log file...")
+    parser = LogFileParser(infile)
     parser.parse()
     stats = parser.result()
+    sys.stderr.write(" done.\n")
+    
     stats.write_stats(outfile, True)
 
 
