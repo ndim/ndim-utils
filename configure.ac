@@ -43,10 +43,11 @@ Configuration:
   Package: $PACKAGE
   Version: $VERSION
 
-  srcdir:  $srcdir
-  CC:      $CC
-  prefix:  $prefix
-  bindir:  $bindir
+  srcdir: $srcdir
+
+  CC:     $CC
+  prefix: $prefix
+  bindir: $bindir
 
 You may run "make" and "make install" now.
 EOF
