@@ -18,6 +18,7 @@ echo "To: ${ARCH_ONLY_CATEGORY} arch summaries <${email}>"
 echo
 tla cat-archive-log "${ARCH_ARCHIVE}/${ARCH_REVISION}"
 echo
+cd "${ARCH_TREE_ROOT}"
 dir="${ARCH_REVISION}.changeset-$$"
 tla get-changeset "${ARCH_REVISION}" "${dir}"
 tla show-changeset --diffs "${dir}"

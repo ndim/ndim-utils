@@ -2,6 +2,22 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-10-27 15:29:30 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-81
+
+    Summary:
+      commit-sendlog bugfix (work in correct directory)
+    Revision:
+      ndim-utils--main--0.1--patch-81
+
+    Patch from Steve Youngs <steve@sxemacs.org>:
+    
+    cd into ${ARCH_TREE_ROOT} so that `tla get-changeset' will
+    succeed.
+
+    modified files:
+     ChangeLog tla/commit-sendlog
+
+
 2004-08-30 23:10:04 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-80
 
     Summary:
