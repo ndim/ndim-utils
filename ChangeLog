@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-15 19:17:30 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-10
+
+    Summary:
+      automake/autoconf cleanup
+    Revision:
+      ndim-utils--main--0.1--patch-10
+
+    automake/autoconf cleanup
+    
+
+    modified files:
+     ChangeLog configure.ac params/Makefile.am
+
+
 2004-03-15 13:19:48 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-9
 
     Summary:
