@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2005-02-08 23:35:43 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-91
+
+    Summary:
+      even nicer output
+    Revision:
+      ndim-utils--main--0.1--patch-91
+
+    even nicer output
+    
+
+    modified files:
+     ChangeLog misc-scripts/percheck
+
+
 2005-02-08 23:33:24 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-90
 
     Summary:

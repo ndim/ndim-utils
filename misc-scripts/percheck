@@ -9,6 +9,10 @@ notfirstone=false
 while :; do
 	file="$1"
 	if shift; then :; else break; fi
+	if "$notfirstone"; then
+		echo
+	fi
+	notfirstone=:
 	if test ! -e "$file"; then
 		echo "percheck: file or directory not found: ${file}" >&2
 		continue
@@ -16,16 +20,9 @@ while :; do
 	case "$file" in
 		/*)
 			;;
-		..|../*)
-			file="${file/#../$(dirname $PWD)}" ;;
-		.|../*)
-			file="${file/#./$PWD}" ;;
 		*)
 			file="$PWD/${file}" ;;
 	esac
-	echo "fullfile=$file"
-	file="$(dirname "$file")/$(basename "$file")"
-	echo "    file=$file"
 	declare -a files
 	files=()
 	n=0
@@ -35,10 +32,6 @@ while :; do
 		file="$(dirname "$file")"
 		n="$[ $n + 1 ]"
 	done
-	if "$notfirstone"; then
-		echo
-	fi
-	notfirstone=:
 	ls -ald "${files[@]}"
 done
 
