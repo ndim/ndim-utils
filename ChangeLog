@@ -2,6 +2,39 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-09 02:46:44 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-52
+
+    Summary:
+      use python distutils for sysadmin libs
+    Revision:
+      ndim-utils--main--0.1--patch-52
+
+    use python distutils for sysadmin libs
+    
+
+    new files:
+     admin-py/setup.py
+
+    removed files:
+     admin-py/Makefile.am admin-py/whois/.arch-ids/=id
+
+    modified files:
+     ChangeLog admin-py/Makefile.am configure.ac
+
+    renamed files:
+     admin-py/whois/.arch-inventory
+       ==> admin-py/.arch-inventory
+     admin-py/whois/Makefile.am
+       ==> admin-py/Makefile.am
+     admin-py/whois/whois-tool.py
+       ==> admin-py/whois-tool.py
+     admin-py/whois/whois.py
+       ==> admin-py/whois.py
+
+    removed directories:
+     admin-py/whois admin-py/whois/.arch-ids
+
+
 2004-06-09 02:11:41 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-51
 
     Summary:

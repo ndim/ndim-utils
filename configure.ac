@@ -32,7 +32,6 @@ AC_CONFIG_FILES([
 	misc/Makefile
 	gps/Makefile
 	admin-py/Makefile
-	admin-py/whois/Makefile
 	])
 AC_OUTPUT
 
