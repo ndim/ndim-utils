@@ -307,6 +307,8 @@ class Stage1:
                 self.last_pid = pid
             self.last_rcvd = rcvd
             self.last_sent = sent
+        elif host == "gw":
+            self.next.event(timestamp, host, pid, rcvd, sent)
         else:
             raise Exception("Unhandled host name: \"%s\"" % host)
 
