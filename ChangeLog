@@ -2,6 +2,28 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 14:42:40 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-21
+
+    Summary:
+      Add arch-meta-hook script
+    Revision:
+      ndim-utils--main--0.1--patch-21
+
+    Add arch-meta-hook script
+    
+
+    new files:
+     tla/.arch-ids/.arch-inventory.id tla/.arch-ids/=id
+     tla/.arch-ids/Makefile.am.id tla/.arch-ids/arch-meta-hook.id
+     tla/.arch-inventory tla/Makefile.am tla/arch-meta-hook
+
+    modified files:
+     ChangeLog Makefile.am configure.ac
+
+    new directories:
+     tla tla/.arch-ids
+
+
 2004-03-16 14:16:42 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-20
 
     Summary:

@@ -10,9 +10,13 @@ AM_MAINTAINER_MODE
 AC_PROG_CC
 AC_PROG_INSTALL
 
+tlascriptdir="$HOME/.arch-params"
+AC_SUBST(tlascriptdir)
+
 AC_CONFIG_FILES([
 	Makefile
 	cdburn/Makefile
+	tla/Makefile
 	misc-scripts/Makefile
 	pkg-info/Makefile
 	misc/Makefile
