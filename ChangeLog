@@ -2,6 +2,23 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-06-09 02:49:29 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-54
+
+    Summary:
+      use python distutils for gps libs
+    Revision:
+      ndim-utils--main--0.1--patch-54
+
+    use python distutils for gps libs
+    
+
+    new files:
+     gps/setup.py
+
+    modified files:
+     ChangeLog gps/Makefile.am
+
+
 2004-06-09 02:47:37 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-53
 
     Summary:
