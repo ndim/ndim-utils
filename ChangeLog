@@ -2,6 +2,32 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2005-02-01 02:55:33 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-88
+
+    Summary:
+      outsourced m4 macros
+    Revision:
+      ndim-utils--main--0.1--patch-88
+
+    outsourced m4 macros
+    
+
+    new files:
+     basic.tla-config
+
+    removed files:
+     m4/.arch-ids/=id m4/.arch-ids/configuration.m4.id
+     m4/.arch-ids/hotplug.m4.id m4/.arch-ids/systemconfig.m4.id
+     m4/Makefile.am m4/configuration.m4 m4/hotplug.m4
+     m4/systemconfig.m4
+
+    modified files:
+     ChangeLog
+
+    removed directories:
+     m4 m4/.arch-ids
+
+
 2005-02-01 00:10:34 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-87
 
     Summary:
