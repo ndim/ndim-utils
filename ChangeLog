@@ -2,6 +2,26 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-15 12:03:29 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-6
+
+    Summary:
+      get package name and version from tla, create config.h
+    Revision:
+      ndim-utils--main--0.1--patch-6
+
+    get package name and version from tla, create config.h
+    
+
+    new files:
+     include/.arch-ids/=id
+
+    modified files:
+     ChangeLog autogen.sh configure.in
+
+    new directories:
+     include include/.arch-ids
+
+
 2004-03-15 11:45:38 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-5
 
     Summary:
