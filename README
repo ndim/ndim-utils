@@ -19,6 +19,23 @@ Copyright (C) 2004 Hans Ulrich Niedermann
 
 If you also find those utilities useful, then use them :-)
 
+Contents:
+
+  cdburn/
+    Burn CDs without clicking and remembering all those options.
+
+  misc/
+    Miscellaneous helpers programs.
+
+  misc-scripts/
+    Miscellanrous scripts.
+
+  pkg-info/
+    Information about the ndim-utils package.
+
+  tla/
+    Utility scripts for use with tla, mainly hooks.
+
 I build and install it as follows:
 
 /======================================================================\
