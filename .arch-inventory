@@ -1,0 +1,9 @@
+junk ^COPYING$
+junk ^INSTALL$
+junk ^aclocal.m4$
+junk ^autom4te.cache$
+junk ^config.(guess|log|status|sub)$
+junk ^configure$
+junk ^install-sh$
+junk ^missing$
+junk ^mkinstalldirs$
