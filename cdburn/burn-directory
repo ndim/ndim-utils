@@ -2,6 +2,12 @@
 
 dir="$1"
 
+if [ "$dir" = "" ]
+then
+    echo "Sorry, you must give me a directory to burn!"
+    exit 1
+fi
+
 if [ "" != "$2" ]
 then
 	echo "No second argument allowed"
@@ -10,11 +16,15 @@ fi
 
 volumeid="$dir"
 [ "$VOLUMEID" != "" ] && volumeid="$VOLUMEID"
-name="$(awk -F : "(\$1 == \"$USER\") { print \$5; }" /etc/passwd | awk -F , '{ print $1; }')"
+name="$(getent passwd "$USER" | cut -d ':' -f 5 | cut -d ',' -f 1)"
 publisher="$name"
 preparer="$name"
 
-echo "Burning $dir to CD"
+echo "Burning to CD:    $dir"
+echo "Volume ID:        $volumeid"
+echo "Publisher:        $publisher"
+echo "Preparer:         $preparer"
+echo ""
 echo "mkisofs  options: $MKISOFS_OPT"
 echo "cdrecord options: $CDRECORD_OPT"
 echo
