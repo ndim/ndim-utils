@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2004-03-16 20:25:38 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-25
+
+    Summary:
+      reflect new file layout
+    Revision:
+      ndim-utils--main--0.1--patch-25
+
+    reflect new file layout
+    
+
+    modified files:
+     ChangeLog README
+
+
 2004-03-16 16:07:22 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-24
 
     Summary:

@@ -9,10 +9,8 @@ I build and install it as follows:
 
 	./autogen.mk
 	./configure \
-		--prefix="$HOME/tmp/prefix" \
-		--bindir="$HOME/bin" \
-		--enable-maintainer-mode \
-		--enable-tlascripts="$HOME/.arch-params"
+		--prefix="$HOME/root/ndim-utils" \
+		--enable-maintainer-mode
 	make
 	make install
 
