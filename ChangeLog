@@ -2,6 +2,20 @@
 # arch-tag: automatic-ChangeLog--hun@n-dimensional.de--2004-public/ndim-utils--main--0.1
 #
 
+2005-02-01 00:10:34 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-87
+
+    Summary:
+      remove nfat stuff
+    Revision:
+      ndim-utils--main--0.1--patch-87
+
+    remove nfat stuff
+    
+
+    modified files:
+     ChangeLog configure.ac
+
+
 2005-01-31 15:30:20 GMT	Hans Ulrich Niedermann <hun@n-dimensional.de>	patch-86
 
     Summary:
