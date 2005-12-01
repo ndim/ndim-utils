@@ -35,9 +35,11 @@ AC_CONFIG_FILES([
 	tla/Makefile
 	include/Makefile
 	misc-scripts/Makefile
+	misc-scripts/percheck.1
 	pkg-info/ndim-utils-info.sh
 	pkg-info/Makefile
 	misc/Makefile
+	misc/params.1
 	admin-py/Makefile
 	admin-py/setup.py
 	palm-scripts/Makefile

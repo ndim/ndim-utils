@@ -1,0 +1,14 @@
+.TH params 1  "2005\-11\-30" "@VERSION@" "ndim-utils"
+
+.SH "NAME"
+params \- show list of program parameters and environment variables
+
+.SH "SYNOPSIS"
+.B "params"
+
+.SH "DESCRIPTION"
+.B "params"
+prints a list of all environment variables and all argv[] parameters.
+
+.SH "AUTHOR"
+Hans Ulrich Niedermann <debian@n\-dimensional.de>
