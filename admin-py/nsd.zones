@@ -1,0 +1,81 @@
+;
+; nsd.zones -- a list of the zones to be compiled into the NSD database
+;
+
+; The filenames are relative to ${zonesdir}
+;
+; The masters keyword indicates that the zone should be AXFR'd from appropriate
+; ip-address of the master DNS server on subsquent nsdc(8) update if necessary.
+;
+; The notify keyword will trigger notify messages sent to the given ip-addreses
+; on every NSD database (re)load.
+;
+;zone	.		primary/root.zone	notify 128.9.0.107 192.33.4.12 128.8.10.90
+;zone	ww.net		primary/ww.net
+;zone	nlnetlabs.nl	secondary/nlnetlabs.nl	masters 213.53.69.1
+
+; zone	name			filename			[ masters/notify ip-address ]
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; A few notes about the other nameservers mentioned here:
+;
+; 193.7.176.1 ns.bawue.de
+;    admins: ndim
+;
+; 217.89.68.44 gta.loris.tv
+;    admins: adi
+;
+; 209.70.202.34 ns2.kens.com
+;    admins: sheskar, ndim
+;    notes:  obsolete, legacy
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Everybody
+zone	templeofhate.com	primary/templeofhate.com	notify 217.89.68.44 193.7.176.1
+zone	my.gnus.org		primary/my.gnus.org		notify 217.89.68.44 193.7.176.1
+
+; Jeff
+zone	boobswanted.com		primary/boobswanted.com		notify 217.89.68.44 193.7.176.1
+zone	cbr600f4.com		primary/cbr600f4.com		notify 217.89.68.44 193.7.176.1
+zone	cbr600rr.com		primary/cbr600rr.com		notify 217.89.68.44 193.7.176.1
+zone	phuzzygnu.com		primary/phuzzygnu.com		notify 217.89.68.44 193.7.176.1
+zone	scrappyspowersports.com	primary/scrappyspowersports.com notify 217.89.68.44 193.7.176.1
+
+; Kate
+zone	katewerk.com		primary/katewerk.com		notify 193.7.176.1 217.89.68.44
+zone	faithcitykennelclub.org	primary/faithcitykennelclub.org	notify 193.7.176.1 217.89.68.44
+zone	sandypaws.us		primary/sandypaws.us		notify 193.7.176.1 217.89.68.44
+
+; Sebastian
+zone	sdbk.de			primary/sdbk.de			notify 193.7.176.1
+zone	astrowiki.de		primary/astrowiki.de		notify 193.7.176.1 217.89.68.44
+
+; Frank
+zone	gehheimdienst.de	primary/gehheimdienst.de	notify 217.89.68.44
+
+; Jan Hendrik
+zone	leipziger66.de		primary/leipziger66.de		notify 193.7.176.1 217.89.68.44
+; Achtung: fuer ib.de nur zwei DNS-Server!
+zone	informationsberatung.de	primary/informationsberatung.de	notify 193.7.176.1
+
+; Robin
+zone	socha.net		primary/socha.net		notify 193.7.176.1 217.89.68.44
+zone	kaloussi.com		primary/kaloussi.com		notify 193.7.176.1 217.89.68.44
+zone	bmgordon.com		primary/bmgordon.com		notify 193.7.176.1 217.89.68.44
+zone	gkwood.com		primary/gkwood.com		notify 193.7.176.1 217.89.68.44
+zone	komascript.de		primary/komascript.de		notify 217.89.68.44 193.7.176.1
+zone	alicia-spengler.de	primary/alicia-spengler.de	notify 217.89.68.44 193.7.176.1
+
+; Uli/ndim
+zone	bawue.de		secondary/bawue.de		masters 193.7.176.1 193.7.176.20
+
+; Ken
+;zone	frankenhost.com		primary/frankenhost.com		notify 193.7.176.1 217.89.68.44
+zone	kens.com		primary/kens.com		notify 193.7.176.1 217.89.68.44
+zone	foamband.com		primary/foamband.com		notify 193.7.176.1 217.89.68.44
+zone	cymro-welsh.com		primary/cymro-welsh.com		notify 193.7.176.1 217.89.68.44
+zone	guidesandoutfitters.org	primary/guidesandoutfitters.org	notify 193.7.176.1 217.89.68.44
+
+; Merlin
+zone	koene.tv		primary/koene.tv		notify 193.7.176.1 217.89.68.44
+
