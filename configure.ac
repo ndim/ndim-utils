@@ -1,7 +1,7 @@
 ########################################################################
 
 AC_PREREQ(2.59)
-AC_INIT([ndim utility collection], [0.1.1],
+AC_INIT([ndim utility collection], [0.2.0],
 	[hun@n-dimensional.de], [ndim-utils])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
@@ -14,6 +14,7 @@ AC_PROG_INSTALL
 
 ########################################################################
 
+m4_pattern_forbid([NDIM_CHECK_])dnl
 NDIM_CHECK_SYSTEM_CONFIG
 NDIM_CHECK_HOTPLUG
 NDIM_CHECK_CONFIGURATION
