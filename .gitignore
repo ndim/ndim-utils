@@ -1,2 +1,10 @@
 *~
 Makefile.in
+COPYING
+INSTALL
+autom4te.cache
+autotools
+configure
+aclocal.m4
+_b*
+_i*
