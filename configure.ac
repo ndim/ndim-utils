@@ -1,12 +1,16 @@
 ########################################################################
 
-AC_PREREQ(2.59)
-AC_INIT([ndim utility collection], [0.2.0],
-	[hun@n-dimensional.de], [ndim-utils])
+AC_PREREQ(2.61)
+AC_INIT([ndim utility collection],
+        [0.2.1],
+        [hun@n-dimensional.de],
+        [ndim-utils])
 AC_CONFIG_AUX_DIR([autotools])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
-AM_INIT_AUTOMAKE([-Wall -Werror gnu 1.10 dist-bzip2 check-news filename-length-max=99])
+AC_CONFIG_MACRO_DIR([m4])
+AM_INIT_AUTOMAKE([-Wall -Werror gnu 1.10 dist-bzip2 check-news
+                  filename-length-max=99])
 
 ########################################################################
 
