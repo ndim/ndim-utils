@@ -9,7 +9,7 @@ AC_CONFIG_AUX_DIR([autotools])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([-Wall -Werror gnu 1.10 dist-bzip2 check-news
+AM_INIT_AUTOMAKE([-Wall -Werror foreign 1.10 dist-bzip2 check-news
                   filename-length-max=99])
 
 ########################################################################

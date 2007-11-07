@@ -4,16 +4,17 @@ bin_PROGRAMS = @PACKAGE_TARNAME@-info
 
 bin_SCRIPTS = ndim-utils-info.sh ndim-utils-info2.sh
 
-@PACKAGE_TARNAME@_info_SOURCES = pkg-info.c \
-	$(top_builddir)/include/package-version.h \
+BUILT_SOURCES = moo.stamp
+
+@PACKAGE_TARNAME@_info_SOURCES = pkg-info.c
+nodist_@PACKAGE_TARNAME@_info_SOURCES = \
+	$(top_builddir)/include/git-version.h \
 	$(top_builddir)/include/build-info.h
 
-$(top_builddir)/includes/package-version.h:
-	$(MAKE) -C $(top_builddir)/include package-version.h
+moo.stamp:
+	$(MAKE) -C $(top_builddir)/include
 
-$(top_builddir)/includes/build-info.h:
-	$(MAKE) -C $(top_builddir)/include build-info.h
-
+CLEANFILES = ndim-utils-info2.sh
 ndim-utils-info2.sh: ndim-utils-info.sh.in
 	sed \
 		-e 's|[@]prefix[@]|$(prefix)|g' \

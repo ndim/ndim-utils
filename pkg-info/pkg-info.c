@@ -1,14 +1,14 @@
 #include <stdio.h>
 
 #include "config.h"
-#include "package-version.h"
+#include "git-version.h"
 #include "build-info.h"
 
 int main()
 {
   printf("%s %s - %s\n"
 	 "Copyright (C) 1998-%s Hans Ulrich Niedermann\n\n"
-	 "Revision:\n  %s\n"
+	 "Built from:\n  %s\n"
 	 "Build date:\n  %s\n"
 	 "Bugreports:\n  %s\n"
 	 "%s"
@@ -19,7 +19,7 @@ int main()
 
 	 DATE_YEAR,
 
-         TLA_REVISION,
+         GIT_MESSAGE,
 	 BUILD_DATE,
 	 PACKAGE_BUGREPORT,
 	 ""

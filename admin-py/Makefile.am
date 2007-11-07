@@ -1,5 +1,5 @@
 EXTRA_DIST = whois.py whois-tool.py whoislist setup.py.in
-DISTCLEANFILES = whoislist.gz
+DISTCLEANFILES = whoislist.gz timestamp.sh
 
 nameservers: domain-list $(srcdir)/whois-tool.py whoislist
 	python2 whois-check.py $< $@.new
