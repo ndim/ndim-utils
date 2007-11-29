@@ -2,7 +2,7 @@
 
 AC_PREREQ(2.61)
 AC_INIT([ndim utility collection],
-        [0.2.4],
+        [0.2.5],
         [hun@n-dimensional.de],
         [ndim-utils])
 AC_CONFIG_AUX_DIR([autotools])
