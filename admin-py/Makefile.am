@@ -1,12 +1,18 @@
 EXTRA_DIST = whois.py whois-tool.py whoislist setup.py.in
-DISTCLEANFILES = whoislist.gz timestamp.sh
+DISTCLEANFILES = timestamp.sh
 
 nameservers: domain-list $(srcdir)/whois-tool.py whoislist
 	python2 whois-check.py $< $@.new
 	mv $@.new $@
 
+MAINTAINERCLEAN_FILES = whoislist.gz
+EXTRA_DIST += whoislist.gz
 whoislist.gz:
-	wget -O $@ "http://www.geektools.com/dist/whoislist.gz"
+	if test ! -s whoislist.gz && test -s "$(srcdir)/whoislist.gz"; then \
+		cp "$(srcdir)/whoislist.gz" $@; \
+	else \
+		wget -O $@ "http://www.geektools.com/dist/whoislist.gz"; \
+	fi
 
 whoislist: whoislist.gz
 	gunzip -c < $< > $@

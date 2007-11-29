@@ -11,3 +11,40 @@ tag:
 	@echo "Wanna tag as v@PACKAGE_VERSION@? Enter to continue, Ctrl-C to abort."
 	@read
 	git tag v@PACKAGE_VERSION@
+
+EXTRA_DIST += $(PACKAGE_TARNAME).spec $(PACKAGE_TARNAME).spec.in
+
+clean-local:
+	rm -rf rpm-build rpm-dist
+
+SPECFILE = $(PACKAGE_TARNAME).spec
+
+RPMBUILD = rpmbuild
+RPMBUILD_OPTS =
+RPMBUILD_OPTS += --define "_sourcedir $(PWD)"
+RPMBUILD_OPTS += --define "_builddir $(PWD)/rpm-build" 
+RPMBUILD_OPTS += --define "_srcrpmdir $(PWD)/rpm-dist"
+RPMBUILD_OPTS += --define "_rpmdir $(PWD)/rpm-dist"
+
+.PHONY: rpm
+rpm: dist $(SPECFILE)
+	rm -rf rpm-dist rpm-build
+	mkdir rpm-dist rpm-build
+	$(RPMBUILD) $(RPMBUILD_OPTS) -ba $(SPECFILE)
+
+.PHONY: srpm
+srpm: dist $(SPECFILE)
+	rm -rf rpm-dist rpm-build
+	mkdir rpm-dist rpm-build
+	$(RPMBUILD) $(RPMBUILD_OPTS) -bs $(SPECFILE)
+
+.PHONY: upload
+upload: $(SPECFILE) $(srcdir)/README $(srcdir)/NEWS dist srpm
+	rsync -avz --progress \
+		$(SPECFILE) \
+		$(srcdir)/README $(srcdir)/NEWS \
+		$(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.gz \
+		$(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.bz2 \
+		$(RSYNC_HOST):n-dimensional.de/software/ndim-utils/
+
+# End of file.

@@ -1,0 +1,104 @@
+# -*- mode: rpm-spec -*-
+Name:		@PACKAGE_TARNAME@
+Version:	@VERSION@
+Release:	3%{?dist}
+Summary:	ndim's utility collection
+
+Group:		Applications/System
+License:	GPL
+URL:		http://n-dimensional.de/software/ndim-utils/
+Source0:	http://n-dimensional.de/software/ndim-utils/@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+
+
+%description
+
+  admin-py/
+    Some admin tools written in python. Mostly whois and DNS stuff.
+
+  cdburn/
+    Burn CDs without clicking and remembering all those options.
+
+  misc/
+    Miscellaneous helpers programs.
+
+  misc-scripts/
+    Miscellanrous scripts.
+
+  palm-scripts/
+    Hotplug scripts for using a Palm device (upload, backup, PPP).
+
+  pkg-info/
+    Information about the ndim-utils package.
+
+  tla/
+    Utility scripts for use with tla, mainly hooks.
+
+  traffic/
+    Analyze ppp logs from a LEAF Bering router.
+
+
+%prep
+%setup -q
+
+
+%build
+%configure --mandir=%{_mandir}
+make %{?_smp_mflags}
+
+
+%install
+rm -rf "%{buildroot}"
+make install DESTDIR="%{buildroot}"
+while read file; do
+	rm -f "%{buildroot}$file"
+done<<RMXXX
+   %{_sysconfdir}/hotplug/usb/pilot
+   %{_sysconfdir}/hotplug/usb/pilot.usermap
+   %{_sysconfdir}/pilot-usb
+   %{_bindir}/ndim-utils-info
+   %{_bindir}/ndim-utils-info.sh
+   %{_bindir}/ndim-utils-info2.sh
+   %{_bindir}/np
+   %{_bindir}/ppp-traffic-analysis.py
+   %{_bindir}/ppp-traffic-analysis.pyc
+   %{_bindir}/ppp-traffic-analysis.pyo
+   %{_bindir}/umlxterm
+   %{_bindir}/xnest
+   %{_datadir}/doc/ndim-utils/AUTHORS
+   %{_datadir}/doc/ndim-utils/ChangeLog
+   %{_datadir}/doc/ndim-utils/README
+   %{_datadir}/doc/ndim-utils/arch-meta-hook.txt
+RMXXX
+
+
+%clean
+rm -rf "%{buildroot}"
+
+
+%files
+%defattr(-,root,root,-)
+%doc AUTHORS NEWS README ChangeLog tla/arch-meta-hook.txt
+%{_bindir}/bing
+%{_bindir}/burn-directory
+%{_bindir}/colfilter
+%{_bindir}/one
+%{_bindir}/params
+%{_bindir}/ps2lj4
+%{_bindir}/percheck
+%{_mandir}/man1/percheck.1.gz
+%{_mandir}/man1/params.1.gz
+%{_datadir}/%{name}/tla-hooks/arch-meta-hook
+%{_datadir}/%{name}/tla-hooks/commit-archive-mirror
+%{_datadir}/%{name}/tla-hooks/commit-sendlog
+
+%changelog
+* Thu Nov 29 Hans Ulrich Niedermann <hun@n-dimensional.de> - @VERSION@-3
+- General cleanups following long period of inactivity.
+
+* Mon Jun 19 2006 Hans Ulrich Niedermann <hun@n-dimensional.de> - 0.1.1.2-2
+- clean up spec file according to fedora-qa
+
+* Mon Jun 19 2006 Hans Ulrich Niedermann <hun@n-dimensional.de> - 0.1.1-1
+- initial release
+

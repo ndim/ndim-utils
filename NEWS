@@ -1,3 +1,8 @@
+ndim-utils 0.2.3
+  * Add built-in RPM support.
+  * Add SELinux support to percheck.
+  * Avoid downloading whoislist.gz if possible.
+
 ndim-utils 0.2.2
   * Add list-debuginfo-rpms script.
 

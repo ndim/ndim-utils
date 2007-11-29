@@ -5,6 +5,12 @@
 # displays permissions of all files and all directories above
 #
 
+if test -f /selinux/enforce; then
+	ls_opt="-aldZ"
+else
+	ls_opt="-ald"
+fi
+
 notfirstone=false
 while :; do
 	file="$1"
@@ -32,6 +38,6 @@ while :; do
 		file="$(dirname "$file")"
 		n="$[ $n + 1 ]"
 	done
-	ls -ald "${files[@]}"
+	ls ${ls_opt} "${files[@]}"
 done
 
