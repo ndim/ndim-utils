@@ -1,0 +1,15 @@
+#!/bin/sh
+
+die() { echo "$@"; exit 2; }
+binary="$1"
+
+test -n "$binary" || die "You need to give an executable binary as parameter"
+test -x "$binary" || die "The binary must be executable"
+
+ldd "$binary" \
+	| awk '($1 ~ /^\//) {print $1;} ($3 ~ /^\//) {print $3; }' \
+	| while read lib; do
+		echo "$(rpm -qf --qf "%{SOURCERPM}\n" "$lib" | rev | cut -d- -f3- | rev)-debuginfo"
+	done \
+	| sort \
+	| uniq
