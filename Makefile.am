@@ -21,10 +21,10 @@ SPECFILE = $(PACKAGE_TARNAME).spec
 
 RPMBUILD = rpmbuild
 RPMBUILD_OPTS =
-RPMBUILD_OPTS += --define "_sourcedir $(PWD)"
-RPMBUILD_OPTS += --define "_builddir $(PWD)/rpm-build" 
-RPMBUILD_OPTS += --define "_srcrpmdir $(PWD)/rpm-dist"
-RPMBUILD_OPTS += --define "_rpmdir $(PWD)/rpm-dist"
+RPMBUILD_OPTS += --define "_sourcedir $${PWD}"
+RPMBUILD_OPTS += --define "_builddir $${PWD}/rpm-build"
+RPMBUILD_OPTS += --define "_srcrpmdir $${PWD}/rpm-dist"
+RPMBUILD_OPTS += --define "_rpmdir $${PWD}/rpm-dist"
 
 .PHONY: rpm
 rpm: dist $(SPECFILE)

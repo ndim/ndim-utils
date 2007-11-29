@@ -1,14 +1,14 @@
 # -*- mode: rpm-spec -*-
-Name:		@PACKAGE_TARNAME@
-Version:	@VERSION@
-Release:	3%{?dist}
-Summary:	ndim's utility collection
+Name:      @PACKAGE_TARNAME@
+Version:   @VERSION@
+Release:   3%{?dist}
+Summary:   ndim's utility collection
 
-Group:		Applications/System
-License:	GPL
-URL:		http://n-dimensional.de/software/ndim-utils/
-Source0:	http://n-dimensional.de/software/ndim-utils/@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+Group:     Applications/System
+License:   GPLv2+
+URL:       http://n-dimensional.de/software/ndim-utils/
+Source0:   http://n-dimensional.de/software/ndim-utils/@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 
 %description
@@ -51,7 +51,7 @@ make %{?_smp_mflags}
 rm -rf "%{buildroot}"
 make install DESTDIR="%{buildroot}"
 while read file; do
-	rm -f "%{buildroot}$file"
+  rm -f "%{buildroot}$file"
 done<<RMXXX
    %{_sysconfdir}/hotplug/usb/pilot
    %{_sysconfdir}/hotplug/usb/pilot.usermap
@@ -65,10 +65,6 @@ done<<RMXXX
    %{_bindir}/ppp-traffic-analysis.pyo
    %{_bindir}/umlxterm
    %{_bindir}/xnest
-   %{_datadir}/doc/ndim-utils/AUTHORS
-   %{_datadir}/doc/ndim-utils/ChangeLog
-   %{_datadir}/doc/ndim-utils/README
-   %{_datadir}/doc/ndim-utils/arch-meta-hook.txt
 RMXXX
 
 
@@ -78,10 +74,11 @@ rm -rf "%{buildroot}"
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS NEWS README ChangeLog tla/arch-meta-hook.txt
+%doc %{_docdir}/*
 %{_bindir}/bing
 %{_bindir}/burn-directory
 %{_bindir}/colfilter
+%{_bindir}/list-debuginfo-rpms
 %{_bindir}/one
 %{_bindir}/params
 %{_bindir}/ps2lj4
@@ -93,7 +90,7 @@ rm -rf "%{buildroot}"
 %{_datadir}/%{name}/tla-hooks/commit-sendlog
 
 %changelog
-* Thu Nov 29 Hans Ulrich Niedermann <hun@n-dimensional.de> - @VERSION@-3
+* Thu Nov 29 2007 Hans Ulrich Niedermann <hun@n-dimensional.de> - @VERSION@-3
 - General cleanups following long period of inactivity.
 
 * Mon Jun 19 2006 Hans Ulrich Niedermann <hun@n-dimensional.de> - 0.1.1.2-2
