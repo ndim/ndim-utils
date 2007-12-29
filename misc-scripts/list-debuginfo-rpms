@@ -1,4 +1,7 @@
 #!/bin/sh
+#
+# Uhm. Just install yum-utils and run
+#   $ debuginfo-install $(rpm -qf /usr/bin/foo)
 
 die() { echo "$@"; exit 2; }
 binary="$1"

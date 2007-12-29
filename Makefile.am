@@ -43,6 +43,7 @@ upload: $(SPECFILE) $(srcdir)/README $(srcdir)/NEWS dist srpm
 	rsync -avz --progress \
 		$(SPECFILE) \
 		$(srcdir)/README $(srcdir)/NEWS \
+		$(srcdir)/misc-scripts/list-debuginfo-rpms \
 		$(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.gz \
 		$(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.bz2 \
 		$(RSYNC_HOST):n-dimensional.de/software/ndim-utils/
