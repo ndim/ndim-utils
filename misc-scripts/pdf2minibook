@@ -1,0 +1,65 @@
+#!/bin/bash
+# Convert 8 page PDF file into "mini book"
+# Idea from http://weblog.bignerdranch.com/?p=23
+#
+# Layout of resulting page:
+#  1 2    The right column maintains orientation
+#  8 3    The left  column is rotated by 180 degrees
+#  7 4
+#  6 5
+
+# abort on error
+set -e
+set -x
+
+# Init
+PDFLATEX="${PDFLATEX-pdflatex}"
+PDFLATEX_OPTS="-interaction=batchmode"
+origdir=`pwd`
+workdir=`mktemp -d`
+trap "rm -rf \"${workdir}\"" INTR TERM ABRT PIPE EXIT
+PDF_IN="${1--}"
+PDF_OUT="${2--}"
+PDF_INPUT="input.pdf"
+TEX_INTERM="intermediate.tex"
+PDF_INTERM="intermediate.pdf"
+TEX_RESULT="result.tex"
+PDF_RESULT="result.pdf"
+
+cat "$PDF_IN" > "${workdir}/input.pdf"
+cd "$workdir"
+
+# Rotate the left column
+cat>"${TEX_INTERM}"<<EOF
+\documentclass[a4paper,portrait]{book}
+\usepackage{pdfpages}
+\begin{document}
+\includepdf[pages=1, angle=180]{${PDF_INPUT}}
+\includepdf[pages=2-5]{${PDF_INPUT}}
+\includepdf[pages=6-8, angle=180]{${PDF_INPUT}}
+\end{document}
+EOF
+${PDFLATEX} ${PDFLATEX_OPTS} "${TEX_INTERM}"
+
+ls -la
+
+cat>"${TEX_RESULT}"<<EOF
+\documentclass[a4paper,landscape]{book}
+\usepackage{pdfpages}
+\begin{document}
+\includepdf[nup=4×2, pages={1,8-6,2-5}, trim=24mm 10mm 24mm 10mm, cut, frame]{${PDF_INTERM}}
+\end{document}
+EOF
+${PDFLATEX} ${PDFLATEX_OPTS} "${TEX_INTERM}"
+
+ls -la
+
+cd "${origdir}"
+if [ "x${PDF_OUT}" = "x-" ]; then
+    cat "${workdir}/${PDF_RESULT}"
+else
+    mv "${workdir}/${PDF_RESULT}" "${PDF_OUT}"
+    ls -l "${PDF_OUT}"
+fi
+
+rm -rf "${workdir}"
