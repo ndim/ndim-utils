@@ -1,0 +1,195 @@
+#!/usr/bin/python
+
+"""strace-normalize.py - normalize PIDs in strace log file
+Copyright (C) 2007 Hans Ulrich Niedermann <hun@n-dimensional.de>
+
+Example Usage:
+ $ strace -f -o works.strace  program --this-works
+ $ strace -f -o borked.strace program --this-is-b0rked
+ $ strace-normalize.py works.strace borked.strace
+ [...]
+ $ diff -d -U 2000 works.normalized-strace borked.normalized-strace | vim -
+
+BUGS
+
+  * Does not handle interrupted and continued functions.
+
+  * Does not handle structs and arrays written out (these interfere
+    with the split(", ") based arglist parsing).
+"""
+
+import sys
+import os
+import re
+
+
+verbose = False
+
+
+class Register(object):
+
+	"""General Register"""
+
+	def __init__(self, ofile, prefix):
+		self.regmap = {}
+		self.regcnt = 0
+		self.ofile  = ofile
+		self.prefix = prefix
+		self.re = re.compile("([a-zA-Z0-9_]+)=(.*)")
+
+	def __getitem__(self, index):
+		assert(type(index) == type(""))
+		index = index.strip()
+		if index in ["0", "1"]:
+			return "%s" % (index)
+
+		if type(index) == type(""):
+			m = self.re.match(index)
+			if m:
+				lhs, rhs = m.groups()
+				return "%s=%s" % (lhs, self.__getitem(rhs))
+		return self.__getitem(index)
+
+	def __getitem(self, index):
+		if not self.regmap.has_key(index):
+			self.regmap[index] = self.regcnt
+			self.regcnt = self.regcnt + 1
+			self.ofile.write("##### Mapped %s to %s%d\n" % 
+					 (index, self.prefix, self.regmap[index]))
+			if verbose:
+				print "  Mapped %s to %s%d" % (index, self.prefix, self.regmap[index])
+		return "%s%d" % (self.prefix, self.regmap[index])
+
+	def has_key(self, index):
+		if type(index) == type(""):
+			index = index.strip()
+		if type(index) == type(""):
+			m = self.re.match(index)
+			if m:
+				lhs, rhs = m.groups()
+				return self.regmap.has_key(rhs)
+		return self.regmap.has_key(index)
+
+	def count(self):
+		return (self.regcnt+1)
+
+
+class PidRegister(Register):
+	"""PID register"""
+	def __init__(self, ofile):
+		Register.__init__(self, ofile, 'PID')
+
+
+class MemRegister(Register):
+	"""Memory register"""
+	def __init__(self, ofile):
+		Register.__init__(self, ofile, 'MEM')
+
+
+
+def convert(ifname, ofname):
+	"""Convert input file ifname to output file ofname"""
+
+	if verbose:
+		print ""
+		print "Converting", ifname, "to", ofname
+	else:
+		print "%s..." % ifname,
+		sys.stdout.flush()
+
+	ifile = open(ifname, "r")
+	ofile = open(ofname, "w")
+
+	pidreg = PidRegister(ofile)
+	memreg = MemRegister(ofile)
+	fun_re = re.compile("([a-zA-Z0-9_]+)\((.*)\)(\s+)=(\s+)(\S+)")
+	equal_re = re.compile("([a-zA-Z0-9_]+)=(.*)")
+	for line in ifile.readlines():
+		assert(line[5] == ' ')
+		assert(line[-1] == '\n')
+		first = line[:6]
+		last  = line[6:-1]
+		pid   = first
+
+		pseudo = pidreg[pid]
+
+		fun_m = fun_re.match(last)
+		if last[0] == '<':
+			pass
+		elif last[-1] == '>':
+			pass
+		elif last[:4] == '--- ' and last[-4:] == ' ---':
+			pass
+		elif fun_m:
+			fun, arglist, space1, space2, ret = fun_m.groups()
+			args = map(lambda x: x.strip(), arglist.split(','))
+			if fun == 'brk':
+				subst_args = [memreg[args[0]]]
+			elif fun == 'munmap':
+				subst_args = [memreg[args[0]]] + args[1:]
+			elif fun == 'stat64':
+				if args[1][0] in ['{', '[']:
+					subst_args = args
+				else:
+					subst_args = [args[0], memreg[args[1]]]
+			elif fun == 'ioctl':
+				subst_args = [args[0], args[1], memreg[args[2]]]
+			elif fun == 'clone':
+				subst_args = [args[0], args[1], memreg[args[2]]]
+			elif fun in ['read', 'write']:
+				if args[1][0] == '"':
+					subst_args = args
+				else:
+					subst_args = [args[0], memreg[args[1]], args[2]]
+			elif fun == 'mmap2':
+				subst_args = [memreg[args[0]]] + args[1:]
+			else:
+				subst_args = []
+				def substitute(arg):
+					if memreg.has_key(arg):
+						return memreg[arg]
+					elif pidreg.has_key(arg):
+						return pidreg[arg]
+					else:
+						return arg
+				for a in args:					
+					m = equal_re.match(a)
+					if m:
+						lhs, rhs = m.groups()
+						subst_args.append("%s=%s" % (lhs, substitute(rhs)))
+					else:
+						subst_args.append(substitute(a))
+			if fun in ["brk", "mmap2", ]:
+				ret = memreg[ret]
+			elif fun in ["getpid", "getppid", "getpgrp", "clone" ]:
+				ret = pidreg[ret]
+			last = "%s(%s)%s=%s%s" % (fun,', '.join(subst_args),
+						    space1,space2,ret)
+		else:
+			print "# No match for line: ", repr(line)
+
+		ofile.write("%-5s %s\n" % (pseudo, last))
+
+	ifile.close()
+	ofile.close()
+	if verbose:
+		print "Conversion from", ifname, "to", ofname, "finished:"
+		print "  Process IDs:      %6d" % pidreg.count()
+		print "  Memory addresses: %6d" % memreg.count()
+	else:
+		print "\r%s: %d PIDs, %d mem addrs" % (ofname, pidreg.count(), memreg.count())
+
+
+def main(filenames):
+	if verbose:
+		print "Converting strace logs into \"unified\" format"
+	for ifname in filenames:
+		base,ext = os.path.splitext(ifname)
+		if ext != ".strace":
+			print "W: input file %s does not end in .strace" % ifname
+		ofname = "%s.normalized-strace" % base
+		convert(ifname, ofname)
+
+
+if __name__ == '__main__':
+	main(sys.argv[1:])
