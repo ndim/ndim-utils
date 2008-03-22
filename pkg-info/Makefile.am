@@ -7,8 +7,8 @@ bin_SCRIPTS = ndim-utils-info.sh ndim-utils-info2.sh
 BUILT_SOURCES = moo.stamp
 
 @PACKAGE_TARNAME@_info_SOURCES = pkg-info.c
-@PACKAGE_TARNAME@_info_SOURCES += \
-	$(top_builddir)/include/build-info.h
+#@PACKAGE_TARNAME@_info_SOURCES += \
+#	$(top_builddir)/include/build-info.h
 @PACKAGE_TARNAME@_info_CPPFLAGS = -I$(top_builddir)
 
 moo.stamp:

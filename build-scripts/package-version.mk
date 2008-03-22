@@ -13,7 +13,11 @@ git-version-check:
 		echo "ERROR: PACKAGE_VERSION and 'git describe' version do not match:"; \
 		echo "         current 'git describe' version: $${git_ver}"; \
 		echo "         current PACKAGE_VERSION:        $(PACKAGE_VERSION)"; \
-		echo "Update PACKAGE_VERSION by running $(top_srcdir)/autogen.sh."; \
+		if test -f "$(top_srcdir)/autogen.sh"; then \
+			echo "Update PACKAGE_VERSION by running $(top_srcdir)/autogen.sh."; \
+		else \
+			echo "Update PACKAGE_VERSION by running autoreconf(1)."; \
+		fi; \
 		exit 1; \
 	fi
 
