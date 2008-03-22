@@ -2,7 +2,7 @@
 
 AC_PREREQ(2.61)
 AC_INIT([ndim utility collection],
-        [m4_esyscmd([./build-utils/package-version . version-stamp])],
+        [m4_esyscmd([./build-scripts/package-version . version-stamp])],
         [hun@n-dimensional.de],
         [ndim-utils])
 AC_CONFIG_AUX_DIR([autotools])

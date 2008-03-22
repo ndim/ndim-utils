@@ -6,7 +6,7 @@ distcheck-hook: git-version-check
 
 # Note: We cannot run autogen.sh from here, because we would need some way to
 #       restart the whole dist process from the start and there is none.
-EXTRA_DIST += $(BUILD_SCRIPT_DIR)/package-version
+EXTRA_DIST += $(top_srcdir)/$(BUILD_SCRIPT_DIR)/package-version
 git-version-check:
 	@git_ver=`$(top_srcdir)/$(BUILD_SCRIPT_DIR)/package-version $(top_srcdir) version-stamp`; \
 	if test "x$${git_ver}" = "x$(PACKAGE_VERSION)"; then :; else \
