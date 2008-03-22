@@ -1,4 +1,6 @@
-ndim-utils 0.2.5
+ndim-utils 0.4.2
+  * New versioning scheme using git tags.
+  * Add strace-normalize script.
 
 ndim-utils 0.2.4
   * Fix RPM creation.
