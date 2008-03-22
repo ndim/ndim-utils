@@ -1,7 +1,7 @@
 #include <stdio.h>
 
+#include "package-version-internal.h"
 #include "config.h"
-#include "git-version.h"
 #include "build-info.h"
 
 int main()
@@ -19,7 +19,7 @@ int main()
 
 	 DATE_YEAR,
 
-         GIT_MESSAGE,
+         PACKAGE_VERSION_INTERNAL,
 	 BUILD_DATE,
 	 PACKAGE_BUGREPORT,
 	 ""

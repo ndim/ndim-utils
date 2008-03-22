@@ -3,12 +3,13 @@
  * error occurs (disk full, quota exceeded)
  */
 
+#include "compiler-stuff.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 #define BUFSIZE (1 << 20)
 
-int main(int argc, char *argv[]) {
+int main(int UNUSED_PARM(argc), char UNUSED_PARM(*argv[])) {
   FILE *file;
   char *buf;
   int i;
