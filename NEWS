@@ -1,4 +1,7 @@
-ndim-utils 0.4.2
+ndim-utils 0.5
+  * percheck: add POSIX ACL support (--acl option)
+
+ndim-utils 0.4.3
   * New versioning scheme using git tags.
   * Add strace-normalize script.
 

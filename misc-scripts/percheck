@@ -1,43 +1,80 @@
 #!/bin/bash
 #
-# Syntax: percheck file1 file2 ...
+# Syntax: percheck [--acl] file1 file2 ...
 #
 # displays permissions of all files and all directories above
 #
 
-if test -f /selinux/enforce; then
-	ls_opt="-aldZ"
+# check for optional flag (and consume cmdline parameter if present)
+use_acl=no
+case "$1" in
+    --acl)
+	shift
+	use_acl=yes
+	;;
+esac
+
+# determine the command to actually run
+declare -a cmd
+if test "$use_acl" = "yes"; then
+    cmd=('getfacl' '-p')
+    sepcmd=('echo' 'echo')
 else
-	ls_opt="-ald"
+    sepcmd='echo'
+    if test -f /selinux/enforce; then
+	cmd=('ls' '-aldZ')
+    else
+	cmd=('ls' '-ald')
+    fi
 fi
 
+
+# iterate over files given on command line
 notfirstone=false
+errors=0
 while :; do
-	file="$1"
-	if shift; then :; else break; fi
-	if "$notfirstone"; then
-		echo
-	fi
-	notfirstone=:
-	if test ! -e "$file"; then
-		echo "percheck: file or directory not found: ${file}" >&2
-		continue
-	fi
-	case "$file" in
-		/*)
-			;;
-		*)
-			file="$PWD/${file}" ;;
-	esac
-	declare -a files
-	files=()
-	n=0
-	while :; do
-		files[$n]="$file"
-		if [ "$file" = "/" ]; then break; fi
-		file="$(dirname "$file")"
-		n="$[ $n + 1 ]"
-	done
-	ls ${ls_opt} "${files[@]}"
+    file="$1"
+    if shift; then :; else break; fi
+
+    if test ! -e "$file"; then
+	echo "percheck: file or directory not found: ${file}" >&2
+	errors="$(( errors + 1 ))"
+	continue
+    fi
+
+    if "$notfirstone"; then
+	${sepcmd}
+    fi
+    notfirstone=:
+
+    # make $file an absolute path
+    case "$file" in
+	/*)
+	    ;;
+	.)
+	    file="$PWD"
+	    ;;
+	*)
+	    file="$PWD/${file}"
+	    ;;
+    esac
+
+    # iterate from current dir up to root dir
+    declare -a files
+    files=()
+    n=0
+    while :; do
+	files[$n]="$file"
+	if [ "$file" = "/" ]; then break; fi
+	file="$(dirname "$file")"
+	n="$[ $n + 1 ]"
+    done
+
+    # run the command for this ${file}'s directory ancestry
+    "${cmd[@]}" "${files[@]}"
 done
 
+# if any errors occured, exit with error
+if [ "$errors" -gt 0 ]; then
+    exit 1
+fi
