@@ -1,0 +1,108 @@
+#!/usr/bin/python
+# -*- coding:utf-8 -*-
+
+import sys
+import os
+
+from stat import ST_SIZE
+from random import randint
+import random
+
+
+class TestError:
+    def __init__(self, sector, test_data, read_data):
+        self.sector = sector
+        self.test_data = test_data
+        self.read_data = read_data
+    def __str__(self):
+        return "TestError(sector:%d, written:%s, read:%s)" % (sector, repr(test_data), repr(read_data))
+
+
+sector_size = 512
+
+
+class TestSectors:
+    def __init__(self):
+        self.__test_sectors = []
+    def __len__(self):
+        return len(self.__test_sectors)
+    def __getindex__(self, index):
+        if len(self.__test_sectors) == 0:
+            for i in range(3):
+                self.__test_sectors[i] = [ randint(0, 255)
+                                           for j in range(sector_size) ]
+        return self.__test_sectors[i]
+
+test_sectors = TestSectors()
+
+
+def read_sector(f, sector):
+    f.seek(sector_size*sector, os.SEEK_SET)
+    return f.read(512)
+
+
+def write_sector(f, sector, data):
+    f.seek(sector_size*sector, os.SEEK_SET)
+    f.write(data)
+    f.flush()
+
+
+def test_sector(f, sector):
+    orig_data = read_sector(f, sector)
+    try:
+        for i in range(len(test_sectors)):
+            test_data = test_sectors[i]
+            write_sector(f, sector, test_data)
+            read_data = read_sector(f, sector)
+            if test_data == read_data:
+                pass # Passed this test
+            else:
+                raise TestError(sector, test_data, read_data)
+        write_sector(f, sector, orig_data)
+    except TestError, e:
+        write_sector(f, sector, orig_data)
+        raise e
+
+
+def run_test_set(f, sector_count):
+    test_runs = sector_count / 25
+    if test_runs < 100:
+        test_runs = 100
+    print "Number of test runs:", test_runs
+    for i,sector in zip(range(test_runs),
+                        random.sample(range(sector_count), test_runs)):
+        print i, sector
+        test_sector(f, sector)
+
+
+def examine(filename, sector_count = 0):
+    if False:
+        print "This test will overwrite the file %s. Continue? (y/n) " % repr(filename),
+        input = sys.stdin.readline()
+        if input.strip().lower() not in ["y", "yes"]:
+            raise "Test on '%s' aborted by user" % (filename)
+    print "File:", filename
+    f = open(filename, "w+")
+    if sector_count == 0:
+        s = os.fstat(f.fileno())
+        print "Stat:", s
+        filesize_bytes = s[ST_SIZE];
+        print "Size:", filesize_bytes
+        sector_count = filesize_bytes / sector_size
+    print "Sect:", sector_count
+    assert(sector_count > 0)
+    run_test_set(f, sector_count)
+    f.close()
+
+
+def main(prog, args):
+    filename = args[0]
+    if len(args) > 1:
+        sector_count = int(args[1])
+    else:
+        sector_count = 0
+    examine(filename, sector_count)
+
+
+if __name__ == '__main__':
+    main(sys.argv[0], sys.argv[1:])

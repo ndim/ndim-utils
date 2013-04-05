@@ -10,5 +10,6 @@ EXTRA_DIST  += pdf2minibook
 bin_SCRIPTS += pdf2minibook
 
 dist_bin_SCRIPTS += strace-normalize
+dist_bin_SCRIPTS += blocktest
 
 EXTRA_DIST += bash-functions.sh
