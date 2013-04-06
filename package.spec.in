@@ -1,14 +1,13 @@
 # -*- mode: rpm-spec -*-
 Name:      @PACKAGE_TARNAME@
-Version:   @VERSION@
-Release:   3%{?dist}
+Version:   @RPM_VERSION@
+Release:   1@RPM_RELEASE@%{?dist}
 Summary:   ndim's utility collection
 
 Group:     Applications/System
 License:   GPLv2+
-URL:       http://n-dimensional.de/software/ndim-utils/
-Source0:   http://n-dimensional.de/software/ndim-utils/@PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+URL:       @PACKAGE_URL@
+Source0:   @distdir@.tar.xz
 
 
 %description
@@ -39,7 +38,7 @@ BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 
 %prep
-%setup -q
+%setup -q -n @distdir@
 
 
 %build
@@ -81,15 +80,21 @@ rm -rf "%{buildroot}"
 %{_bindir}/list-debuginfo-rpms
 %{_bindir}/one
 %{_bindir}/params
-%{_bindir}/ps2lj4
+%{_bindir}/pdf2minibook
 %{_bindir}/percheck
+%{_bindir}/ps2lj4
+%{_bindir}/strace-normalize
 %{_mandir}/man1/percheck.1.gz
 %{_mandir}/man1/params.1.gz
 %{_datadir}/%{name}/tla-hooks/arch-meta-hook
 %{_datadir}/%{name}/tla-hooks/commit-archive-mirror
 %{_datadir}/%{name}/tla-hooks/commit-sendlog
 
+
 %changelog
+* Sat Apr  6 2013 Hans Ulrich Niedermann <hun@n-dimensional.de> - 0.5.0-1
+- General cleanups
+
 * Thu Nov 29 2007 Hans Ulrich Niedermann <hun@n-dimensional.de> - @VERSION@-3
 - General cleanups following long period of inactivity.
 
@@ -98,4 +103,3 @@ rm -rf "%{buildroot}"
 
 * Mon Jun 19 2006 Hans Ulrich Niedermann <hun@n-dimensional.de> - 0.1.1-1
 - initial release
-

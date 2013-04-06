@@ -4,7 +4,8 @@ AC_PREREQ(2.61)
 AC_INIT([ndim utility collection],
         [m4_esyscmd([./build-helpers/package-version . version-stamp])],
         [hun@n-dimensional.de],
-        [ndim-utils])
+        [ndim-utils],
+        [http://n-dimensional.de/software/ndim-utils/])
 AC_CONFIG_AUX_DIR([auto-aux])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
@@ -15,6 +16,7 @@ dnl TODO: Make us compatible with 'std-options'
 
 ########################################################################
 
+AC_PROG_SED
 AC_PROG_CC
 AC_PROG_INSTALL
 
@@ -42,7 +44,6 @@ AM_CONDITIONAL([HAVE_GIT], [test "x$GIT" != "xno"])
 ########################################################################
 
 AC_CONFIG_FILES([Makefile])
-AC_CONFIG_FILES([ndim-utils.spec])
 AC_CONFIG_FILES([m4/Makefile])
 AC_CONFIG_FILES([cdburn/Makefile])
 AC_CONFIG_FILES([tla/Makefile])

@@ -1,5 +1,6 @@
 ndim-utils 0.5.x
   * Migrate to newer build-helpers/
+  * Fixed and updated RPM generation
 
 ndim-utils 0.5
   * percheck: add POSIX ACL support (--acl option)

@@ -10,12 +10,21 @@ ACLOCAL_AMFLAGS = -I m4 --install
 
 include build-helpers/package-version.mk
 
-EXTRA_DIST += $(PACKAGE_TARNAME).spec $(PACKAGE_TARNAME).spec.in
-
 clean-local:
 	rm -rf rpm-build rpm-dist
 
-SPECFILE = $(PACKAGE_TARNAME).spec
+CLEANFILES += $(PACKAGE_TARNAME).spec
+EXTRA_DIST += $(PACKAGE_TARNAME).spec
+EXTRA_DIST += package.spec.in
+$(PACKAGE_TARNAME).spec: $(top_srcdir)/package.spec.in Makefile
+	$(SED) \
+		-e 's,[@]distdir@,$(distdir),g' \
+		-e 's,[@]PACKAGE_NAME@,$(PACKAGE_NAME),g' \
+		-e 's,[@]PACKAGE_TARNAME@,$(PACKAGE_TARNAME),g' \
+		-e 's,[@]PACKAGE_URL@,$(PACKAGE_URL),g' \
+		-e "s,[@]RPM_VERSION@,$$(echo "$(PACKAGE_VERSION)" | $(SED) s/-.*//),g" \
+		-e "s,[@]RPM_RELEASE@,$$(echo "$(PACKAGE_VERSION)" | $(SED) s/.*-/git/),g" \
+		$(top_srcdir)/package.spec.in > $(PACKAGE_TARNAME).spec
 
 RPMBUILD = rpmbuild
 RPMBUILD_OPTS =
@@ -25,16 +34,16 @@ RPMBUILD_OPTS += --define "_srcrpmdir $${PWD}/rpm-dist"
 RPMBUILD_OPTS += --define "_rpmdir $${PWD}/rpm-dist"
 
 .PHONY: rpm
-rpm: dist $(SPECFILE)
+rpm: dist-xz
 	rm -rf rpm-dist rpm-build
-	mkdir rpm-dist rpm-build
-	$(RPMBUILD) $(RPMBUILD_OPTS) -ba $(SPECFILE)
+	mkdir  rpm-dist rpm-build
+	$(RPMBUILD) $(RPMBUILD_OPTS) -ta $(distdir).tar.xz
 
 .PHONY: srpm
-srpm: dist $(SPECFILE)
+srpm: dist-xz
 	rm -rf rpm-dist rpm-build
-	mkdir rpm-dist rpm-build
-	$(RPMBUILD) $(RPMBUILD_OPTS) -bs $(SPECFILE)
+	mkdir  rpm-dist rpm-build
+	$(RPMBUILD) $(RPMBUILD_OPTS) -ts $(distdir).tar.xz
 
 .PHONY: upload
 upload: $(SPECFILE) $(srcdir)/README $(srcdir)/NEWS dist srpm
