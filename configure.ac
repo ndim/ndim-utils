@@ -2,15 +2,16 @@
 
 AC_PREREQ(2.61)
 AC_INIT([ndim utility collection],
-        [m4_esyscmd([./build-scripts/package-version . version-stamp])],
+        [m4_esyscmd([./build-helpers/package-version . version-stamp])],
         [hun@n-dimensional.de],
         [ndim-utils])
-AC_CONFIG_AUX_DIR([autotools])
+AC_CONFIG_AUX_DIR([auto-aux])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([-Wall -Werror foreign 1.10 dist-bzip2 check-news
-                  filename-length-max=99])
+AM_INIT_AUTOMAKE([-Wall -Werror foreign 1.11.1 no-dist-gzip dist-xz
+                  readme-alpha tar-pax])
+dnl TODO: Make us compatible with 'std-options'
 
 ########################################################################
 
@@ -34,25 +35,30 @@ AC_SUBST(tlahookdir)
 
 ########################################################################
 
-AC_CONFIG_FILES([
-	Makefile
-	ndim-utils.spec
-	m4/Makefile
-	cdburn/Makefile
-	tla/Makefile
-	include/Makefile
-	misc-scripts/Makefile
-	misc-scripts/percheck.1
-	pkg-info/ndim-utils-info.sh
-	pkg-info/Makefile
-	misc/Makefile
-	misc/params.1
-	admin-py/Makefile
-	admin-py/setup.py
-	palm-scripts/Makefile
-	palm-scripts/pilot
-	traffic/Makefile
-	])
+AC_ARG_VAR([GIT], [git revision control system])
+AC_PATH_PROG([GIT], [git], [no])
+AM_CONDITIONAL([HAVE_GIT], [test "x$GIT" != "xno"])
+
+########################################################################
+
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([ndim-utils.spec])
+AC_CONFIG_FILES([m4/Makefile])
+AC_CONFIG_FILES([cdburn/Makefile])
+AC_CONFIG_FILES([tla/Makefile])
+AC_CONFIG_FILES([include/Makefile])
+AC_CONFIG_FILES([misc-scripts/Makefile])
+AC_CONFIG_FILES([misc-scripts/percheck.1])
+AC_CONFIG_FILES([pkg-info/ndim-utils-info.sh])
+AC_CONFIG_FILES([pkg-info/Makefile])
+AC_CONFIG_FILES([misc/Makefile])
+AC_CONFIG_FILES([misc/params.1])
+AC_CONFIG_FILES([admin-py/Makefile])
+AC_CONFIG_FILES([admin-py/setup.py])
+AC_CONFIG_FILES([palm-scripts/Makefile])
+AC_CONFIG_FILES([palm-scripts/pilot])
+AC_CONFIG_FILES([traffic/Makefile])
+AC_CONFIG_FILES([GNUmakefile])
 AC_OUTPUT
 
 ########################################################################

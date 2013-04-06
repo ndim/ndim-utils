@@ -8,7 +8,7 @@ doc_DATA = README AUTHORS NEWS
 
 ACLOCAL_AMFLAGS = -I m4 --install
 
-include build-scripts/package-version.mk
+include build-helpers/package-version.mk
 
 EXTRA_DIST += $(PACKAGE_TARNAME).spec $(PACKAGE_TARNAME).spec.in
 
