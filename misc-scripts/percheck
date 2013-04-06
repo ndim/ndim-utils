@@ -17,7 +17,7 @@ esac
 # determine the command to actually run
 declare -a cmd
 if test "$use_acl" = "yes"; then
-    cmd=('getfacl' '-p')
+    cmd=('getfacl' '--absolute-names')
     sepcmd=('echo' 'echo')
 else
     sepcmd='echo'
