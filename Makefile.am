@@ -8,6 +8,8 @@ doc_DATA = README AUTHORS NEWS
 
 ACLOCAL_AMFLAGS = -I m4 --install
 
+EXTRA_DIST += LICENSE
+
 include build-helpers/package-version.mk
 
 clean-local:
