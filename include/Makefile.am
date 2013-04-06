@@ -1,3 +1,5 @@
+EXTRA_DIST = compiler-stuff.h
+
 BUILT_SOURCES = build-info.stamp
 CLEANFILES = $(BUILT_SOURCES) build-info.h
 
