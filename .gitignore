@@ -3,7 +3,6 @@ Makefile.in
 /INSTALL
 /autom4te.cache/
 /auto-aux/
-/autotools/
 /configure
 /aclocal.m4
 /_b*
