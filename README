@@ -44,9 +44,6 @@ Contents:
   pkg-info/
     Information about the ndim-utils package.
 
-  tla/
-    Utility scripts for use with tla, mainly hooks.
-
   traffic/
     Analyze ppp logs from a LEAF Bering router.
 
@@ -74,5 +71,5 @@ Stuff to fix
 ==============================
 
  - seperate independent parts into independent modules
-   (e.g. the tla scripts and the palm hotplug scripts)
+   (e.g. the palm hotplug scripts)
 

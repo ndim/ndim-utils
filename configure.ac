@@ -32,9 +32,6 @@ NDIM_CHECK_CONFIGURATION
 pkgdocdir="${datadir}/doc/${PACKAGE_TARNAME}"
 AC_SUBST(pkgdocdir)
 
-tlahookdir="${datadir}/${PACKAGE_TARNAME}/tla-hooks"
-AC_SUBST(tlahookdir)
-
 ########################################################################
 
 AC_ARG_VAR([GIT], [git revision control system])
@@ -46,7 +43,6 @@ AM_CONDITIONAL([HAVE_GIT], [test "x$GIT" != "xno"])
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([m4/Makefile])
 AC_CONFIG_FILES([cdburn/Makefile])
-AC_CONFIG_FILES([tla/Makefile])
 AC_CONFIG_FILES([include/Makefile])
 AC_CONFIG_FILES([misc-scripts/Makefile])
 AC_CONFIG_FILES([misc-scripts/percheck.1])

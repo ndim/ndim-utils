@@ -2,7 +2,7 @@ EXTRA_DIST =
 CLEANFILES =
 BUILT_SOURCES =
 
-SUBDIRS = m4 include admin-py cdburn misc misc-scripts tla pkg-info palm-scripts traffic
+SUBDIRS = m4 include admin-py cdburn misc misc-scripts pkg-info palm-scripts traffic
 
 doc_DATA = README AUTHORS NEWS
 

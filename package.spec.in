@@ -30,9 +30,6 @@ Source0:   @distdir@.tar.xz
   pkg-info/
     Information about the ndim-utils package.
 
-  tla/
-    Utility scripts for use with tla, mainly hooks.
-
   traffic/
     Analyze ppp logs from a LEAF Bering router.
 
@@ -86,9 +83,6 @@ rm -rf "%{buildroot}"
 %{_bindir}/strace-normalize
 %{_mandir}/man1/percheck.1.gz
 %{_mandir}/man1/params.1.gz
-%{_datadir}/%{name}/tla-hooks/arch-meta-hook
-%{_datadir}/%{name}/tla-hooks/commit-archive-mirror
-%{_datadir}/%{name}/tla-hooks/commit-sendlog
 
 
 %changelog
