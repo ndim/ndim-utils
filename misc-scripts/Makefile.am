@@ -1,7 +1,31 @@
-EXTRA_DIST = percheck bing xnest umlxterm ps2lj4 np colfilter percheck.1.in
-bin_SCRIPTS = percheck bing xnest umlxterm ps2lj4 np colfilter
+bin_SCRIPTS =
 dist_bin_SCRIPTS =
-man_MANS = percheck.1
+man_MANS =
+EXTRA_DIST =
+
+EXTRA_DIST  += bing
+bin_SCRIPTS += bing
+
+EXTRA_DIST  += xnest
+bin_SCRIPTS += xnest
+
+EXTRA_DIST  += umlxterm
+bin_SCRIPTS += umlxterm
+
+EXTRA_DIST  += ps2lj4
+bin_SCRIPTS += ps2lj4
+
+EXTRA_DIST  += np
+bin_SCRIPTS += np
+
+EXTRA_DIST  += colfilter
+bin_SCRIPTS += colfilter
+
+EXTRA_DIST  += percheck
+bin_SCRIPTS += percheck
+
+EXTRA_DIST  += percheck.1.in
+man_MANS    += percheck.1
 
 EXTRA_DIST  += list-debuginfo-rpms
 bin_SCRIPTS += list-debuginfo-rpms
