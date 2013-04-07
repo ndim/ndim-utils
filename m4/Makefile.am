@@ -1,10 +1,18 @@
-m4files = configuration.m4 debug.m4 gp-check-shell-environment.m4 gp-config-msg.m4 gp-gettext-helper.m4 hotplug.m4 systemconfig.m4 upload.m4
+CLEANFILES =
+EXTRA_DIST =
 
-EXTRA_DIST = README $(m4files)
+EXTRA_DIST += configuration.m4
+EXTRA_DIST += debug.m4
+EXTRA_DIST += gp-check-shell-environment.m4
+EXTRA_DIST += gp-config-msg.m4
+EXTRA_DIST += gp-gettext-helper.m4
+EXTRA_DIST += hotplug.m4
+EXTRA_DIST += systemconfig.m4
+EXTRA_DIST += upload.m4
 
+CLEANFILES += README
+EXTRA_DIST += README
 noinst_DATA = README
-
-CLEANFILES = README
 
 README: Makefile
 	@echo "Creating $@"
