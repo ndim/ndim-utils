@@ -334,6 +334,3 @@ class WhoisEngine:
                 raise UnhandledWhoisServer(server)
         else:
             raise ServerQueryError(server,domain)
-
-
-# arch-tag: ff80d68a-8a64-468b-9e69-51c6157580b2

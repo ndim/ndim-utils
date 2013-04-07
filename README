@@ -62,8 +62,8 @@ I build and install it as follows:
 
       \---------------------------------------------/
 
-Then I have a few symlinks to the scripts in $HOME/root/ndim-utils/bin
-in ~/.arch-params and other places.
+Then I have a few symlinks to the scripts installed to
+$HOME/root/ndim-utils/bin in some places.
 
 
 ========================================================================
@@ -72,4 +72,3 @@ Stuff to fix
 
  - seperate independent parts into independent modules
    (e.g. the palm hotplug scripts)
-

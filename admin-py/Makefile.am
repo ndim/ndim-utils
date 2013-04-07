@@ -43,5 +43,3 @@ $(TARBASE).tar.gz: Makefile $(srcdir)/whois-check.py whoislist domain-list
 	tar cvfz $@ --owner=root --group=root "$(TARBASE)/"
 	rm "$(TARBASE)/"*
 	rmdir "$(TARBASE)"
-
-# arch-tag: 37ae571d-6f90-4e57-8548-ef1e0eddb24b

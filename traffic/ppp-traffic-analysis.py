@@ -482,5 +482,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# arch-tag: d02a3a85-d37d-4c29-8c6d-348f630823b1

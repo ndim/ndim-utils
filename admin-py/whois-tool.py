@@ -66,6 +66,3 @@ if __name__ == '__main__':
     if len(sys.argv) >= 3:
         outfile = open(sys.argv[2], "w")
     write_nameserver_report(infile, outfile)
-
-
-# arch-tag: 1763989b-4b5a-4144-8d38-7e41d09ebcba
