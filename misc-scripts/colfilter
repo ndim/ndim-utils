@@ -122,6 +122,3 @@ def main(argv):
 if __name__ == '__main__':
     import sys
     main(sys.argv)
-
-
-# arch-tag: e16cac07-2445-4216-912a-7245ee45bb35

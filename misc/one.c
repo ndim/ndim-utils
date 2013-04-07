@@ -33,5 +33,3 @@ int main(int UNUSED_PARM(argc), char UNUSED_PARM(*argv[])) {
   free(buf);
   return 0;
 }
-
-/* arch-tag: 4c015a35-7193-4bbc-8c53-b86254656882 */
