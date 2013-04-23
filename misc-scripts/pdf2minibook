@@ -17,7 +17,7 @@ PDFLATEX="${PDFLATEX-pdflatex}"
 PDFLATEX_OPTS="-interaction=batchmode"
 origdir=`pwd`
 workdir=`mktemp -d`
-trap "rm -rf \"${workdir}\"" INTR TERM ABRT PIPE EXIT
+trap "rm -rf \"${workdir}\"" INT TERM ABRT PIPE EXIT
 PDF_IN="${1--}"
 PDF_OUT="${2--}"
 PDF_INPUT="input.pdf"
