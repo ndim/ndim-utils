@@ -35,4 +35,6 @@ bin_SCRIPTS += pdf2minibook
 
 dist_bin_SCRIPTS += strace-normalize
 
-EXTRA_DIST += bash-functions.sh
+profiledir   = $(sysconfdir)/profile.d
+EXTRA_DIST  += ndim-utils.sh
+profile_DATA = ndim-utils.sh

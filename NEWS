@@ -1,6 +1,7 @@
 ndim-utils 0.5.x
   * Migrate to newer build-helpers/
   * Fixed and updated RPM generation
+  * Install ndim-utils.sh into /etc/profile.d/ (with mkcd shell command)
 
 ndim-utils 0.5
   * percheck: add POSIX ACL support (--acl option)

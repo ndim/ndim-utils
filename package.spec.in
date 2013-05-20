@@ -71,6 +71,7 @@ rm -rf "%{buildroot}"
 %files
 %defattr(-,root,root,-)
 %doc %{_docdir}/*
+%{_sysconfdir}/profile.d/ndim-utils.sh
 %{_bindir}/bing
 %{_bindir}/burn-directory
 %{_bindir}/colfilter
