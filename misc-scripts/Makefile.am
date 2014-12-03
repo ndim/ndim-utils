@@ -6,6 +6,9 @@ EXTRA_DIST =
 EXTRA_DIST  += bing
 bin_SCRIPTS += bing
 
+EXTRA_DIST  += collect-xsel-urls
+bin_SCRIPTS += collect-xsel-urls
+
 EXTRA_DIST  += xnest
 bin_SCRIPTS += xnest
 
