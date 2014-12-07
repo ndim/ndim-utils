@@ -19,9 +19,9 @@ class Filter(object):
 
     __metaclass__ = ABCMeta
 
-    def __init__(self, next):
+    def __init__(self, next_filter):
         super(Filter, self).__init__()
-        self.next = next
+        self.next_filter = next_filter
 
     @abstractmethod
     def process(self, item):
@@ -30,27 +30,32 @@ class Filter(object):
 
 class UrlFilter(Filter):
 
-    def __init__(self, next):
-        super(UniqueFilter, self).__init__(next)
+    def __init__(self, next_filter):
+        super(UrlFilter, self).__init__(next_filter)
         self.r = re.compile(r'^(ftp|https?)://', re.IGNORECASE)
 
     def process(self, item):
         m = self.r.match(item)
         if m:
-            next.process(item)
+            self.next_filter.process(item)
 
 
 class UniqueFilter(Filter):
 
-    def __init__(self, next):
-        super(UniqueFilter, self).__init__(next)
+    def __init__(self, next_filter):
+        super(UniqueFilter, self).__init__(next_filter)
         self.d = {}
+
+    def process(self, item):
+        if item not in self.d:
+            self.d[item] = True
+            self.next_filter.process(item)
 
 
 class OutputFilter(Filter):
 
-    def __init__(self, next):
-        super(OutputFilter, self).__init__(next)
+    def __init__(self, next_filter):
+        super(OutputFilter, self).__init__(next_filter)
         self.stderr_echo = sys.stderr.isatty() and not sys.stdout.isatty()
 
     def process(self, item):
@@ -61,21 +66,41 @@ class OutputFilter(Filter):
             sys.stderr.flush()
 
 
-first_filter = OutputFilter(None)
+class Main(object):
+
+    def __init__(self, args):
+        super(Main, self).__init__()
+        self.first_filter = OutputFilter(None)
+
+        self.prog = 'watch-xsel'
+        if args in [ ['--help'] ]:
+            self.print_usage()
+            sys.exit(0)
+        elif args in [ ['--version'] ]:
+            self.print_version()
+            sys.exit(0)
+        else:
+            for arg in args:
+                if arg in ['--unique']:
+                    self.first_filter = UniqueFilter(self.first_filter)
+                elif arg in ['--urls']:
+                    self.first_filter = UrlFilter(self.first_filter)
+                else:
+                    raise InvalidArgumentError(arg)
 
 
-def run():
-    last_sel = ''
-    while True:
-        next_sel = subprocess.check_output(['xsel', '-o'])
-        if last_sel != next_sel:
-            last_sel = next_sel
-            first_filter.process(last_sel)
-        time.sleep(0.5)
+    def main_loop(self):
+        last_sel = ''
+        while True:
+            next_sel = subprocess.check_output(['xsel', '-o'])
+            if last_sel != next_sel:
+                last_sel = next_sel
+                self.first_filter.process(last_sel)
+            time.sleep(0.5)
 
 
-def print_usage(prog):
-    print """\
+    def print_usage(self):
+        sys.stdout.write("""\
 Usage: %(prog)s
        %(prog)s --urls > urls.txt
        %(prog)s --urls --unique > urls.txt
@@ -88,36 +113,18 @@ Arguments:
     --version   Print version information and exit
     --unique    Ignore the new value if it has been printed before
     --urls      Only pass URLs (ftp, http, https)
-""" % locals()
+""" % self.__dict__)
 
 
-def print_version(prog):
-    print "%s (@PACKAGE_NAME@) @PACKAGE_VERSION@" % prog
-    print "Copyright (C) 2014 Hans Ulrich Niedermann"
-    print "License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>."
-    print "This is free software: you are free to change and redistribute it."
-    print "There is NO WARRANTY, to the extent permitted by law."
-
-
-def main(args):
-    prog_name = 'watch-xsel'
-    if args in [ ['--help'] ]:
-        print_usage(prog_name)
-        sys.exit(0)
-    elif args in [ ['--version'] ]:
-        print_version(prog_name)
-        sys.exit(0)
-    else:
-        for arg in args:
-            if arg in ['--unique']:
-                first_filter = UniqueFilter(first_filter)
-            elif arg in ['--urls']:
-                first_filter = UrlFilter(first_filter)
-            else:
-                raise InvalidArgumentError(arg)
-        run()
-        sys.exit(0)
+    def print_version(self):
+        sys.stdout.write("""\
+%(prog)s (@PACKAGE_NAME@) @PACKAGE_VERSION@
+Copyright (C) 2014 Hans Ulrich Niedermann
+License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+""" % self.__dict__)
 
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    Main(sys.argv[1:]).main_loop()
