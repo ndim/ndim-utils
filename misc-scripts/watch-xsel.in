@@ -109,9 +109,9 @@ def main(args):
         sys.exit(0)
     else:
         for arg in args:
-            if arg in [ ['--unique'] ]:
+            if arg in ['--unique']:
                 first_filter = UniqueFilter(first_filter)
-            elif arg in [ ['--urls'] ]:
+            elif arg in ['--urls']:
                 first_filter = UrlFilter(first_filter)
             else:
                 raise InvalidArgumentError(arg)
