@@ -1,0 +1,123 @@
+#!/usr/bin/python
+
+
+from abc import abstractmethod, ABCMeta
+
+import re
+import subprocess
+import sys
+import time
+
+
+class InvalidArgumentError(RuntimeError):
+
+    def __init__(self, arg):
+        super(InvalidArgumentError, self).__init__('Invalid command line argument: %s' % repr(arg))
+
+
+class Filter(object):
+
+    __metaclass__ = ABCMeta
+
+    def __init__(self, next):
+        super(Filter, self).__init__()
+        self.next = next
+
+    @abstractmethod
+    def process(self, item):
+        raise NotImplementedError()
+
+
+class UrlFilter(Filter):
+
+    def __init__(self, next):
+        super(UniqueFilter, self).__init__(next)
+        self.r = re.compile(r'^(ftp|https?)://', re.IGNORECASE)
+
+    def process(self, item):
+        m = self.r.match(item)
+        if m:
+            next.process(item)
+
+
+class UniqueFilter(Filter):
+
+    def __init__(self, next):
+        super(UniqueFilter, self).__init__(next)
+        self.d = {}
+
+
+class OutputFilter(Filter):
+
+    def __init__(self, next):
+        super(OutputFilter, self).__init__(next)
+        self.stderr_echo = sys.stderr.isatty() and not sys.stdout.isatty()
+
+    def process(self, item):
+        sys.stdout.write('%s\n' % item)
+        sys.stdout.flush()
+        if self.stderr_echo:
+            sys.stderr.write('%s\n' % item)
+            sys.stderr.flush()
+
+
+first_filter = OutputFilter(None)
+
+
+def run():
+    last_sel = ''
+    while True:
+        next_sel = subprocess.check_output(['xsel', '-o'])
+        if last_sel != next_sel:
+            last_sel = next_sel
+            first_filter.process(last_sel)
+        time.sleep(0.5)
+
+
+def print_usage(prog):
+    print """\
+Usage: %(prog)s
+       %(prog)s --urls > urls.txt
+       %(prog)s --urls --unique > urls.txt
+Watch the X11 selection and print it on stdout (possibly filtered).
+If stdout is redirected into a file, the results are also printed
+on stderr.
+
+Arguments:
+    --help      Print this usage information and exit
+    --version   Print version information and exit
+    --unique    Ignore the new value if it has been printed before
+    --urls      Only pass URLs (ftp, http, https)
+""" % locals()
+
+
+def print_version(prog):
+    print "%s (ndim's utility collection) x.x.x" % prog
+    print "Copyright (C) 2014 Hans Ulrich Niedermann"
+    print "License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>."
+    print "This is free software: you are free to change and redistribute it."
+    print "There is NO WARRANTY, to the extent permitted by law."
+
+
+def main(args):
+    prog_name = 'watch-xsel'
+    if args in [ ['--help'] ]:
+        print_usage(prog_name)
+        sys.exit(0)
+    elif args in [ ['--version'] ]:
+        print_version(prog_name)
+        sys.exit(0)
+    else:
+        for arg in args:
+            if arg in [ ['--unique'] ]:
+                first_filter = UniqueFilter(first_filter)
+            elif arg in [ ['--urls'] ]:
+                first_filter = UrlFilter(first_filter)
+            else:
+                raise InvalidArgumentError(arg)
+        run()
+        sys.exit(0)
+
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
