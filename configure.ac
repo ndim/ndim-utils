@@ -18,6 +18,7 @@ dnl TODO: Make us compatible with 'std-options'
 
 AC_PROG_SED
 AC_PROG_CC
+AM_PROG_CC_C_O
 AC_PROG_INSTALL
 
 ########################################################################
