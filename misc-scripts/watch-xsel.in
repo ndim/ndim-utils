@@ -92,7 +92,7 @@ Arguments:
 
 
 def print_version(prog):
-    print "%s (ndim's utility collection) x.x.x" % prog
+    print "%s (@PACKAGE_NAME@) @PACKAGE_VERSION@" % prog
     print "Copyright (C) 2014 Hans Ulrich Niedermann"
     print "License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>."
     print "This is free software: you are free to change and redistribute it."
