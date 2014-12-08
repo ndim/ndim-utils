@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
 
+prog = 'watch-xsel'
+
+
 version_fmt = """\
 %(prog)s (@PACKAGE_NAME@) @PACKAGE_VERSION@
 Copyright (C) 2014 Hans Ulrich Niedermann
@@ -98,7 +101,6 @@ class Main(object):
         super(Main, self).__init__()
         self.first_filter = OutputFilter(None)
 
-        self.prog = 'watch-xsel'
         if args in [ ['--help'] ]:
             self.print_usage()
             sys.exit(0)
@@ -127,12 +129,12 @@ class Main(object):
 
     def print_usage(self):
         global usage_fmt
-        sys.stdout.write(usage_fmt % self.__dict__)
+        sys.stdout.write(usage_fmt % globals())
 
 
     def print_version(self):
         global version_fmt
-        sys.stdout.write(version_fmt % self.__dict__)
+        sys.stdout.write(version_fmt % globals())
 
 
 if __name__ == '__main__':
