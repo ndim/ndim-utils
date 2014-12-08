@@ -1,0 +1,141 @@
+#!/usr/bin/python
+
+
+prog = 'watch-xsel'
+
+
+version_fmt = """\
+%(prog)s (@PACKAGE_NAME@) @PACKAGE_VERSION@
+Copyright (C) 2014 Hans Ulrich Niedermann
+License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+"""
+
+
+usage_fmt = """\
+Usage: %(prog)s
+       %(prog)s --urls > urls.txt
+       %(prog)s --urls --unique > urls.txt
+Watch the X11 selection and print it on stdout (possibly filtered).
+If stdout is redirected into a file, the results are also printed
+on stderr.
+
+Arguments:
+    --help      Print this usage information and exit
+    --version   Print version information and exit
+    --unique    Ignore the new value if it has been printed before
+    --urls      Only pass URLs (ftp, http, https)
+"""
+
+
+import re
+import subprocess
+import sys
+import time
+
+
+from abc import abstractmethod, ABCMeta
+
+
+class InvalidArgumentError(RuntimeError):
+
+    def __init__(self, arg):
+        super(InvalidArgumentError, self).__init__('Invalid command line argument: %s' % repr(arg))
+
+
+class Filter(object):
+
+    __metaclass__ = ABCMeta
+
+    def __init__(self, next_filter):
+        super(Filter, self).__init__()
+        self.next_filter = next_filter
+
+    @abstractmethod
+    def process(self, item):
+        raise NotImplementedError()
+
+
+class UrlFilter(Filter):
+
+    def __init__(self, next_filter):
+        super(UrlFilter, self).__init__(next_filter)
+        self.r = re.compile(r'^(ftp|https?)://', re.IGNORECASE)
+
+    def process(self, item):
+        m = self.r.match(item)
+        if m:
+            self.next_filter.process(item)
+
+
+class UniqueFilter(Filter):
+
+    def __init__(self, next_filter):
+        super(UniqueFilter, self).__init__(next_filter)
+        self.d = {}
+
+    def process(self, item):
+        if item not in self.d:
+            self.d[item] = True
+            self.next_filter.process(item)
+
+
+class OutputFilter(Filter):
+
+    def __init__(self, next_filter):
+        super(OutputFilter, self).__init__(next_filter)
+        self.stderr_echo = sys.stderr.isatty() and not sys.stdout.isatty()
+
+    def process(self, item):
+        sys.stdout.write('%s\n' % item)
+        sys.stdout.flush()
+        if self.stderr_echo:
+            sys.stderr.write('%s\n' % item)
+            sys.stderr.flush()
+
+
+class Main(object):
+
+    def __init__(self, args):
+        super(Main, self).__init__()
+        self.first_filter = OutputFilter(None)
+
+        if args in [ ['--help'] ]:
+            self.print_usage()
+            sys.exit(0)
+        elif args in [ ['--version'] ]:
+            self.print_version()
+            sys.exit(0)
+        else:
+            for arg in args:
+                if arg in ['--unique']:
+                    self.first_filter = UniqueFilter(self.first_filter)
+                elif arg in ['--urls']:
+                    self.first_filter = UrlFilter(self.first_filter)
+                else:
+                    raise InvalidArgumentError(arg)
+
+
+    def main_loop(self):
+        last_sel = ''
+        while True:
+            next_sel = subprocess.check_output(['xsel', '-o'])
+            if last_sel != next_sel:
+                last_sel = next_sel
+                self.first_filter.process(last_sel)
+            time.sleep(0.5)
+
+
+    def print_usage(self):
+        global usage_fmt
+        sys.stdout.write(usage_fmt % globals())
+
+
+    def print_version(self):
+        global version_fmt
+        sys.stdout.write(version_fmt % globals())
+
+
+if __name__ == '__main__':
+    Main(sys.argv[1:]).main_loop()

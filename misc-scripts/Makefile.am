@@ -1,3 +1,4 @@
+CLEANFILES =
 bin_SCRIPTS =
 dist_bin_SCRIPTS =
 man_MANS =
@@ -5,6 +6,15 @@ EXTRA_DIST =
 
 EXTRA_DIST  += bing
 bin_SCRIPTS += bing
+
+EXTRA_DIST  += watch-xsel.in
+bin_SCRIPTS += watch-xsel
+CLEANFILES  += watch-xsel
+watch-xsel: watch-xsel.in
+	sed \
+		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
+		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
+		< "$<" > "$@"
 
 EXTRA_DIST  += xnest
 bin_SCRIPTS += xnest
