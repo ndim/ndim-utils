@@ -10,6 +10,12 @@ URL:       @PACKAGE_URL@
 Source0:   @distdir@.tar.xz
 
 
+%package xsel
+Summary:   xsel related scripts
+Group:     Applications/System
+BuildArch: noarch
+
+
 %description
 
   admin-py/
@@ -32,6 +38,10 @@ Source0:   @distdir@.tar.xz
 
   traffic/
     Analyze ppp logs from a LEAF Bering router.
+
+
+%description xsel
+Scripts related to the X11 selection available via xsel(1).
 
 
 %prep
@@ -86,7 +96,15 @@ rm -rf "%{buildroot}"
 %{_mandir}/man1/params.1.gz
 
 
+%files xsel
+%defattr(-,root,root,-)
+%{_bindir}/watch-xsel
+
+
 %changelog
+* Sun Dec  8 2014 Hans Ulrich Niedermann <hun@n-dimensional.de> - 0.5.23-1
+- Add xsel subpackage for watch-xsel
+
 * Sat Apr  6 2013 Hans Ulrich Niedermann <hun@n-dimensional.de> - 0.5.0-1
 - General cleanups
 
