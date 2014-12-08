@@ -1,12 +1,38 @@
 #!/usr/bin/python
 
 
-from abc import abstractmethod, ABCMeta
+version_fmt = """\
+%(prog)s (@PACKAGE_NAME@) @PACKAGE_VERSION@
+Copyright (C) 2014 Hans Ulrich Niedermann
+License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+"""
+
+
+usage_fmt = """\
+Usage: %(prog)s
+       %(prog)s --urls > urls.txt
+       %(prog)s --urls --unique > urls.txt
+Watch the X11 selection and print it on stdout (possibly filtered).
+If stdout is redirected into a file, the results are also printed
+on stderr.
+
+Arguments:
+    --help      Print this usage information and exit
+    --version   Print version information and exit
+    --unique    Ignore the new value if it has been printed before
+    --urls      Only pass URLs (ftp, http, https)
+"""
+
 
 import re
 import subprocess
 import sys
 import time
+
+
+from abc import abstractmethod, ABCMeta
 
 
 class InvalidArgumentError(RuntimeError):
@@ -100,30 +126,13 @@ class Main(object):
 
 
     def print_usage(self):
-        sys.stdout.write("""\
-Usage: %(prog)s
-       %(prog)s --urls > urls.txt
-       %(prog)s --urls --unique > urls.txt
-Watch the X11 selection and print it on stdout (possibly filtered).
-If stdout is redirected into a file, the results are also printed
-on stderr.
-
-Arguments:
-    --help      Print this usage information and exit
-    --version   Print version information and exit
-    --unique    Ignore the new value if it has been printed before
-    --urls      Only pass URLs (ftp, http, https)
-""" % self.__dict__)
+        global usage_fmt
+        sys.stdout.write(usage_fmt % self.__dict__)
 
 
     def print_version(self):
-        sys.stdout.write("""\
-%(prog)s (@PACKAGE_NAME@) @PACKAGE_VERSION@
-Copyright (C) 2014 Hans Ulrich Niedermann
-License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl.html>.
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-""" % self.__dict__)
+        global version_fmt
+        sys.stdout.write(version_fmt % self.__dict__)
 
 
 if __name__ == '__main__':
