@@ -28,7 +28,7 @@ int main(int UNUSED_PARM(argc), char UNUSED_PARM(*argv[])) {
     count = fwrite(buf,sizeof(char),BUFSIZE,file);
     i++;
   } while (count == BUFSIZE);
-  printf("Finished. (count,i) = (%d,%d)\n",count,i);
+  printf("Finished. (count,i) = (%zd,%d)\n",count,i);
   fclose(file);
   free(buf);
   return 0;

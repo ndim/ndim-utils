@@ -1,4 +1,3 @@
-AM_CPPFLAGS = -I$(top_srcdir)/include
 BUILT_SOURCES =
 CLEANFILES =
 EXTRA_DIST =

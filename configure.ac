@@ -22,6 +22,8 @@ AC_PROG_CC_C99
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
 
+AC_LANG_WERROR
+
 ########################################################################
 
 m4_pattern_forbid([NDIM_CHECK_])dnl
@@ -33,6 +35,19 @@ NDIM_CHECK_CONFIGURATION
 
 pkgdocdir="${datadir}/doc/${PACKAGE_TARNAME}"
 AC_SUBST(pkgdocdir)
+
+########################################################################
+
+AM_CPPFLAGS="$AM_CPPFLAGS -I\$(top_srcdir)/include"
+AC_SUBST([AM_CPPFLAGS])
+
+########################################################################
+
+AM_CFLAGS="$AM_CFLAGS -Wall"
+AM_CFLAGS="$AM_CFLAGS -Wextra"
+AM_CFLAGS="$AM_CFLAGS -Wpedantic"
+AM_CFLAGS="$AM_CFLAGS -Werror"
+AC_SUBST([AM_CFLAGS])
 
 ########################################################################
 
