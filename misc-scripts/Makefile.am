@@ -11,7 +11,7 @@ EXTRA_DIST  += watch-xsel.in
 bin_SCRIPTS += watch-xsel
 CLEANFILES  += watch-xsel
 watch-xsel: watch-xsel.in
-	sed \
+	$(SED) \
 		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
 		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
 		< "$<" > "$@"

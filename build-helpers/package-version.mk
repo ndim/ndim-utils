@@ -28,7 +28,7 @@ git-version-check-news:
 	@git_ver=`$(top_srcdir)/$(BUILD_SCRIPT_DIR)/package-version $(top_srcdir) version-stamp`; \
 	gv_xyz="$${git_ver%%-*}"; \
 	gv_xy="$${gv_xyz%.*}"; \
-	case `sed 1q $(top_srcdir)/NEWS` in \
+	case `$(SED) 1q $(top_srcdir)/NEWS` in \
 	"$(PACKAGE_TARNAME) $${gv_xyz}") : ;; \
 	"$(PACKAGE_TARNAME) $${gv_xy}.x") : ;; \
 	*) \

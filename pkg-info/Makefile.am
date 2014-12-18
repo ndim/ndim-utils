@@ -16,7 +16,7 @@ moo.stamp:
 
 CLEANFILES = ndim-utils-info2.sh
 ndim-utils-info2.sh: ndim-utils-info.sh.in
-	sed \
+	$(SED) \
 		-e 's|[@]prefix[@]|$(prefix)|g' \
 		-e 's|[@]bindir[@]|$(bindir)|g' \
 		-e 's|[@]libdir[@]|$(libdir)|g' \
