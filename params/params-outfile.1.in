@@ -11,7 +11,7 @@ params-@OUTFILE@ \- print list of program parameters and environment variables
 .B "params-@OUTFILE@"
 prints a list of all environment variables and all argv[] parameters to
 .I "@OUTFILE@"
-.
+\.
 
 .SH "AUTHOR"
 Hans Ulrich Niedermann <hun@n\-dimensional.de>
