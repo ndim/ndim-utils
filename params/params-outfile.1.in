@@ -1,4 +1,4 @@
-.TH "params-@OUTFILE@" 1  "2014\-12\-18" "@PACKAGE_VERSION@" "@PACKAGE_TARNAME@"
+.TH "params-@OUTFILE@" 1  "2014\-12\-18" "@PACKAGE_VERSION@" "@PACKAGE_NAME@"
 
 .SH "NAME"
 params-@OUTFILE@ \- print list of program parameters and environment variables

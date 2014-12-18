@@ -1,4 +1,4 @@
-.TH "params-logfile" 1  "2014\-12\-18" "@PACKAGE_VERSION@" "@PACKAGE_TARNAME@"
+.TH "params-logfile" 1  "2014\-12\-18" "@PACKAGE_VERSION@" "@PACKAGE_NAME@"
 
 .SH "NAME"
 params-logfile \- log list of program parameters and environment variables
@@ -8,7 +8,7 @@ params-logfile \- log list of program parameters and environment variables
 .I "[...options...]"
 
 .SH "DESCRIPTION"
-.B "params"
+.B "params-logfile"
 logs a list of all environment variables and all argv[] parameters to
 .I "@LOGFILE_NAME@"
 .

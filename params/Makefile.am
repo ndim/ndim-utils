@@ -18,7 +18,7 @@ CLEANFILES += params-stderr.1
 params-stderr.1: params-outfile.1.in
 	$(SED) \
 		-e 's|[@]OUTFILE[@]|stderr|g' \
-		-e 's|[@]PACKAGE_TARNAME[@]|$(PACKAGE_TARNAME)|g' \
+		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
 		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
 		< $(srcdir)/params-outfile.1.in > params-stderr.1
 
@@ -26,7 +26,7 @@ CLEANFILES += params-stdout.1
 params-stdout.1: params-outfile.1.in
 	$(SED) \
 		-e 's|[@]OUTFILE[@]|stdout|g' \
-		-e 's|[@]PACKAGE_TARNAME[@]|$(PACKAGE_TARNAME)|g' \
+		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
 		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
 		< $(srcdir)/params-outfile.1.in > params-stdout.1
 
@@ -34,6 +34,6 @@ CLEANFILES += params-logfile.1
 params-logfile.1: params-logfile.1.in
 	$(SED) \
 		-e 's|[@]LOGFILE_NAME[@]|$(LOGFILE_NAME)|g' \
-		-e 's|[@]PACKAGE_TARNAME[@]|$(PACKAGE_TARNAME)|g' \
+		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
 		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
 		< $(srcdir)/params-logfile.1.in > params-logfile.1
