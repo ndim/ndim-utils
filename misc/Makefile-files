@@ -1,0 +1,5 @@
+# -*- Makefile -*-
+
+bin_PROGRAMS += one
+
+one_SOURCES = misc/one.c

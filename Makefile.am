@@ -1,15 +1,16 @@
-EXTRA_DIST =
-CLEANFILES =
+AM_CPPFLAGS = -I$(top_srcdir)/include
 BUILT_SOURCES =
+CLEANFILES =
+EXTRA_DIST =
+man_MANS =
+bin_PROGRAMS =
 
 SUBDIRS =
 SUBDIRS += m4
 SUBDIRS += include
 SUBDIRS += admin-py
 SUBDIRS += cdburn
-SUBDIRS += misc
 SUBDIRS += misc-scripts
-SUBDIRS += params
 SUBDIRS += pkg-info
 SUBDIRS += palm-scripts
 SUBDIRS += traffic
@@ -21,6 +22,9 @@ ACLOCAL_AMFLAGS = -I m4 --install
 EXTRA_DIST += LICENSE
 
 include build-helpers/package-version.mk
+
+include misc/Makefile-files
+include params/Makefile-files
 
 clean-local:
 	rm -rf rpm-build rpm-dist

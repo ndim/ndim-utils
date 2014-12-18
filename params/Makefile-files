@@ -1,0 +1,52 @@
+# -*- Makefile -*-
+
+
+bin_PROGRAMS += params/params-stderr
+params_params_stderr_SOURCES  = params/params-stderr.c
+params_params_stderr_SOURCES += params/report-params.c params/report-params.h
+
+
+bin_PROGRAMS += params/params-stdout
+params_params_stdout_SOURCES  = params/params-stdout.c
+params_params_stdout_SOURCES += params/report-params.c params/report-params.h
+
+
+LOGFILE_NAME = /tmp/params-logfile.log
+bin_PROGRAMS += params/params-logfile
+params_params_logfile_SOURCES   = params/params-logfile.c
+params_params_logfile_SOURCES  += params/report-params.c params/report-params.h
+params_params_logfile_CPPFLAGS  = '-DLOGFILE_NAME="$(LOGFILE_NAME)"'
+
+
+EXTRA_DIST += params/params-outfile.1.in
+
+man_MANS += params/params-stderr.1
+CLEANFILES += params/params-stderr.1
+params/params-stderr.1: params/params-outfile.1.in
+	$(MKDIR_P) params
+	$(SED) \
+		-e 's|[@]OUTFILE[@]|stderr|g' \
+		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
+		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
+		< $(srcdir)/params/params-outfile.1.in > params/params-stderr.1
+
+man_MANS += params/params-stdout.1
+CLEANFILES += params/params-stdout.1
+params/params-stdout.1: params/params-outfile.1.in
+	$(MKDIR_P) params
+	$(SED) \
+		-e 's|[@]OUTFILE[@]|stdout|g' \
+		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
+		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
+		< $(srcdir)/params/params-outfile.1.in > params/params-stdout.1
+
+man_MANS   += params/params-logfile.1
+EXTRA_DIST += params/params-logfile.1.in
+CLEANFILES += params/params-logfile.1
+params/params-logfile.1: params/params-logfile.1.in
+	$(MKDIR_P) params
+	$(SED) \
+		-e 's|[@]LOGFILE_NAME[@]|$(LOGFILE_NAME)|g' \
+		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
+		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
+		< $(srcdir)/params/params-logfile.1.in > params/params-logfile.1
