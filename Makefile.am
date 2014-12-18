@@ -3,13 +3,14 @@ CLEANFILES =
 EXTRA_DIST =
 man_MANS =
 bin_PROGRAMS =
+bin_SCRIPTS =
+dist_bin_SCRIPTS =
 
 SUBDIRS =
 SUBDIRS += m4
 SUBDIRS += include
 SUBDIRS += admin-py
 SUBDIRS += cdburn
-SUBDIRS += misc-scripts
 SUBDIRS += pkg-info
 SUBDIRS += palm-scripts
 SUBDIRS += traffic
@@ -23,6 +24,7 @@ EXTRA_DIST += LICENSE
 include build-helpers/package-version.mk
 
 include misc/Makefile-files
+include misc-scripts/Makefile-files
 include params/Makefile-files
 
 clean-local:

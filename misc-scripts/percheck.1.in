@@ -1,4 +1,4 @@
-.TH percheck 1  "2005\-11\-30" "@VERSION@" "ndim-utils"
+.TH "percheck" 1  "2014\-12\-18" "@PACKAGE_VERSION@" "@PACKAGE_NAME@"
 
 .SH "NAME"
 percheck \- show the permissions of a file and all directories leading to it
@@ -35,7 +35,7 @@ It looks like someone locked out the web server from the user\'s home directory.
 directory.
 
 .SH "AUTHOR"
-Hans Ulrich Niedermann <debian@n\-dimensional.de>
+Hans Ulrich Niedermann <hun@n\-dimensional.de>
 
 .SH "SEE ALSO"
 .BR ls (1)
