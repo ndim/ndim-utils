@@ -18,6 +18,7 @@ dnl TODO: Make us compatible with 'std-options'
 
 AC_PROG_SED
 AC_PROG_CC
+AC_PROG_CC_C99
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
 
@@ -50,7 +51,7 @@ AC_CONFIG_FILES([misc-scripts/percheck.1])
 AC_CONFIG_FILES([pkg-info/ndim-utils-info.sh])
 AC_CONFIG_FILES([pkg-info/Makefile])
 AC_CONFIG_FILES([misc/Makefile])
-AC_CONFIG_FILES([misc/params.1])
+AC_CONFIG_FILES([params/Makefile])
 AC_CONFIG_FILES([admin-py/Makefile])
 AC_CONFIG_FILES([admin-py/setup.py])
 AC_CONFIG_FILES([palm-scripts/Makefile])

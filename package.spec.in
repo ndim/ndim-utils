@@ -87,13 +87,17 @@ rm -rf "%{buildroot}"
 %{_bindir}/colfilter
 %{_bindir}/list-debuginfo-rpms
 %{_bindir}/one
-%{_bindir}/params
+%{_bindir}/params-logfile
+%{_bindir}/params-stderr
+%{_bindir}/params-stdout
 %{_bindir}/pdf2minibook
 %{_bindir}/percheck
 %{_bindir}/ps2lj4
 %{_bindir}/strace-normalize
 %{_mandir}/man1/percheck.1.gz
-%{_mandir}/man1/params.1.gz
+%{_mandir}/man1/params-logfile.1.gz
+%{_mandir}/man1/params-stderr.1.gz
+%{_mandir}/man1/params-stdout.1.gz
 
 
 %files xsel

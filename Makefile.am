@@ -9,6 +9,7 @@ SUBDIRS += admin-py
 SUBDIRS += cdburn
 SUBDIRS += misc
 SUBDIRS += misc-scripts
+SUBDIRS += params
 SUBDIRS += pkg-info
 SUBDIRS += palm-scripts
 SUBDIRS += traffic
