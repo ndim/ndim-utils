@@ -11,11 +11,9 @@ do
 	status=$?
 	if [ $status -ne 0 ]
 	then
-		echo "%%%%%%%%%% Conversion $psfile to $lj4file failed (exit status $status)."
+		echo "%%%%%%%%%% Converting $psfile to $lj4file failed (exit status $status)."
 		exit $status
 	else
-		echo "%%%%%%%%%% Conversion $psfile to $lj4file completed."
+		echo "%%%%%%%%%% Converting $psfile to $lj4file completed."
 	fi
-	
 done
-
