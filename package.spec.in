@@ -94,6 +94,7 @@ rm -rf "%{buildroot}"
 %{_bindir}/percheck
 %{_bindir}/ps2lj4
 %{_bindir}/strace-normalize
+%{_mandir}/man1/one.1.gz
 %{_mandir}/man1/percheck.1.gz
 %{_mandir}/man1/params-logfile.1.gz
 %{_mandir}/man1/params-stderr.1.gz

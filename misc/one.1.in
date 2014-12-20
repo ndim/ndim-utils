@@ -1,0 +1,21 @@
+.TH "one" 1  "2014\-12\-20" "@PACKAGE_VERSION@" "@PACKAGE_NAME@"
+
+.SH "NAME"
+one \- write file
+.I "one.tmp"
+into current dir until a write error
+
+.SH "SYNOPSIS"
+.B "one"
+
+.SH "DESCRIPTION"
+.B "one"
+writes a file
+.I "one.tmp"
+in the current directory until a write error occurs (such as disk full, quota exceeded).
+
+.SH "BUGS"
+The content being written is non-zero, but the same 1MB block is repeated over and over, so some modern filesystems like ZFS might compress this away into nothing.
+
+.SH "AUTHOR"
+Hans Ulrich Niedermann <hun@n\-dimensional.de>

@@ -1,5 +1,5 @@
 /**
- * writes file "one.tmp" into current directory until 
+ * writes file "one.tmp" into current directory until
  * error occurs (disk full, quota exceeded)
  */
 
@@ -9,27 +9,35 @@
 
 #define BUFSIZE (1 << 20)
 
-int main(int UNUSED_PARM(argc), char UNUSED_PARM(*argv[])) {
-  FILE *file;
-  char *buf;
-  int i;
-  size_t count;
-  file = fopen("one.tmp","w");
-  buf = malloc(BUFSIZE);
-  if (!file || !buf) {
-    printf("Error.");
-    return(1);
+int main(int UNUSED_PARM(argc), char UNUSED_PARM(*argv[]))
+{
+
+  FILE *file = fopen("one.tmp", "w");
+  if (!file) {
+    perror("fopen");
+    return EXIT_FAILURE;
   }
-  for (i=0; i<BUFSIZE; i++) {
+
+  char *buf = malloc(BUFSIZE);
+  if (!buf) {
+    perror("malloc");
+    return EXIT_FAILURE;
+  }
+
+  for (int i=0; i<BUFSIZE; i++) {
     buf[i]=i;
   }
-  i = 0;
+
+  size_t count = 0;
+  int i = 0;
   do {
-    count = fwrite(buf,sizeof(char),BUFSIZE,file);
+    count = fwrite(buf, sizeof(char), BUFSIZE, file);
     i++;
   } while (count == BUFSIZE);
-  printf("Finished. (count,i) = (%zd,%d)\n",count,i);
-  fclose(file);
+  printf("Finished. (count,i) = (%zd,%d)\n", count, i);
+
   free(buf);
-  return 0;
+  fclose(file);
+
+  return EXIT_SUCCESS;
 }
