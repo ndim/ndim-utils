@@ -6,7 +6,7 @@ EXTRA_DIST = pilot pilot.in pilot.usermap pilot-usb
 # configdir = $(sysconfdir)/sysconfig
 # configdir = $(sysconfdir)/default
 
-hotplugusb_SCRIPTS = pilot
-hotplugusb_DATA = pilot.usermap
+#hotplugusb_SCRIPTS = pilot
+#hotplugusb_DATA = pilot.usermap
 
-config_DATA = pilot-usb
+#config_DATA = pilot-usb

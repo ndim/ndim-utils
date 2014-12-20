@@ -59,9 +59,6 @@ make install DESTDIR="%{buildroot}"
 while read file; do
   rm -f "%{buildroot}$file"
 done<<RMXXX
-   %{_sysconfdir}/hotplug/usb/pilot
-   %{_sysconfdir}/hotplug/usb/pilot.usermap
-   %{_sysconfdir}/pilot-usb
    %{_bindir}/ndim-utils-info
    %{_bindir}/ndim-utils-info.sh
    %{_bindir}/ndim-utils-info2.sh
