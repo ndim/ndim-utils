@@ -49,4 +49,12 @@ void report_params(FILE *out, int argc, char *argv[], char *env[])
 			}
 		}
 	} while (0);
+
+	do {
+		char buf[PATH_MAX + 64*1024];
+		if (NULL == getcwd(buf, sizeof(buf))) {
+			fprintf(out, "CWD ERROR: %s", strerror(errno));
+		}
+		fprintf(out, "CWD %s\n", buf);
+	} while (0);
 }
