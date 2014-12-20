@@ -1,7 +1,12 @@
-ndim-utils 0.5.x
+ndim-utils 0.6
   * Migrate to newer build-helpers/
   * Fixed and updated RPM generation
   * Install ndim-utils.sh into /etc/profile.d/ (with mkcd shell command)
+  * Parallelize build system
+  * Add watch-xsel script
+  * params: report more details, and print to different output channels
+  * Stop installing obsolete scripts (np, umlxterm, Palm Pilot stuff)
+  * Add one(1) man page
 
 ndim-utils 0.5
   * percheck: add POSIX ACL support (--acl option)
