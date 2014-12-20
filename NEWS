@@ -1,3 +1,5 @@
+ndim-utils 0.6.x
+
 ndim-utils 0.6
   * Migrate to newer build-helpers/
   * Fixed and updated RPM generation
