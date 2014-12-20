@@ -17,13 +17,13 @@ EXTRA_DIST  += misc-scripts/xnest
 bin_SCRIPTS += misc-scripts/xnest
 
 EXTRA_DIST  += misc-scripts/umlxterm
-bin_SCRIPTS += misc-scripts/umlxterm
+#bin_SCRIPTS += misc-scripts/umlxterm
 
 EXTRA_DIST  += misc-scripts/ps2lj4
 bin_SCRIPTS += misc-scripts/ps2lj4
 
 EXTRA_DIST  += misc-scripts/np
-bin_SCRIPTS += misc-scripts/np
+#bin_SCRIPTS += misc-scripts/np
 
 EXTRA_DIST  += misc-scripts/colfilter
 bin_SCRIPTS += misc-scripts/colfilter

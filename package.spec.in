@@ -62,11 +62,9 @@ done<<RMXXX
    %{_bindir}/ndim-utils-info
    %{_bindir}/ndim-utils-info.sh
    %{_bindir}/ndim-utils-info2.sh
-   %{_bindir}/np
    %{_bindir}/ppp-traffic-analysis.py
    %{_bindir}/ppp-traffic-analysis.pyc
    %{_bindir}/ppp-traffic-analysis.pyo
-   %{_bindir}/umlxterm
    %{_bindir}/xnest
 RMXXX
 
