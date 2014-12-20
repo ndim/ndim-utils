@@ -9,13 +9,13 @@ Syntax:
   %(prog)s
     - Read ppp log from stdin.
     - Print statistics on stdout.
-    
+
   %(prog)s <LOGFILE>
     - Update file <LOGFILE> via HTTP. Save old version to
       <LOGFILE>.bak if necessary.
     - Read ppp log from <LOGFILE>.
     - Print statistics on stdout.
-    
+
   %(prog)s <LOGFILE> <REPORTFILE>
     - Update file <LOGFILE> via HTTP. Save old version to
       <LOGFILE>.bak if necessary.
@@ -38,7 +38,6 @@ linux router with PPP should do.
 
 TODO:
  - nothing :)
- 
 """
 
 
@@ -167,7 +166,7 @@ class Stage3:
                         ("received", self.rcvd)):
                 outfile.write("    %-10s" % k)
                 val = fun(v)
-                for unit,mult in (('year',365.0),                                  
+                for unit,mult in (('year',365.0),
                                   ('month',30.0),
                                   ('week',7.0),
                                   ('day',1.0),
@@ -278,7 +277,7 @@ class Stage1:
         self.next = Stage2(host)
 
         self.last_pid = None
-        
+
         self.last_rcvd = None
         self.last_sent = None
 
@@ -298,12 +297,12 @@ class Stage1:
                     rcvd += 2**32
                 r = rcvd - self.last_rcvd
                 assert(r >= 0)
-                
+
                 while sent < self.last_sent:
                     sent += 2**32
                 s = sent - self.last_sent
                 assert(s >= 0)
-                
+
                 self.next.event(timestamp, host, pid, r, s)
             else:
                 self.next.event(timestamp, host, pid, rcvd, sent)
@@ -332,7 +331,7 @@ class LogFileParser:
         self.logfile = logfile
         self.next = Stage1(host)
 
-    def parse(self):       
+    def parse(self):
         for line in self.logfile.readlines():
             if not line:
                 continue
@@ -340,7 +339,7 @@ class LogFileParser:
             if not stripped:
                 continue
             debug(3,"line:         %s", repr(stripped))
-            
+
             arr = stripped.split()
             if len(arr) == 0:
                 continue
@@ -401,7 +400,7 @@ class HTTPParser:
                     pass # some error message like "file doesn't exist"
                 #print repr(line[:-4])
                 #print repr(line[-4:])
-                
+
 
 
 def update_logs(log_file, router_host):
@@ -446,7 +445,7 @@ def update_logs(log_file, router_host):
         f.close()
         debug(1," done.\n")
 
-    
+
 ########################################################################
 # Main program
 ########################################################################
@@ -470,13 +469,13 @@ def main():
     if len(sys.argv) >= 3:
         debug(2,"Non-standard report file: %s\n", sys.argv[2])
         outfile = open(sys.argv[2], "w") # open report file
-        
+
     debug(1,"Parsing current log file...")
     parser = LogFileParser(infile, router_host)
     parser.parse()
     stats = parser.result()
     debug(1," done.\n")
-    
+
     stats.write_stats(outfile, True)
 
 
