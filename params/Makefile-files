@@ -4,18 +4,21 @@
 bin_PROGRAMS += params/params-stderr
 params_params_stderr_SOURCES  = params/params-stderr.c
 params_params_stderr_SOURCES += params/report-params.c params/report-params.h
+params_params_stderr_CPPFLAGS = -D_GNU_SOURCE
 
 
 bin_PROGRAMS += params/params-stdout
 params_params_stdout_SOURCES  = params/params-stdout.c
 params_params_stdout_SOURCES += params/report-params.c params/report-params.h
+params_params_stdout_CPPFLAGS = -D_GNU_SOURCE
 
 
 LOGFILE_NAME = /tmp/params-logfile.log
 bin_PROGRAMS += params/params-logfile
 params_params_logfile_SOURCES   = params/params-logfile.c
 params_params_logfile_SOURCES  += params/report-params.c params/report-params.h
-params_params_logfile_CPPFLAGS  = '-DLOGFILE_NAME="$(LOGFILE_NAME)"'
+params_params_logfile_CPPFLAGS  = -D_GNU_SOURCE
+params_params_logfile_CPPFLAGS += '-DLOGFILE_NAME="$(LOGFILE_NAME)"'
 
 
 EXTRA_DIST += params/params-outfile.1.in
