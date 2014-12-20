@@ -18,7 +18,7 @@ dnl TODO: Make us compatible with 'std-options'
 
 AC_PROG_SED
 AC_PROG_CC
-AC_PROG_CC_C99
+dnl AC_PROG_CC_C99
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
 
@@ -43,6 +43,8 @@ AC_SUBST([AM_CPPFLAGS])
 
 ########################################################################
 
+dnl AM_CFLAGS="$AM_CFLAGS -std=gnu99"
+AM_CFLAGS="$AM_CFLAGS -std=gnu11"
 AM_CFLAGS="$AM_CFLAGS -Wall"
 AM_CFLAGS="$AM_CFLAGS -Wextra"
 AM_CFLAGS="$AM_CFLAGS -Wpedantic"
