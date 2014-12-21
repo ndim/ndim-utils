@@ -4,6 +4,8 @@
  */
 
 #include "compiler-stuff.h"
+#include <inttypes.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -29,12 +31,20 @@ int main(int UNUSED_PARM(argc), char UNUSED_PARM(*argv[]))
   }
 
   size_t count = 0;
-  int i = 0;
+  uint64_t blk = 0;
+  unsigned int i = 0;
   do {
+
+    /* Update counter in all 1K blocks to make them unique, preventing
+     * filesystem deduplication to kick in. */
+    for (char *p = buf; p < buf+BUFSIZE; p += 1024) {
+      *((uint64_t *)p) = blk++;
+    }
+
     count = fwrite(buf, sizeof(char), BUFSIZE, file);
-    i++;
+    ++i;
   } while (count == BUFSIZE);
-  printf("Finished. (count,i) = (%zd,%d)\n", count, i);
+  printf("Finished. (count,i,blk) = (%zd,%u,%" PRIu64 ")\n", count, i, blk);
 
   free(buf);
   fclose(file);

@@ -3,7 +3,7 @@
 .SH "NAME"
 one \- write file
 .I "one.tmp"
-into current dir until a write error
+into current dir until write error
 
 .SH "SYNOPSIS"
 .B "one"
@@ -14,8 +14,19 @@ writes a file
 .I "one.tmp"
 in the current directory until a write error occurs (such as disk full, quota exceeded).
 
+The content being written consists of non-zero blocks, and all 1K blocks are distinct as long as less than 2**64 1K blocks have been written. This should prevent modern filesystems' (like e.g. ZFS) block deduplication from compressing this file away into nothing.
+
+This makes
+.B "one"
+useful to fill a filesystem, which zero based approaches like
+
+.BI "dd if=" "/dev/zero" " of=" "zero.tmp" " bs=" "1M"
+
+are not.
+
 .SH "BUGS"
-The content being written is non-zero, but the same 1MB block is repeated over and over, so some modern filesystems like ZFS might compress this away into nothing.
+
+Block content should be more random to prevent filesystem level compression from working.
 
 .SH "AUTHOR"
 Hans Ulrich Niedermann <hun@n\-dimensional.de>
