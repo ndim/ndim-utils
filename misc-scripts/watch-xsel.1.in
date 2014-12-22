@@ -1,0 +1,30 @@
+.TH "watch-xsel" 1  "2014\-12\-22" "@PACKAGE_VERSION@" "@PACKAGE_NAME@"
+
+.SH "NAME"
+watch-xsel \- Watch X11 selection and print it on on stdout (filters optinoal)
+
+.SH "SYNOPSIS"
+.B "watch-xsel"
+.I "[...options...]"
+
+.SH "DESCRIPTION"
+.B "watch-xsel"
+watches the X11 selection and print it on stdout when it changes (possibly filtered). If stdout is redirected into a file, the results are also printed on stderr.
+
+.SH "OPTIONS"
+
+.TP
+.BR \-\-help
+Print usage information and exit
+.TP
+.BR \-\-version
+Print version information and exit
+.TP
+.BR \-\-unique
+Ignore the new value if it has been printed before
+.TP
+.BR \-\-urls
+Only pass URLs (ftp, http, https)
+
+.SH "AUTHOR"
+Hans Ulrich Niedermann <hun@n\-dimensional.de>

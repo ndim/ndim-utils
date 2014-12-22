@@ -112,6 +112,7 @@ rm -rf "%{buildroot}"
 %files xsel
 %defattr(-,root,root,-)
 %{_bindir}/watch-xsel
+%{_mandir}/man1/watch-xsel.1.gz
 
 
 %changelog
