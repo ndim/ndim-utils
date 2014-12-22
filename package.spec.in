@@ -14,12 +14,15 @@ Source0:   @distdir@.tar.xz
 Summary:   Xnest helper scripts
 Group:     Applications/X11
 BuildArch: noarch
+Requires:  xorg-x11-server-Xnest
+Requires:  xorg-x11-xauth
 
 
 %package xsel
 Summary:   xsel related scripts
 Group:     Applications/System
 BuildArch: noarch
+Requires:  xsel
 
 
 %description
