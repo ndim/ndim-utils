@@ -14,7 +14,7 @@ writes a file
 .I "one.tmp"
 in the current directory until a write error occurs (such as disk full, quota exceeded).
 
-The content being written consists of non-zero blocks, and all 1K blocks are distinct as long as less than 2**64 1K blocks have been written. This should prevent modern filesystems' (like e.g. ZFS) block deduplication from compressing this file away into nothing.
+The content being written consists of non\-zero blocks, and all 1K blocks are distinct as long as less than 2**64 1K blocks have been written. This should prevent modern filesystems' (like e.g. ZFS) block deduplication from compressing this file away into nothing.
 
 This makes
 .B "one"

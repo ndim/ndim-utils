@@ -18,16 +18,18 @@ is given multiple parameters, it examines all the given files, separating the ou
 
 .SH "EXAMPLES"
 
-Your web server is running as user www-data and cannot deliver the home page of user
+Your web server is running as user
+.I "www\-data"
+and cannot deliver the home page of user
 .I "foo"
 \&. Find out why:
 
  [foo@host:~]$ percheck public_html/index.html
- drwxr-xr-x   26 root root  1024 Oct  6 00:25 /
- drwxr-xr-x   21 root root  4096 May  5  2005 /home
- drwx------  290 foo  bar  28672 Dec  1 07:53 /home/foo
- drwxr-xr-x    9 foo  bar   4096 Nov 29 15:01 /home/foo/public_html
- -rw-r--r--    1 foo  bar     78 Dec  7  2004 /home/foo/public_html/index.html
+ drwxr\-xr\-x   26 root root  1024 Oct  6 00:25 /
+ drwxr\-xr\-x   21 root root  4096 May  5  2005 /home
+ drwx\-\-\-\-\-\-  290 foo  bar  28672 Dec  1 07:53 /home/foo
+ drwxr\-xr\-x    9 foo  bar   4096 Nov 29 15:01 /home/foo/public_html
+ \-rw\-r\-\-r\-\-    1 foo  bar     78 Dec  7  2004 /home/foo/public_html/index.html
  [foo@host:~]$
 
 It looks like someone locked out the web server from the user\'s home directory. The fix will be to add an x bit to the

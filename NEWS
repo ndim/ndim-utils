@@ -4,6 +4,7 @@ ndim-utils 0.6.x
   * rpm: ship xnest script in subpackage
   * Stop installing ps2lj4 and list-debuginfo-rpms
   * new man page watch-xsel(1)
+  * fixed escaping and formatting for all man pages
 
 ndim-utils 0.6
   * Migrate to newer build-helpers/
