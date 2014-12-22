@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# Usage in Makefile-files:
+#
+# foo/bar: foo/bar.in package-subst
+#          ./package-subst $(srcdir)/foo/bar.in foo/bar [FOO=bar...]
+#
+# or better (using the interface vars)
+#
+# foo/bar: foo/bar.in $(PACKAGE_SUBST_DEP)
+#          $(PACKAGE_SUBST) $(srcdir)/foo/bar.in foo/bar [FOO=bar...]
+#
+
+set -e
+
+if test "x$1$2" = "x" || test "x$2" = "x"
+then
+    echo "$(basename "$0"): Usage is \`$(basename "$0") INFILE OUTFILE'" >&2
+    exit 1
+fi
+
+INFILE="$1"
+shift
+
+OUTFILE="$1"
+shift
+
+# set -x
+
+@MKDIR_P@ "$(dirname "$OUTFILE")"
+
+# Note that the printf(1) is just a hack to print a "-e\n" string in
+# any way. ANY way would be OK, but this appears to be the only one,
+# as echo(1) insists on interpreting "-e" as a command line option.
+
+IFS='
+'
+@SED@ \
+    $(for v in "$@"; do printf -- '-e\n' && echo "$v" | sed -e 's,\([A-Za-z][A-Za-z0-9_-]*\)=\(.*\),s|\[@\]\1@|\2|,'; done) \
+    -e 's|[@]PACKAGE_NAME@|@PACKAGE_NAME@|g' \
+    -e 's|[@]PACKAGE_TARNAME@|@PACKAGE_TARNAME@|g' \
+    -e 's|[@]PACKAGE_VERSION@|@PACKAGE_VERSION@|g' \
+    < "$INFILE" > "$OUTFILE"

@@ -25,6 +25,28 @@ ACLOCAL_AMFLAGS = -I m4 --install
 
 EXTRA_DIST += LICENSE
 
+BUILT_SOURCES += package-subst
+EXTRA_DIST    += package-subst.in
+CLEANFILES    += package-subst
+package-subst: package-subst.in Makefile
+	$(SED) \
+		-e 's|[@]MKDIR_P@|$(MKDIR_P)|g' \
+		-e 's|[@]SED@|$(SED)|g' \
+		-e 's|[@]PACKAGE_NAME@|$(PACKAGE_NAME)|g' \
+		-e 's|[@]PACKAGE_TARNAME@|$(PACKAGE_TARNAME)|g' \
+		-e 's|[@]PACKAGE_VERSION@|$(PACKAGE_VERSION)|g' \
+		< $(srcdir)/package-subst.in > package-subst
+	chmod +x package-subst
+
+# Interface variables to be used in included Makefile-files
+# Does not work in subdir Makefile.am!
+#
+# foo/bar: foo/bar.in $(PACKAGE_SUBST_DEP)
+#          $(PACKAGE_SUBST) $(srcdir)/foo/bar.in foo/bar
+#
+PACKAGE_SUBST = ./package-subst
+PACKAGE_SUBST_DEP = package-subst
+
 include build-helpers/package-version.mk
 
 include cdburn/Makefile-files

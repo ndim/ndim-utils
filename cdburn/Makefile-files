@@ -3,9 +3,5 @@
 EXTRA_DIST  += cdburn/burn-directory.in
 bin_SCRIPTS += cdburn/burn-directory
 CLEANFILES  += cdburn/burn-directory
-cdburn/burn-directory: cdburn/burn-directory.in
-	$(MKDIR_P) cdburn
-	$(SED) \
-		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
-		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
-		< $(srcdir)/cdburn/burn-directory.in > cdburn/burn-directory
+cdburn/burn-directory: cdburn/burn-directory.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/cdburn/burn-directory.in cdburn/burn-directory

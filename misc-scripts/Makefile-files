@@ -7,23 +7,15 @@ bin_SCRIPTS += misc-scripts/bing
 EXTRA_DIST  += misc-scripts/watch-xsel.in
 bin_SCRIPTS += misc-scripts/watch-xsel
 CLEANFILES  += misc-scripts/watch-xsel
-misc-scripts/watch-xsel: misc-scripts/watch-xsel.in
-	$(MKDIR_P) misc-scripts
-	$(SED) \
-		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
-		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
-		< $(srcdir)/misc-scripts/watch-xsel.in > misc-scripts/watch-xsel
+misc-scripts/watch-xsel: misc-scripts/watch-xsel.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/misc-scripts/watch-xsel.in misc-scripts/watch-xsel
 
 EXTRA_DIST  += misc-scripts/xnest.in
 bin_SCRIPTS += misc-scripts/xnest
 # noinst_SCRIPTS += misc-scripts/xnest
 CLEANFILES  += misc-scripts/xnest
-misc-scripts/xnest: misc-scripts/xnest.in
-	$(MKDIR_P) misc-scripts
-	$(SED) \
-		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
-		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
-		< $(srcdir)/misc-scripts/xnest.in > misc-scripts/xnest
+misc-scripts/xnest: misc-scripts/xnest.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/misc-scripts/xnest.in misc-scripts/xnest
 
 EXTRA_DIST  += misc-scripts/umlxterm
 #bin_SCRIPTS += misc-scripts/umlxterm
@@ -37,32 +29,20 @@ EXTRA_DIST  += misc-scripts/np
 EXTRA_DIST  += misc-scripts/colfilter.in
 bin_SCRIPTS += misc-scripts/colfilter
 CLEANFILES  += misc-scripts/colfilter
-misc-scripts/colfilter: misc-scripts/colfilter.in
-	$(MKDIR_P) misc-scripts
-	$(SED) \
-		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
-		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
-		< $(srcdir)/misc-scripts/colfilter.in > misc-scripts/colfilter
+misc-scripts/colfilter: misc-scripts/colfilter.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/misc-scripts/colfilter.in misc-scripts/colfilter
 
 EXTRA_DIST  += misc-scripts/percheck.in
 bin_SCRIPTS += misc-scripts/percheck
 CLEANFILES  += misc-scripts/percheck
-misc-scripts/percheck: misc-scripts/percheck.in
-	$(MKDIR_P) misc-scripts
-	$(SED) \
-		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
-		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
-		< $(srcdir)/misc-scripts/percheck.in > misc-scripts/percheck
+misc-scripts/percheck: misc-scripts/percheck.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/misc-scripts/percheck.in misc-scripts/percheck
 
 EXTRA_DIST  += misc-scripts/percheck.1.in
 man_MANS    += misc-scripts/percheck.1
 CLEANFILES  += misc-scripts/percheck.1
-misc-scripts/percheck.1: misc-scripts/percheck.1.in
-	$(MKDIR_P) misc-scripts
-	$(SED) \
-		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
-		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
-		< $(srcdir)/misc-scripts/percheck.1.in > misc-scripts/percheck.1
+misc-scripts/percheck.1: misc-scripts/percheck.1.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/misc-scripts/percheck.1.in misc-scripts/percheck.1
 
 EXTRA_DIST  += misc-scripts/list-debuginfo-rpms
 #bin_SCRIPTS += misc-scripts/list-debuginfo-rpms
@@ -70,22 +50,14 @@ EXTRA_DIST  += misc-scripts/list-debuginfo-rpms
 EXTRA_DIST  += misc-scripts/pdf2minibook.in
 bin_SCRIPTS += misc-scripts/pdf2minibook
 CLEANFILES  += misc-scripts/pdf2minibook
-misc-scripts/pdf2minibook: misc-scripts/pdf2minibook.in
-	$(MKDIR_P) misc-scripts
-	$(SED) \
-		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
-		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
-		< $(srcdir)/misc-scripts/pdf2minibook.in > misc-scripts/pdf2minibook
+misc-scripts/pdf2minibook: misc-scripts/pdf2minibook.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/misc-scripts/pdf2minibook.in misc-scripts/pdf2minibook
 
 EXTRA_DIST  += misc-scripts/strace-normalize.in
 bin_SCRIPTS += misc-scripts/strace-normalize
 CLEANFILES  += misc-scripts/strace-normalize
-misc-scripts/strace-normalize: misc-scripts/strace-normalize.in
-	$(MKDIR_P) misc-scripts
-	$(SED) \
-		-e 's|[@]PACKAGE_NAME[@]|$(PACKAGE_NAME)|g' \
-		-e 's|[@]PACKAGE_VERSION[@]|$(PACKAGE_VERSION)|g' \
-		< $(srcdir)/misc-scripts/strace-normalize.in > misc-scripts/strace-normalize
+misc-scripts/strace-normalize: misc-scripts/strace-normalize.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/misc-scripts/strace-normalize.in misc-scripts/strace-normalize
 
 profiledir   = $(sysconfdir)/profile.d
 EXTRA_DIST  += misc-scripts/ndim-utils.sh
