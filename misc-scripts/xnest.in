@@ -1,9 +1,13 @@
 #!/bin/sh
 
 case $1 in
-    -h )
+    -h|--help )
     echo "Usage: xnest <display> <window manager>" ;
     echo "Example: xnest :1 blackbox" ;
+    exit 0 ;;
+
+    --version )
+    echo "xnest (@PACKAGE_NAME@) @PACKAGE_VERSION@" ;
     exit 0 ;;
 
     :* )

@@ -12,6 +12,18 @@ case "$1" in
 	shift
 	use_acl=yes
 	;;
+    --help)
+	cat<<EOF
+Usage: percheck [--acl] file1 file2 ...
+
+Displays permissions of all files and all directories above each given file.
+EOF
+	exit 0
+	;;
+    --version)
+	echo "percheck (@PACKAGE_NAME@) @PACKAGE_VERSION@"
+	exit 0
+	;;
 esac
 
 # determine the command to actually run

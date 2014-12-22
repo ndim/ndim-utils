@@ -3,16 +3,41 @@
  * error occurs (disk full, quota exceeded)
  */
 
+#include "config.h"
 #include "compiler-stuff.h"
 #include <inttypes.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define BUFSIZE (1 << 20)
 
-int main(int UNUSED_PARM(argc), char UNUSED_PARM(*argv[]))
+int main(int argc, char *argv[])
 {
+
+  switch (argc) {
+  case 0:
+    fputs("argc==0", stderr);
+    return EXIT_FAILURE;
+  case 1:
+    /* Normal program execution */
+    break;
+  case 2:
+    if (0 == strcmp("--help", argv[1])) {
+      fputs("HELP", stdout);
+      return EXIT_SUCCESS;
+    } else if (0 == strcmp("--version", argv[1])) {
+      fputs("one ( " PACKAGE_NAME ") " PACKAGE_VERSION "\n", stdout);
+    } else {
+      fprintf(stderr, "Unhandled command line parameter: %s", argv[1]);
+      return EXIT_FAILURE;
+    }
+    return EXIT_SUCCESS;
+  default:
+    fprintf(stderr, "Too many command line args: %d", argc);
+    return EXIT_FAILURE;
+  }
 
   FILE *file = fopen("one.tmp", "w");
   if (!file) {

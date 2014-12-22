@@ -1,5 +1,6 @@
 ndim-utils 0.6.x
   * one: prevent filesystem deduplication from working
+  * Add --help and --version option to (almost) all executables
 
 ndim-utils 0.6
   * Migrate to newer build-helpers/

@@ -192,4 +192,10 @@ def main(filenames):
 
 
 if __name__ == '__main__':
+        if sys.argv[1:] == ['--help']:
+                sys.stdout.write(__doc__)
+                sys.exit(0)
+        elif sys.argv[1:] == ['--version']:
+                sys.stdout.write("strace-normalize (@PACKAGE_NAME@) @PACKAGE_VERSION@\n")
+                sys.exit(0)
 	main(sys.argv[1:])

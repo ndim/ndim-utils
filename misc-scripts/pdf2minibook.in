@@ -8,6 +8,23 @@
 #  7 4
 #  6 5
 
+
+case "$1" in
+    --help)
+	cat<<EOF
+Usage: pdf2minibook input.pdf output.pdf
+
+Convert 8 page PDF file into a "mini book".
+EOF
+	exit 0
+	;;
+    --version)
+	echo "pdf2minibook (@PACKAGE_NAME@) @PACKAGE_VERSION@"
+	exit 0
+	;;
+esac
+
+
 # abort on error
 set -e
 set -x

@@ -1,3 +1,4 @@
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT =
 BUILT_SOURCES =
 CLEANFILES =
 EXTRA_DIST =
@@ -10,7 +11,6 @@ SUBDIRS =
 SUBDIRS += m4
 SUBDIRS += include
 SUBDIRS += admin-py
-SUBDIRS += cdburn
 SUBDIRS += pkg-info
 SUBDIRS += palm-scripts
 SUBDIRS += traffic
@@ -23,6 +23,7 @@ EXTRA_DIST += LICENSE
 
 include build-helpers/package-version.mk
 
+include cdburn/Makefile-files
 include misc/Makefile-files
 include misc-scripts/Makefile-files
 include params/Makefile-files

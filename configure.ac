@@ -11,7 +11,7 @@ AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign 1.11.1 no-dist-gzip dist-xz
-                  readme-alpha tar-pax subdir-objects])
+                  readme-alpha tar-pax subdir-objects std-options])
 dnl TODO: Make us compatible with 'std-options'
 
 ########################################################################
@@ -61,7 +61,6 @@ AM_CONDITIONAL([HAVE_GIT], [test "x$GIT" != "xno"])
 
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([m4/Makefile])
-AC_CONFIG_FILES([cdburn/Makefile])
 AC_CONFIG_FILES([include/Makefile])
 AC_CONFIG_FILES([pkg-info/ndim-utils-info.sh])
 AC_CONFIG_FILES([pkg-info/Makefile])

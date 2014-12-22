@@ -111,6 +111,12 @@ def main(argv):
         pass
     elif len(argv) == 3 and argv[1] == '-m' and argv[2] == 'df':
         mode = "df"
+    elif argv[1:] == ['--help']:
+        sys.stdout.write(__doc__)
+        sys.exit(0)
+    elif argv[1:] == ['--version']:
+        sys.stdout.write("colfilter (@PACKAGE_NAME@) @PACKAGE_VERSION@\n")
+        sys.exit(0)
     else:
         sys.stderr.write("Illegal command line arguments.\n")
         sys.exit(1)

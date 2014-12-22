@@ -1,6 +1,7 @@
 # -*- Makefile -*-
 
 
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += params/params-stderr$(EXEEXT)
 bin_PROGRAMS += params/params-stderr
 params_params_stderr_SOURCES  = params/params-stderr.c
 params_params_stderr_SOURCES += params/report-params.c params/report-params.h
@@ -15,6 +16,7 @@ params_params_stdout_CPPFLAGS = -D_GNU_SOURCE
 params_params_stdout_LDADD    = -lselinux
 
 
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += params/params-logfile$(EXEEXT)
 LOGFILE_NAME = /tmp/params-logfile.log
 bin_PROGRAMS += params/params-logfile
 params_params_logfile_SOURCES   = params/params-logfile.c

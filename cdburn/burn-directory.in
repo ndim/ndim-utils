@@ -1,5 +1,20 @@
 #!/bin/sh
 
+if [ "x$1" == "x--help" ]
+then
+    cat<<EOF
+Usage:
+  burn-directory <DIRECTORY>
+
+Burn the content of the given directory to CD.
+EOF
+    exit 0
+elif [ "x$1" == "x--version" ]
+then
+    echo "burn-directory (@PACKAGE_NAME@) @PACKAGE_VERSION@"
+    exit 0
+fi
+
 dir="$1"
 
 if [ "$dir" = "" ]

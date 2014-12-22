@@ -453,6 +453,14 @@ def update_logs(log_file, router_host):
 
 def main():
 
+    if sys.argv[1:] == ['--help']:
+        v = { 'prog': sys.argv[0], }
+        sys.stdout.write(__doc__ % v)
+        sys.exit(0)
+    elif sys.argv[1:] == ['--version']:
+        sys.stdout.write("%s (@PACKAGE_NAME@) @PACKAGE_VERSION@\n" % sys.argv[0])
+        sys.exit(0)
+
     if len(sys.argv) > 3:
         debug(0,"Syntax error: Too many parameters\n")
         v = { 'prog': sys.argv[0] }
