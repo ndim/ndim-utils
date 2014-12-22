@@ -12,7 +12,7 @@ Source0:   @distdir@.tar.xz
 
 %package xnest
 Summary:   Xnest helper scripts
-Group:     Applications/X11
+Group:     Applications/System
 BuildArch: noarch
 Requires:  xorg-x11-server-Xnest
 Requires:  xorg-x11-xauth
