@@ -1,6 +1,8 @@
 ndim-utils 0.6.x
   * one: prevent filesystem deduplication from working
   * Add --help and --version option to (almost) all executables
+  * rpm: ship xnest script in subpackage
+  * Stop installing ps2lj4 and list-debuginfo-rpms
 
 ndim-utils 0.6
   * Migrate to newer build-helpers/

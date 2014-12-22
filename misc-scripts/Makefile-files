@@ -16,6 +16,7 @@ misc-scripts/watch-xsel: misc-scripts/watch-xsel.in
 
 EXTRA_DIST  += misc-scripts/xnest.in
 bin_SCRIPTS += misc-scripts/xnest
+# noinst_SCRIPTS += misc-scripts/xnest
 CLEANFILES  += misc-scripts/xnest
 misc-scripts/xnest: misc-scripts/xnest.in
 	$(MKDIR_P) misc-scripts
