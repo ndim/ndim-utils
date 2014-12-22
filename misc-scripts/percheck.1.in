@@ -20,7 +20,7 @@ is given multiple parameters, it examines all the given files, separating the ou
 
 Your web server is running as user www-data and cannot deliver the home page of user
 .I "foo"
-\. Find out why:
+\&. Find out why:
 
  [foo@host:~]$ percheck public_html/index.html
  drwxr-xr-x   26 root root  1024 Oct  6 00:25 /

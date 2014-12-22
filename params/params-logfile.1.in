@@ -11,7 +11,7 @@ params-logfile \- log list of program parameters and environment variables
 .B "params-logfile"
 logs a list of all environment variables and all argv[] parameters to
 .I "@LOGFILE_NAME@"
-\.
+\&.
 
 .SH "AUTHOR"
 Hans Ulrich Niedermann <hun@n\-dimensional.de>
