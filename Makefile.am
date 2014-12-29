@@ -53,6 +53,7 @@ include cdburn/Makefile-files
 include misc/Makefile-files
 include misc-scripts/Makefile-files
 include params/Makefile-files
+include watch-xsel/Makefile-files
 
 clean-local:
 	rm -rf rpm-build rpm-dist

@@ -1,0 +1,13 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += watch-xsel/watch-xsel.in
+bin_SCRIPTS += watch-xsel/watch-xsel
+CLEANFILES  += watch-xsel/watch-xsel
+watch-xsel/watch-xsel: watch-xsel/watch-xsel.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/watch-xsel/watch-xsel.in watch-xsel/watch-xsel
+
+EXTRA_DIST += watch-xsel/watch-xsel.1.in
+CLEANFILES += watch-xsel/watch-xsel.1
+man_MANS   += watch-xsel/watch-xsel.1
+watch-xsel/watch-xsel.1: watch-xsel/watch-xsel.1.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/watch-xsel/watch-xsel.1.in watch-xsel/watch-xsel.1
