@@ -17,15 +17,21 @@ usage_fmt = """\
 Usage: %(prog)s
        %(prog)s --urls > urls.txt
        %(prog)s --urls --unique > urls.txt
-Watch the X11 selection and print it on stdout (possibly filtered).
-If stdout is redirected into a file, the results are also printed
-on stderr.
+       %(prog)s --unique --append=urls.txt
+       %(prog)s --unique --append urls.txt
+
+Watch the X11 selection and print it on stdout or append to a given
+file, (possibly filtered). If stdout is redirected into a file or when
+appending it to a given file, the results are also printed on stderr.
 
 Arguments:
-    --help      Print this usage information and exit
-    --version   Print version information and exit
-    --unique    Ignore the new value if it has been printed before
-    --urls      Only pass URLs (ftp, http, https)
+    --help         Print this usage information and exit
+    --version      Print version information and exit
+
+    --append=FILE  Append to the given FILE.
+    --unique       Ignore the new value if it has been printed before, or,
+                   when appending to a FILE, if it has appeared in FILE.
+    --urls         Only pass URLs (ftp, http, https)
 """
 
 
@@ -56,6 +62,9 @@ class Filter(object):
     def process(self, item):
         raise NotImplementedError()
 
+    def __str__(self):
+        return "%s(next=%s)" % (self.__class__.__name__, self.next_filter)
+
 
 class UrlFilter(Filter):
 
@@ -71,9 +80,16 @@ class UrlFilter(Filter):
 
 class UniqueFilter(Filter):
 
-    def __init__(self, next_filter):
+    def __init__(self, next_filter, init_fname=None):
         super(UniqueFilter, self).__init__(next_filter)
         self.d = {}
+        if init_fname:
+            no = 1
+            for line in open(init_fname, "Ur").readlines():
+                sline = line.rstrip('\r\n')
+                self.d[sline] = True
+                print "%4d" % no, repr(sline)
+                no = no + 1
 
     def process(self, item):
         if item not in self.d:
@@ -92,38 +108,84 @@ class NewlineFilter(Filter):
 
 class OutputFilter(Filter):
 
-    def __init__(self, next_filter):
-        super(OutputFilter, self).__init__(next_filter)
-        self.stderr_echo = sys.stderr.isatty() and not sys.stdout.isatty()
+    def __init__(self, out_fname = None):
+        super(OutputFilter, self).__init__(None)
+        self.out_fname = out_fname
+        if not out_fname:
+            self.out = sys.stdout
+            self.stderr_echo = sys.stderr.isatty() and not sys.stdout.isatty()
+        else:
+            self.out = None
+            self.stderr_echo = sys.stderr.isatty()
 
     def process(self, item):
-        sys.stdout.write(item)
-        sys.stdout.flush()
+        if not self.out:
+            self.out = open(self.out_fname, "a")
+        self.out.write(item)
+        self.out.flush()
         if self.stderr_echo:
             sys.stderr.write(item)
             sys.stderr.flush()
+
+    def __str__(self):
+        if self.out_fname:
+            return "%s(out=%s)" % (self.__class__.__name__, self.out_fname)
+        else:
+            return "%s(out=%s)" % (self.__class__.__name__, 'stdout')
 
 
 class Main(object):
 
     def __init__(self, args):
         super(Main, self).__init__()
-        self.first_filter = NewlineFilter(OutputFilter(None))
 
-        if args in [ ['--help'] ]:
-            self.print_usage()
-            sys.exit(0)
-        elif args in [ ['--version'] ]:
-            self.print_version()
-            sys.exit(0)
-        else:
-            for arg in args:
-                if arg in ['--unique']:
-                    self.first_filter = UniqueFilter(self.first_filter)
-                elif arg in ['--urls']:
-                    self.first_filter = UrlFilter(self.first_filter)
-                else:
-                    raise InvalidArgumentError(arg)
+        append_fname  = None
+        filter_urls   = False
+        filter_unique = False
+
+        i = 0
+        while i < len(args):
+            arg = args[i]
+            if False:
+                pass
+            elif arg in ['--help']:
+                self.print_usage()
+                sys.exit(0)
+            elif arg in ['--version']:
+                self.print_version()
+                sys.exit(0)
+            elif arg in ['--append']:
+                assert(not(append_fname))
+                i = i + 1
+                append_fname = args[i]
+            elif arg.startswith("--append="):
+                assert(not(append_fname))
+                append_fname = arg.split("=", 1)[1]
+            elif arg in ['--unique']:
+                assert(not(filter_unique))
+                filter_unique = True
+            elif arg in ['--urls']:
+                assert(not(filter_urls))
+                filter_urls = True
+            else:
+                raise InvalidArgumentError(arg)
+            i = i + 1
+
+        self.first_filter = NewlineFilter(OutputFilter(append_fname))
+        if filter_urls:
+            self.first_filter = UrlFilter(self.first_filter)
+        if filter_unique:
+            self.first_filter = UniqueFilter(self.first_filter, append_fname)
+
+        # http://foo.bar/bleh
+
+        print "Filters:"
+        f = self.first_filter
+        while True:
+            print "  *", f
+            if not f.next_filter:
+                break
+            f = f.next_filter
 
 
     def main_loop(self):

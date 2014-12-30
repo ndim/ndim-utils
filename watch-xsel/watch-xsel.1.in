@@ -1,15 +1,36 @@
-.TH "watch\-xsel" 1  "2014\-12\-22" "@PACKAGE_VERSION@" "@PACKAGE_NAME@"
+.TH "watch\-xsel" 1  "2014\-12\-30" "@PACKAGE_VERSION@" "@PACKAGE_NAME@"
 
 .SH "NAME"
-watch\-xsel \- Watch X11 selection and print it on on stdout (filters optinoal)
+watch\-xsel \- Watch X11 selection and print the text (filters optinoal)
 
 .SH "SYNOPSIS"
 .B "watch\-xsel"
-.I "[...options...]"
+.I "\-\-help"
+
+.B "watch\-xsel"
+.I "\-\-version"
+
+.B "watch\-xsel"
+.I "\-\-urls"
+> urls.txt
+
+.B "watch\-xsel"
+.I "\-\-urls"
+.I "\-\-unique"
+> urls.txt
+
+.B "watch\-xsel"
+.I "\-\-unique"
+.IB "\-\-append=" "FILE"
+
+.B "watch\-xsel"
+.I "\-\-unique"
+.I "\-\-append"
+.B "FILE"
 
 .SH "DESCRIPTION"
 .B "watch\-xsel"
-watches the X11 selection and print it on stdout when it changes (possibly filtered). If stdout is redirected into a file, the results are also printed on stderr.
+watches the X11 selection and prints it on stdout or appends to a given file, (possibly filtered). If stdout is redirected into a file or when appending it to a given file, the results are also printed on stderr.
 
 .SH "OPTIONS"
 
@@ -19,9 +40,13 @@ Print usage information and exit
 .TP
 .BR \-\-version
 Print version information and exit
+
+.TP
+.BR \-\-append=FILE
+Append to the given FILE.
 .TP
 .BR \-\-unique
-Ignore the new value if it has been printed before
+Ignore the new value if it has been printed before, or, when appending to a FILE, if it has appeared in FILE.
 .TP
 .BR \-\-urls
 Only pass URLs (ftp, http, https)
