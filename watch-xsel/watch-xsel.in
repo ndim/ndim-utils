@@ -32,6 +32,7 @@ Arguments:
     --unique       Ignore the new value if it has been printed before, or,
                    when appending to a FILE, if it has appeared in FILE.
     --urls         Only pass URLs (ftp, http, https)
+    --verbose      Verbose debug output
 """
 
 
@@ -39,6 +40,9 @@ import re
 import subprocess
 import sys
 import time
+
+
+verbose = False
 
 
 from abc import abstractmethod, ABCMeta
@@ -88,8 +92,10 @@ class UniqueFilter(Filter):
             for line in open(init_fname, "Ur").readlines():
                 sline = line.rstrip('\r\n')
                 self.d[sline] = True
-                print "%4d" % no, repr(sline)
-                no = no + 1
+                global verbose
+                if verbose:
+                    print "%4d" % no, repr(sline)
+                    no = no + 1
 
     def process(self, item):
         if item not in self.d:
@@ -129,15 +135,17 @@ class OutputFilter(Filter):
 
     def __str__(self):
         if self.out_fname:
-            return "%s(out=%s)" % (self.__class__.__name__, self.out_fname)
+            return "%s(out=%s)" % (self.__class__.__name__, repr(self.out_fname))
         else:
-            return "%s(out=%s)" % (self.__class__.__name__, 'stdout')
+            return "%s(out=%s)" % (self.__class__.__name__, 'sys.stdout')
 
 
 class Main(object):
 
     def __init__(self, args):
         super(Main, self).__init__()
+
+        global verbose
 
         append_fname  = None
         filter_urls   = False
@@ -167,6 +175,9 @@ class Main(object):
             elif arg in ['--urls']:
                 assert(not(filter_urls))
                 filter_urls = True
+            elif arg in ['--verbose']:
+                assert(not(verbose))
+                verbose = True
             else:
                 raise InvalidArgumentError(arg)
             i = i + 1
@@ -179,13 +190,14 @@ class Main(object):
 
         # http://foo.bar/bleh
 
-        print "Filters:"
-        f = self.first_filter
-        while True:
-            print "  *", f
-            if not f.next_filter:
-                break
-            f = f.next_filter
+        if verbose:
+            print "Filters:"
+            f = self.first_filter
+            while True:
+                print "  *", f
+                if not f.next_filter:
+                    break
+                f = f.next_filter
 
 
     def main_loop(self):

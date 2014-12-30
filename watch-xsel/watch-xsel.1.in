@@ -50,6 +50,9 @@ Ignore the new value if it has been printed before, or, when appending to a FILE
 .TP
 .BR \-\-urls
 Only pass URLs (ftp, http, https)
+.TP
+.BI \-\-verbose
+Verbose output.
 
 .SH "AUTHOR"
 Hans Ulrich Niedermann <hun@n\-dimensional.de>
