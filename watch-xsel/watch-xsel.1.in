@@ -5,28 +5,28 @@ watch\-xsel \- Watch X11 selection and print the text (filters optinoal)
 
 .SH "SYNOPSIS"
 .B "watch\-xsel"
-.I "\-\-help"
+.B "\-\-help"
 
 .B "watch\-xsel"
-.I "\-\-version"
+.B "\-\-version"
 
 .B "watch\-xsel"
-.I "\-\-urls"
+.B "\-\-urls"
 > urls.txt
 
 .B "watch\-xsel"
-.I "\-\-urls"
-.I "\-\-unique"
+.B "\-\-urls"
+.B "\-\-unique"
 > urls.txt
 
 .B "watch\-xsel"
-.I "\-\-unique"
-.IB "\-\-append=" "FILE"
+.B "\-\-unique"
+.BI "\-\-append=" "FILE"
 
 .B "watch\-xsel"
-.I "\-\-unique"
-.I "\-\-append"
-.B "FILE"
+.B "\-\-unique"
+.B "\-\-append"
+.I "FILE"
 
 .SH "DESCRIPTION"
 .B "watch\-xsel"
@@ -42,8 +42,10 @@ Print usage information and exit
 Print version information and exit
 
 .TP
-.BR \-\-append=FILE
-Append to the given FILE.
+.BI "\-\-append=" "FILE"
+Append to the given
+.I FILE
+\&.
 .TP
 .BR \-\-unique
 Ignore the new value if it has been printed before, or, when appending to a FILE, if it has appeared in FILE.
