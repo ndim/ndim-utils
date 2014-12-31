@@ -12,3 +12,10 @@ CLEANFILES += watch-xsel/watch-xsel.1
 man_MANS   += watch-xsel/watch-xsel.1
 watch-xsel/watch-xsel.1: watch-xsel/watch-xsel.1.in $(PACKAGE_SUBST_DEP)
 	$(PACKAGE_SUBST) $(srcdir)/watch-xsel/watch-xsel.1.in watch-xsel/watch-xsel.1
+
+TEST_EXTENSIONS += .sh
+SH_LOG_COMPILER = /bin/sh
+AM_SH_LOG_FLAGS = -x
+
+TESTS += watch-xsel/test-watch-xsel-1.sh
+TESTS += watch-xsel/test-watch-xsel-2.sh
