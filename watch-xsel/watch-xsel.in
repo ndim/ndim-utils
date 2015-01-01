@@ -54,7 +54,8 @@ from abc import abstractmethod, ABCMeta
 class InvalidArgumentError(RuntimeError):
 
     def __init__(self, arg):
-        super(InvalidArgumentError, self).__init__('Invalid command line argument: %s' % repr(arg))
+        msg = 'Invalid command line argument: %s' % repr(arg)
+        super(InvalidArgumentError, self).__init__(msg)
 
 
 class Consumer(object):
@@ -169,9 +170,11 @@ class OutputConsumer(Consumer):
 
     def __str__(self):
         if self.out_fname:
-            return "%s(out=%s)" % (self.__class__.__name__, repr(self.out_fname))
+            return "%s(out=%s)" % (self.__class__.__name__,
+                                   repr(self.out_fname))
         else:
-            return "%s(out=%s)" % (self.__class__.__name__, 'sys.stdout')
+            return "%s(out=%s)" % (self.__class__.__name__,
+                                   'sys.stdout')
 
 
 class Main(object):
