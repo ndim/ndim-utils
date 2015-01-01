@@ -34,6 +34,8 @@ Arguments:
                    when appending to a FILE, if it has appeared in FILE.
     --urls         Only pass URLs (ftp, http, https)
     --verbose      Verbose debug output
+    --xsel-timeout=MS  Set the X selection timeout in milliseconds
+                       ('xsel -t MS').
 """
 
 
@@ -183,6 +185,7 @@ class Main(object):
         max_lines     = 0
         filter_urls   = False
         filter_unique = False
+        xsel_timeout  = 0
 
         i = 0
         while i < len(args):
@@ -218,9 +221,18 @@ class Main(object):
             elif arg in ['--verbose']:
                 assert(not(verbose))
                 verbose = True
+            elif arg in ['--xsel-timeout']:
+                assert(not(xsel_timeout))
+                i = i + 1
+                xsel_timeout = int(args[i])
+            elif arg.startswith("--xsel-timeout="):
+                assert(not(xsel_timeout))
+                xsel_timeout = int(arg.split("=", 1)[1])
             else:
                 raise InvalidArgumentError(arg)
             i = i + 1
+
+        self.xsel_timeout = xsel_timeout
 
         consumers = []
 
@@ -268,7 +280,10 @@ class Main(object):
 
         last_sel = None
         while True:
-            new_sel = subprocess.check_output(['xsel', '-o'],
+            cmdline = ['xsel', '-o']
+            if self.xsel_timeout:
+                cmdline.extend(['-t', str(self.xsel_timeout)])
+            new_sel = subprocess.check_output(cmdline,
                                               universal_newlines=True)
             if last_sel != new_sel:
                 self.first_consumer.consume(new_sel)

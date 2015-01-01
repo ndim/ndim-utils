@@ -57,13 +57,22 @@ value of
 means never exit (which is the default).
 .TP
 .BR \-\-unique
-Ignore the new value if it has been printed before, or, when appending to a FILE, if it has appeared in FILE.
+Ignore the new value if it has been printed before, or, when appending to a
+.I FILE
+, if it has appeared in
+.I FILE
+\&.
 .TP
 .BR \-\-urls
 Only pass URLs (ftp, http, https)
 .TP
 .BI \-\-verbose
 Verbose output.
+.BI "\-\-xsel\-timeout=" "MS"
+Set the X selection timeout in milliseconds ('xsel -t
+.I MS
+\&').
+
 
 .SH "BUGS"
 
