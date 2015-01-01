@@ -17,5 +17,5 @@ TEST_EXTENSIONS += .sh
 SH_LOG_COMPILER = /bin/sh
 AM_SH_LOG_FLAGS = -x
 
-TESTS += watch-xsel/test-watch-xsel-1.sh
-TESTS += watch-xsel/test-watch-xsel-2.sh
+TESTS += watch-xsel/test_watch-xsel--help.sh
+TESTS += watch-xsel/test_watch-xsel--version.sh
