@@ -104,4 +104,19 @@ upload: $(SPECFILE) $(srcdir)/README $(srcdir)/NEWS dist srpm
 		$(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.bz2 \
 		$(RSYNC_HOST):n-dimensional.de/software/ndim-utils/
 
+# The following is not necessarily printed before the tests cases are
+# run during "make check", but it *IS* printed which is useful.
+check-local:
+	@echo
+	@echo "#####################################################################"
+	@echo "# WARNING                                                           #"
+	@echo "#####################################################################"
+	@echo "# While the following tests are running,                            #"
+	@echo "#   * DO NOT manipulate the X11 selection (e.g. run xsel or select  #"
+	@echo "#     text with the mouse)                                          #"
+	@echo "#   * DO NOT heavily load the machine                               #"
+	@echo "#   * BE PATIENT as the tests require a number of sleep(1) calls    #"
+	@echo "#####################################################################"
+	@echo
+
 # End of file.

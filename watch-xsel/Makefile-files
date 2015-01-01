@@ -22,3 +22,21 @@ TESTS      += watch-xsel/test_watch-xsel--help.sh
 
 EXTRA_DIST += watch-xsel/test_watch-xsel--version.sh
 TESTS      += watch-xsel/test_watch-xsel--version.sh
+
+TEST_EXTENSIONS += .twx
+TWX_LOG_COMPILER = /bin/bash
+AM_TWX_LOG_FLAGS = $(srcdir)/watch-xsel/test-watch-xsel
+
+# Make the test case execution sequential by adding dependencies
+# between the test cases' log files. There is only one X11 selection,
+# so we cannot run multiple tests in parallel which use the X11
+# selection.
+
+EXTRA_DIST += watch-xsel/test_watch-xsel_oneline.xsel
+EXTRA_DIST += watch-xsel/test_watch-xsel_oneline.twx
+TESTS      += watch-xsel/test_watch-xsel_oneline.twx
+
+#EXTRA_DIST += watch-xsel/test-watch-xsel-4.xsel
+#EXTRA_DIST += watch-xsel/test-watch-xsel-4.twx
+#TESTS      += watch-xsel/test-watch-xsel-4.twx
+#watch-xsel/test-watch-xsel-4.log: watch-xsel/test-watch-xsel-3.log

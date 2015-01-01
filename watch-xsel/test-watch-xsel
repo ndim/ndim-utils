@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Idea: Put custom 'xsel' script in front of $PATH and communicate
+# with watch-xsel through that. This might avoid the parallelism and
+# user interference issues inherent in using actual xsel.
+
+xsel --clear
+sleep 1
+
+# Exported variables to be used by the test case scripts
+export wx_cmd="./watch-xsel/watch-xsel"
+export wx_args="--verbose"
+export wx_args="${wx_args} --xsel-timeout=5000"
+export wx_args="${wx_args} --max-lines=1"
+
+set -ex
+
+mkdir -p "watch-xsel"
+stdoutfile="watch-xsel/$(basename "$1" .twx).stdout"
+xselfile="$(dirname "$1")/$(basename "$1" .twx).xsel"
+
+/bin/bash "$@" > "$stdoutfile" &
+test_pid="$!"
+(sleep 12; kill "$test_pid") &
+sleep 1
+
+cat "$xselfile" | while read line; do echo "$line" | xsel -i; sleep 1; done
+
+if jobs %1; then
+    wait %1
+else
+    kill "$test_pid"
+    echo "test case timeout: $1" >&2
+    exit 1
+fi
+
+diff -u "$xselfile" "$stdoutfile"

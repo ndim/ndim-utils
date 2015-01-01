@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec ${wx_cmd} ${wx_args}
