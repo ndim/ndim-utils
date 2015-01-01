@@ -56,6 +56,11 @@ value of
 .B 1
 means never exit (which is the default).
 .TP
+.BI "\-\-skip\-list=" "FILE"
+Ignore all selections matching any line read from
+.I FILE
+\&.
+.TP
 .BR \-\-unique
 Ignore the new value if it has been printed before, or, when appending to a
 .I FILE

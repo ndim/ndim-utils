@@ -30,6 +30,7 @@ Arguments:
 
       --append=FILE      Append to the given FILE.
       --max-lines=NO     Exit program when NO lines have been printed.
+      --skip-list=FILE   Ignore all selections matching any line read from FILE.
       --unique           Ignore the new value if it has been printed before, or,
                          when appending to a FILE, if it has appeared in FILE.
       --urls             Only pass URLs (ftp, http, https)
