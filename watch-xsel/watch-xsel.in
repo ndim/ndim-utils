@@ -25,17 +25,17 @@ file, (possibly filtered). If stdout is redirected into a file or when
 appending it to a given file, the results are also printed on stderr.
 
 Arguments:
-    --help         Print this usage information and exit
-    --version      Print version information and exit
+      --help             Print this usage information and exit
+      --version          Print version information and exit
 
-    --append=FILE  Append to the given FILE.
-    --max-lines=NO Exit program when NO lines have been printed.
-    --unique       Ignore the new value if it has been printed before, or,
-                   when appending to a FILE, if it has appeared in FILE.
-    --urls         Only pass URLs (ftp, http, https)
-    --verbose      Verbose debug output
-    --xsel-timeout=MS  Set the X selection timeout in milliseconds
-                       ('xsel -t MS').
+      --append=FILE      Append to the given FILE.
+      --max-lines=NO     Exit program when NO lines have been printed.
+      --unique           Ignore the new value if it has been printed before, or,
+                         when appending to a FILE, if it has appeared in FILE.
+      --urls             Only pass URLs (ftp, http, https)
+      --verbose          Verbose debug output
+      --xsel-timeout=MS  Set the X selection timeout in milliseconds
+                         ('xsel -t MS').
 """
 
 
