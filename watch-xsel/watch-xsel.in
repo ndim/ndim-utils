@@ -185,9 +185,9 @@ class Main(object):
         global verbose
 
         append_fname  = None
-        max_lines     = 0
         filter_urls   = False
         filter_unique = False
+        max_lines     = 0
         xsel_timeout  = 0
 
         i = 0
