@@ -6,6 +6,7 @@ ndim-utils 0.6.x
   * new man page watch-xsel(1)
   * fixed escaping and formatting for all man pages
   * watch-xsel: Add --append=FILE argument.
+  * watch-xsel: Add --lineno argument.
   * watch-xsel: Add --max-lines=NO argument.
   * watch-xsel: Add --verbose argument.
   * watch-xsel: Add --xsel-timeout=MS argument.

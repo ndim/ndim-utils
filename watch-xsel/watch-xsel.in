@@ -29,6 +29,8 @@ Arguments:
       --version          Print version information and exit
 
       --append=FILE      Append to the given FILE.
+      --lineno           Print line number at the beginning of each line
+                         printed on stderr.
       --max-lines=NO     Exit program when NO lines have been printed.
       --unique           Ignore the new value if it has been printed before, or,
                          when appending to a FILE, if it has appeared in FILE.
@@ -97,23 +99,25 @@ class UrlFilter(Filter):
 
 class UniqueFilter(Filter):
 
-    def __init__(self, init_fname=None):
+    def __init__(self, init_fname=None, print_lineno=False):
         super(UniqueFilter, self).__init__()
         self.d = {}
         self.__init_lines = None
         if init_fname:
             global verbose
             if verbose:
-                print "Init file %s:" % repr(init_fname)
+                sys.stderr.write("Init file %s:\n" % repr(init_fname))
             lineno = 0
             for line in open(init_fname, "Ur").readlines():
                 sline = line.rstrip('\r\n')
                 self.d[sline] = True
                 lineno = lineno + 1
                 if verbose:
-                    print "%4d" % lineno, repr(sline)
+                    if print_lineno:
+                        sys.stderr.write("%4d " % lineno)
+                    sys.stderr.write("%s\n" % repr(sline))
             self.__init_lines = lineno
-        print self.d
+        sys.stderr.write("%s\n" % self.d)
 
     @property
     def init_lines(self):
@@ -137,11 +141,13 @@ class NewlineFilter(Filter):
 
 class OutputConsumer(Consumer):
 
-    def __init__(self, out_fname, max_lines, first_lineno=None):
+    def __init__(self, out_fname, max_lines,
+                 first_lineno=None, print_lineno=False):
         super(OutputConsumer, self).__init__()
 
         self.max_lines = max_lines
         self.lines = 0
+        self.print_lineno = print_lineno
 
         if first_lineno:
             self.lineno = first_lineno
@@ -161,7 +167,8 @@ class OutputConsumer(Consumer):
         self.out.write(item)
         self.out.flush()
         if self.stderr_echo:
-            sys.stderr.write("%4d " % self.lineno)
+            if self.print_lineno:
+                sys.stderr.write("%4d " % self.lineno)
             sys.stderr.write(item)
             sys.stderr.flush()
         if self.max_lines and self.lines >= self.max_lines:
@@ -188,6 +195,7 @@ class Main(object):
         filter_urls   = False
         filter_unique = False
         max_lines     = 0
+        print_lineno  = False
         xsel_timeout  = 0
 
         i = 0
@@ -208,6 +216,9 @@ class Main(object):
             elif arg.startswith("--append="):
                 assert(not(append_fname))
                 append_fname = arg.split("=", 1)[1]
+            elif arg in ['--lineno']:
+                assert(not(print_lineno))
+                print_lineno = True
             elif arg in ['--max-lines']:
                 assert(not(max_lines))
                 i = i + 1
@@ -244,7 +255,8 @@ class Main(object):
 
         first_lineno = None
         if filter_unique:
-            unique_consumer = UniqueFilter(append_fname)
+            unique_consumer = UniqueFilter(append_fname,
+                                           print_lineno=print_lineno)
             first_lineno = unique_consumer.init_lines
             consumers.append(unique_consumer)
 
@@ -252,7 +264,8 @@ class Main(object):
 
         consumers.append(OutputConsumer(out_fname=append_fname,
                                         max_lines=max_lines,
-                                        first_lineno=first_lineno))
+                                        first_lineno=first_lineno,
+                                        print_lineno=print_lineno))
 
         next_cons = None
         for cons in reversed(consumers):
@@ -264,14 +277,14 @@ class Main(object):
         # http://foo.bar/bleh
 
         if verbose:
-            print "Consumers:"
+            sys.stderr.write("Consumers:\n")
             for cons in consumers:
-                print "  *", cons
+                sys.stderr.write("  * %s\n" % cons)
 
-            print "Filters:"
+            sys.stderr.write("Filters:\n")
             c = self.first_consumer
             while True:
-                print "  *", c
+                sys.stderr.write("  * %s\n" % c)
                 if not hasattr(c, 'next_consumer'):
                     break
                 c = c.next_consumer
@@ -279,7 +292,7 @@ class Main(object):
 
     def main_loop(self):
         if verbose:
-            print "X11 Selections:"
+            sys.stderr.write("X11 Selections:\n")
 
         last_sel = None
         while True:
