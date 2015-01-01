@@ -56,6 +56,13 @@ value of
 .B 1
 means never exit (which is the default).
 .TP
+.BI "\-\-regexp=" "RE"
+Only pass text which matches the regular expression
+.I RE
+\& which must be in the format used by Python's
+.B re
+module.
+.TP
 .BR \-\-unique
 Ignore the new value if it has been printed before, or, when appending to a
 .I FILE
