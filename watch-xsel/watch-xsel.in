@@ -266,13 +266,13 @@ class Main(object):
         if verbose:
             print "X11 Selections:"
 
-        last_sel = ''
+        last_sel = None
         while True:
-            next_sel = subprocess.check_output(['xsel', '-o'],
-                                               universal_newlines=True)
-            if last_sel != next_sel:
-                last_sel = next_sel
-                self.first_consumer.consume(last_sel)
+            new_sel = subprocess.check_output(['xsel', '-o'],
+                                              universal_newlines=True)
+            if last_sel != new_sel:
+                self.first_consumer.consume(new_sel)
+                last_sel = new_sel
             time.sleep(0.5)
 
 
