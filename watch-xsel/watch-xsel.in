@@ -180,7 +180,9 @@ class OutputConsumer(Consumer):
         self.out.flush()
         if self.stderr_echo:
             sys.stderr.write("%4d " % self.lineno)
-            sys.stderr.write(item)
+            if item[-1] == "\n":
+                item = item[:-1]
+            sys.stderr.write("%s\n" % item.replace("\n", "\n   . "))
             sys.stderr.flush()
         if self.max_lines and self.lines >= self.max_lines:
             sys.exit(0)
