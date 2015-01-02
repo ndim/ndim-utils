@@ -74,6 +74,7 @@ Only pass URLs (ftp, http, https)
 .TP
 .BI \-\-verbose
 Verbose output.
+.TP
 .BI "\-\-xsel\-timeout=" "MS"
 Set the X selection timeout in milliseconds ('xsel -t
 .I MS
