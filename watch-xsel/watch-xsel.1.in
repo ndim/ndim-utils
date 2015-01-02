@@ -64,6 +64,10 @@ Only pass text which matches the regular expression
 module. Multiple
 .B \-\-regexp
 filters will be applied in sequence.
+.BI "\-\-skip\-list=" "FILE"
+Ignore all selections matching any line read from
+.I FILE
+\&.
 .TP
 .BR \-\-unique
 Ignore the new value if it has been printed before, or, when appending to a
