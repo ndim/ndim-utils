@@ -49,6 +49,7 @@ Append to the given
 .TP
 .B "\-\-lineno"
 Print line number at the beginning of each line printed on stderr.
+.TP
 .BI "\-\-max\-lines=" "NO"
 Exit program when
 .I NO
