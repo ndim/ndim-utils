@@ -41,6 +41,7 @@ Arguments:
 
 
 import re
+import pprint
 import subprocess
 import sys
 import time
@@ -96,35 +97,71 @@ class UrlFilter(Filter):
             self.next_consumer.consume(item)
 
 
-class UniqueFilter(Filter):
+class LineFilter(Filter):
 
-    def __init__(self, init_fname=None):
-        super(UniqueFilter, self).__init__()
-        self.d = {}
-        self.__init_lines = None
-        if init_fname:
-            global verbose
-            if verbose:
-                print "Init file %s:" % repr(init_fname)
-            lineno = 0
-            for line in open(init_fname, "Ur").readlines():
-                sline = line.rstrip('\r\n')
-                self.d[sline] = True
-                lineno = lineno + 1
-                if verbose:
-                    print "%4d" % lineno, repr(sline)
-            self.__init_lines = lineno
-        print self.d
+    def __init__(self):
+        super(LineFilter, self).__init__()
+        self.d = self.init_filter_dict()
 
-    @property
-    def init_lines(self):
-        """Number of lines in the initialization file"""
-        return self.__init_lines
+    @abstractmethod
+    def init_filter_dict(self):
+        raise NotImplementedError()
 
     def consume(self, item):
         if item not in self.d:
-            self.d[item] = True
             self.next_consumer.consume(item)
+            return True
+        return False
+
+
+class SkipListFilter(LineFilter):
+
+    def __init__(self, skiplist_fname):
+        self.skiplist_fname = skiplist_fname
+        super(SkipListFilter, self).__init__()
+
+    @property
+    def skiplist_lines(self):
+        """Number of lines in the initialization file"""
+        return self.__skiplist_lines
+
+    def init_filter_dict(self):
+        global verbose
+        d = {}
+        lineno = 0
+        try:
+            for line in open(self.skiplist_fname, "Ur").readlines():
+                sline = line.rstrip('\r\n')
+                d[sline] = True
+                lineno = lineno + 1
+                if verbose:
+                    print "%4d" % lineno, repr(sline)
+            if verbose:
+                if verbose:
+                    print "Skip lines from %s:" % repr(self.skiplist_fname)
+                pprint.pprint(d)
+        except IOError:
+            pass
+        self.__skiplist_lines = lineno
+        return d
+
+    def __str__(self):
+        return "%s(skiplist_fname=%s,next=%s)" % (self.__class__.__name__,
+                                                  repr(self.skiplist_fname),
+                                                  self.next_consumer)
+
+
+class UniqueFilter(LineFilter):
+
+    def __init__(self):
+        super(UniqueFilter, self).__init__()
+
+    def init_filter_dict(self):
+        return {}
+
+    def consume(self, item):
+        if super(UniqueFilter, self).consume(item):
+            self.d[item] = True
 
 
 class NewlineFilter(Filter):
@@ -189,6 +226,7 @@ class Main(object):
         filter_urls   = False
         filter_unique = False
         max_lines     = 0
+        skip_list     = None
         xsel_timeout  = 0
 
         i = 0
@@ -216,6 +254,13 @@ class Main(object):
             elif arg.startswith("--max-lines="):
                 assert(not(max_lines))
                 max_lines = int(arg.split("=", 1)[1])
+            elif arg in ['--skip-list']:
+                assert(not(skip_list))
+                i = i + 1
+                skip_list = args[i]
+            elif arg.startswith("--skip-list="):
+                assert(not(skip_list))
+                skip_list = arg.split("=", 1)[1]
             elif arg in ['--unique']:
                 assert(not(filter_unique))
                 filter_unique = True
@@ -245,9 +290,11 @@ class Main(object):
 
         first_lineno = None
         if filter_unique:
-            unique_consumer = UniqueFilter(append_fname)
-            first_lineno = unique_consumer.init_lines
-            consumers.append(unique_consumer)
+            if append_fname:
+                f = SkipListFilter(append_fname)
+                consumers.append(f)
+                first_lineno = f.skiplist_lines + 1
+            consumers.append(UniqueFilter())
 
         consumers.append(NewlineFilter())
 
