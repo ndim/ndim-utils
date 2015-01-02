@@ -43,8 +43,9 @@ Arguments:
 """
 
 
-import re
+import os
 import pprint
+import re
 import subprocess
 import sys
 import time
@@ -136,9 +137,11 @@ class LineFilter(Filter):
 
 class SkipListFilter(LineFilter):
 
-    def __init__(self, skiplist_fname, print_lineno=False):
+    def __init__(self, skiplist_fname,
+                 print_lineno=False, ignore_file_not_found=False):
         self.skiplist_fname = skiplist_fname
         self.print_lineno   = print_lineno
+        self.ignore_fnf     = ignore_file_not_found
         super(SkipListFilter, self).__init__()
 
     @property
@@ -150,21 +153,23 @@ class SkipListFilter(LineFilter):
         global verbose
         d = {}
         lineno = 0
-        try:
-            for line in open(self.skiplist_fname, "Ur").readlines():
-                sline = line.rstrip('\r\n')
-                d[sline] = True
-                lineno = lineno + 1
-                if verbose:
-                    if self.print_lineno:
-                        sys.stderr.write("%4d " % lineno)
-                    sys.stderr.write("%s\n" % repr(sline))
+        if self.ignore_fnf and not(os.path.exists(self.skiplist_fname)):
+            return d
+        if verbose:
+            sys.stderr.write("Skip lines from %s:\n" %
+                             repr(self.skiplist_fname))
+        for line in open(self.skiplist_fname, "Ur").readlines():
+            sline = line.rstrip('\r\n')
+            d[sline] = True
+            lineno = lineno + 1
             if verbose:
-                sys.stderr.write("Skip lines from %s:\n" %
-                                 repr(self.skiplist_fname))
-                pprint.pprint(d, stream=sys.stderr)
-        except IOError:
-            pass
+                if self.print_lineno:
+                    sys.stderr.write("%4d " % lineno)
+                sys.stderr.write("%s\n" % repr(sline))
+        if verbose:
+            sys.stderr.write("Skip dict from %s:\n" %
+                             repr(self.skiplist_fname))
+            pprint.pprint(d, stream=sys.stderr)
         self.__skiplist_lines = lineno
         return d
 
@@ -332,7 +337,8 @@ class Main(object):
         if filter_unique:
             if append_fname:
                 f = SkipListFilter(append_fname,
-                                   print_lineno=print_lineno)
+                                   print_lineno=print_lineno,
+                                   ignore_file_not_found=True)
                 consumers.append(f)
                 first_lineno = f.skiplist_lines + 1
             consumers.append(UniqueFilter())
