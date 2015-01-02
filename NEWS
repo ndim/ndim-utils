@@ -12,6 +12,8 @@ ndim-utils 0.6.x
   * watch-xsel: Add --skip-list=FILE argument.
   * watch-xsel: Add --verbose argument.
   * watch-xsel: Add --xsel-timeout=MS argument.
+  * watch-xsel: Stop printing stacktraces on Ctrl-C, which is the
+    normal way to exit watch-xsel.
 
 ndim-utils 0.6
   * Migrate to newer build-helpers/

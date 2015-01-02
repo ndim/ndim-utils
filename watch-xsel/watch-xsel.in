@@ -402,4 +402,7 @@ class Main(object):
 
 
 if __name__ == '__main__':
-    Main(sys.argv[1:]).main_loop()
+    try:
+        Main(sys.argv[1:]).main_loop()
+    except KeyboardInterrupt:
+        pass
