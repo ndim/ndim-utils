@@ -263,7 +263,7 @@ class Main(object):
         max_lines     = 0
         print_lineno  = False
         regexps       = []
-        skip_list     = None
+        skip_lists    = []
         xsel_timeout  = 0
 
         i = 0
@@ -300,12 +300,10 @@ class Main(object):
             elif arg.startswith("--regexp="):
                 regexps.append(re.compile(arg.split("=", 1)[1]))
             elif arg in ['--skip-list']:
-                assert(not(skip_list))
                 i = i + 1
-                skip_list = args[i]
+                skip_lists.append(args[i])
             elif arg.startswith("--skip-list="):
-                assert(not(skip_list))
-                skip_list = arg.split("=", 1)[1]
+                skip_lists.append(arg.split("=", 1)[1])
             elif arg in ['--unique']:
                 assert(not(filter_unique))
                 filter_unique = True
@@ -342,6 +340,10 @@ class Main(object):
                 consumers.append(f)
                 first_lineno = f.skiplist_lines + 1
             consumers.append(UniqueFilter())
+
+        for skip_list in skip_lists:
+            consumers.append(SkipListFilter(skip_list,
+                                            print_lineno=print_lineno))
 
         for r in regexps:
             consumers.append(RegexpFilter(r))
