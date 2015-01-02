@@ -231,7 +231,7 @@ class OutputConsumer(Consumer):
         if self.stderr_echo:
             if self.print_lineno:
                 sys.stderr.write("%4d " % self.lineno)
-                if item[-1] == "\n":
+                if len(item) >= 1 and item[-1] == "\n":
                     item = item[:-1]
                 sys.stderr.write("%s\n" % item.replace("\n", "\n   . "))
             else:
