@@ -1,4 +1,4 @@
-.TH "watch\-xsel" 1  "2014\-12\-30" "@PACKAGE_VERSION@" "@PACKAGE_NAME@"
+.TH "watch\-xsel" 1  "2015\-01\-02" "@PACKAGE_VERSION@" "@PACKAGE_NAME@"
 
 .SH "NAME"
 watch\-xsel \- Watch X11 selection and print the text (filters optinoal)
@@ -11,22 +11,12 @@ watch\-xsel \- Watch X11 selection and print the text (filters optinoal)
 .B "\-\-version"
 
 .B "watch\-xsel"
-.B "\-\-urls"
-> urls.txt
+.RI "[" "OPTION" "]..."
+> FILE
 
 .B "watch\-xsel"
-.B "\-\-urls"
-.B "\-\-unique"
-> urls.txt
-
-.B "watch\-xsel"
-.B "\-\-unique"
+.RI "[" "OPTION" "]..."
 .BI "\-\-append=" "FILE"
-
-.B "watch\-xsel"
-.B "\-\-unique"
-.B "\-\-append"
-.I "FILE"
 
 .SH "DESCRIPTION"
 .B "watch\-xsel"
@@ -88,6 +78,19 @@ Verbose output.
 Set the X selection timeout in milliseconds ('xsel -t
 .I MS
 \&').
+
+
+.SH "EXAMPLES"
+
+.SS "Watch for URLs and download them (variant 1)"
+
+.B "watch\-xsel \-\-urls \-\-unique \-\-regexp '//cdn\.media\.ccc\.de/' --append urls"
+
+.B "tail \-f \-n+1 urls | while read url; do wget \-\-continue \(dq$url\(dq; done"
+
+.SS "Watch for URLs and download them (variant 2)"
+
+.B "watch\-xsel \-\-urls \-\-unique | tee \-a urls | while read url; do wget \-\-continue \(dq$url\(dq; done"
 
 
 .SH "BUGS"
