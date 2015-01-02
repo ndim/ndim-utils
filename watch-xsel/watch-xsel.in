@@ -29,6 +29,8 @@ Arguments:
       --version          Print version information and exit
 
       --append=FILE      Append to the given FILE.
+      --lineno           Print line number at the beginning of each line
+                         printed on stderr.
       --max-lines=NO     Exit program when NO lines have been printed.
       --regexp=RE        Only pass text which matches regular expression RE.
       --skip-list=FILE   Ignore all selections matching any line read from FILE.
@@ -134,8 +136,9 @@ class LineFilter(Filter):
 
 class SkipListFilter(LineFilter):
 
-    def __init__(self, skiplist_fname):
+    def __init__(self, skiplist_fname, print_lineno=False):
         self.skiplist_fname = skiplist_fname
+        self.print_lineno   = print_lineno
         super(SkipListFilter, self).__init__()
 
     @property
@@ -153,11 +156,13 @@ class SkipListFilter(LineFilter):
                 d[sline] = True
                 lineno = lineno + 1
                 if verbose:
-                    print "%4d" % lineno, repr(sline)
+                    if self.print_lineno:
+                        sys.stderr.write("%4d " % lineno)
+                    sys.stderr.write("%s\n" % repr(sline))
             if verbose:
-                if verbose:
-                    print "Skip lines from %s:" % repr(self.skiplist_fname)
-                pprint.pprint(d)
+                sys.stderr.write("Skip lines from %s:\n" %
+                                 repr(self.skiplist_fname))
+                pprint.pprint(d, stream=sys.stderr)
         except IOError:
             pass
         self.__skiplist_lines = lineno
@@ -193,11 +198,13 @@ class NewlineFilter(Filter):
 
 class OutputConsumer(Consumer):
 
-    def __init__(self, out_fname, max_lines, first_lineno=None):
+    def __init__(self, out_fname, max_lines,
+                 first_lineno=None, print_lineno=False):
         super(OutputConsumer, self).__init__()
 
         self.max_lines = max_lines
         self.lines = 0
+        self.print_lineno = print_lineno
 
         if first_lineno:
             self.lineno = first_lineno
@@ -217,10 +224,13 @@ class OutputConsumer(Consumer):
         self.out.write(item)
         self.out.flush()
         if self.stderr_echo:
-            sys.stderr.write("%4d " % self.lineno)
-            if item[-1] == "\n":
-                item = item[:-1]
-            sys.stderr.write("%s\n" % item.replace("\n", "\n   . "))
+            if self.print_lineno:
+                sys.stderr.write("%4d " % self.lineno)
+                if item[-1] == "\n":
+                    item = item[:-1]
+                sys.stderr.write("%s\n" % item.replace("\n", "\n   . "))
+            else:
+                sys.stderr.write(item)
             sys.stderr.flush()
         if self.max_lines and self.lines >= self.max_lines:
             sys.exit(0)
@@ -246,6 +256,7 @@ class Main(object):
         filter_urls   = False
         filter_unique = False
         max_lines     = 0
+        print_lineno  = False
         regexps       = []
         skip_list     = None
         xsel_timeout  = 0
@@ -268,6 +279,9 @@ class Main(object):
             elif arg.startswith("--append="):
                 assert(not(append_fname))
                 append_fname = arg.split("=", 1)[1]
+            elif arg in ['--lineno']:
+                assert(not(print_lineno))
+                print_lineno = True
             elif arg in ['--max-lines']:
                 assert(not(max_lines))
                 i = i + 1
@@ -317,7 +331,8 @@ class Main(object):
         first_lineno = None
         if filter_unique:
             if append_fname:
-                f = SkipListFilter(append_fname)
+                f = SkipListFilter(append_fname,
+                                   print_lineno=print_lineno)
                 consumers.append(f)
                 first_lineno = f.skiplist_lines + 1
             consumers.append(UniqueFilter())
@@ -329,7 +344,8 @@ class Main(object):
 
         consumers.append(OutputConsumer(out_fname=append_fname,
                                         max_lines=max_lines,
-                                        first_lineno=first_lineno))
+                                        first_lineno=first_lineno,
+                                        print_lineno=print_lineno))
 
         next_cons = None
         for cons in reversed(consumers):
@@ -341,18 +357,18 @@ class Main(object):
         # http://foo.bar/bleh
 
         if verbose:
-            print "Regular Expressions:"
+            sys.stderr.write("Regular Expressions:\n")
             for r in regexps:
-                print "  *", repr(r.pattern)
+                sys.stderr.write("  * %s\n" % repr(r.pattern))
 
-            print "Consumers:"
+            sys.stderr.write("Consumers:\n")
             for cons in consumers:
-                print "  *", cons
+                sys.stderr.write("  * %s\n" % cons)
 
-            print "Filters:"
+            sys.stderr.write("Filters:\n")
             c = self.first_consumer
             while True:
-                print "  *", c
+                sys.stderr.write("  * %s\n" % c)
                 if not hasattr(c, 'next_consumer'):
                     break
                 c = c.next_consumer
@@ -360,7 +376,7 @@ class Main(object):
 
     def main_loop(self):
         if verbose:
-            print "X11 Selections:"
+            sys.stderr.write("X11 Selections:\n")
 
         last_sel = None
         while True:
