@@ -57,6 +57,7 @@ Only pass text which matches the regular expression
 module. Multiple
 .B \-\-regexp
 filters will be applied in sequence.
+.TP
 .BI "\-\-skip\-list=" "FILE"
 Ignore all selections matching any line read from
 .I FILE
