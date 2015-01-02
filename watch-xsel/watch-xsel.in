@@ -405,11 +405,12 @@ class Main(object):
         if verbose:
             sys.stderr.write("X11 Selections:\n")
 
+        cmdline = ['xsel', '-o']
+        if self.xsel_timeout:
+            cmdline.extend(['-t', str(self.xsel_timeout)])
+
         last_sel = None
         while True:
-            cmdline = ['xsel', '-o']
-            if self.xsel_timeout:
-                cmdline.extend(['-t', str(self.xsel_timeout)])
             new_sel = subprocess.check_output(cmdline,
                                               universal_newlines=True)
             if last_sel != new_sel:
