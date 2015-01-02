@@ -25,19 +25,19 @@ file, (possibly filtered). If stdout is redirected into a file or when
 appending it to a given file, the results are also printed on stderr.
 
 Arguments:
-      --help             Print this usage information and exit
+  -h, --help             Print this usage information and exit
       --version          Print version information and exit
 
-      --append=FILE      Append to the given FILE.
-      --lineno           Print line number at the beginning of each line
+  -a, --append=FILE      Append to the given FILE.
+  -n, --lineno           Print line number at the beginning of each line
                          printed on stderr.
       --max-lines=NO     Exit program when NO lines have been printed.
-      --regexp=RE        Only pass text which matches regular expression RE.
-      --skip-list=FILE   Ignore all selections matching any line read from FILE.
-      --unique           Ignore the new value if it has been printed before, or,
+  -r, --regexp=RE        Only pass text which matches regular expression RE.
+  -s, --skip-list=FILE   Ignore all selections matching any line read from FILE.
+  -u, --unique           Ignore the new value if it has been printed before, or,
                          when appending to a FILE, if it has appeared in FILE.
-      --urls             Only pass URLs (ftp, http, https)
-      --verbose          Verbose debug output
+  -U, --urls             Only pass URLs (ftp, http, https)
+  -v, --verbose          Verbose debug output
       --xsel-timeout=MS  Set the X selection timeout in milliseconds
                          ('xsel -t MS').
 """
@@ -271,22 +271,30 @@ class Main(object):
             arg = args[i]
             if False:
                 pass
-            elif arg in ['--help']:
+
+            elif arg in ['-h', '--help']:
                 self.print_usage()
                 sys.exit(0)
+
             elif arg in ['--version']:
                 self.print_version()
                 sys.exit(0)
-            elif arg in ['--append']:
+
+            elif arg in ['-a', '--append']:
                 assert(not(append_fname))
                 i = i + 1
                 append_fname = args[i]
             elif arg.startswith("--append="):
                 assert(not(append_fname))
                 append_fname = arg.split("=", 1)[1]
-            elif arg in ['--lineno']:
+            elif arg.startswith("-a="):
+                assert(not(append_fname))
+                append_fname = arg.split("=", 1)[1]
+
+            elif arg in ['-n', '--lineno']:
                 assert(not(print_lineno))
                 print_lineno = True
+
             elif arg in ['--max-lines']:
                 assert(not(max_lines))
                 i = i + 1
@@ -294,25 +302,35 @@ class Main(object):
             elif arg.startswith("--max-lines="):
                 assert(not(max_lines))
                 max_lines = int(arg.split("=", 1)[1])
-            elif arg in ['--regexp']:
+
+            elif arg in ['-r', '--regexp']:
                 i = i + 1
                 regexps.append(re.compile(args[i]))
             elif arg.startswith("--regexp="):
                 regexps.append(re.compile(arg.split("=", 1)[1]))
-            elif arg in ['--skip-list']:
+            elif arg.startswith("-r="):
+                regexps.append(re.compile(arg.split("=", 1)[1]))
+
+            elif arg in ['-s', '--skip-list']:
                 i = i + 1
                 skip_lists.append(args[i])
             elif arg.startswith("--skip-list="):
                 skip_lists.append(arg.split("=", 1)[1])
-            elif arg in ['--unique']:
+            elif arg.startswith("-s="):
+                skip_lists.append(arg.split("=", 1)[1])
+
+            elif arg in ['-u', '--unique']:
                 assert(not(filter_unique))
                 filter_unique = True
-            elif arg in ['--urls']:
+
+            elif arg in ['-U', '--urls']:
                 assert(not(filter_urls))
                 filter_urls = True
-            elif arg in ['--verbose']:
+
+            elif arg in ['-v', '--verbose']:
                 assert(not(verbose))
                 verbose = True
+
             elif arg in ['--xsel-timeout']:
                 assert(not(xsel_timeout))
                 i = i + 1
@@ -320,6 +338,7 @@ class Main(object):
             elif arg.startswith("--xsel-timeout="):
                 assert(not(xsel_timeout))
                 xsel_timeout = int(arg.split("=", 1)[1])
+
             else:
                 raise InvalidArgumentError(arg)
             i = i + 1

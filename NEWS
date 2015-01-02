@@ -14,6 +14,7 @@ ndim-utils 0.6.x
   * watch-xsel: Add --xsel-timeout=MS argument.
   * watch-xsel: Stop printing stacktraces on Ctrl-C, which is the
     normal way to exit watch-xsel.
+  * watch-xsel: Add short forms for most command line options.
 
 ndim-utils 0.6
   * Migrate to newer build-helpers/

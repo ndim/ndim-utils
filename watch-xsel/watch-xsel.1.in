@@ -25,19 +25,19 @@ watches the X11 selection and prints it on stdout or appends to a given file, (p
 .SH "OPTIONS"
 
 .TP
-.BR \-\-help
+.BR "\-h, \-\-help"
 Print usage information and exit
 .TP
 .BR \-\-version
 Print version information and exit
 
 .TP
-.BI "\-\-append=" "FILE"
+.BI "\-a, \-\-append=" "FILE"
 Append to the given
 .I FILE
 \&.
 .TP
-.B "\-\-lineno"
+.B "\-n, \-\-lineno"
 Print line number at the beginning of each line printed on stderr.
 .TP
 .BI "\-\-max\-lines=" "NO"
@@ -49,7 +49,7 @@ value of
 .B 1
 means never exit (which is the default).
 .TP
-.BI "\-\-regexp=" "RE"
+.BI "\-r, \-\-regexp=" "RE"
 Only pass text which matches the regular expression
 .I RE
 \& which must be in the format used by Python's
@@ -58,22 +58,22 @@ module. Multiple
 .B \-\-regexp
 filters will be applied in sequence.
 .TP
-.BI "\-\-skip\-list=" "FILE"
+.BI "\-s, \-\-skip\-list=" "FILE"
 Ignore all selections matching any line read from
 .I FILE
 \&.
 .TP
-.BR \-\-unique
+.BR "\-u, \-\-unique"
 Ignore the new value if it has been printed before, or, when appending to a
 .I FILE
 , if it has appeared in
 .I FILE
 \&.
 .TP
-.BR \-\-urls
+.BR "\-U, \-\-urls"
 Only pass URLs (ftp, http, https)
 .TP
-.BI \-\-verbose
+.BI "\-v, \-\-verbose"
 Verbose output.
 .TP
 .BI "\-\-xsel\-timeout=" "MS"
