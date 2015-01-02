@@ -29,6 +29,7 @@ Arguments:
     --version      Print version information and exit
 
     --append=FILE  Append to the given FILE.
+    --max-lines=NO Exit program when NO lines have been printed.
     --unique       Ignore the new value if it has been printed before, or,
                    when appending to a FILE, if it has appeared in FILE.
     --urls         Only pass URLs (ftp, http, https)
@@ -114,8 +115,10 @@ class NewlineFilter(Filter):
 
 class OutputFilter(Filter):
 
-    def __init__(self, out_fname = None):
+    def __init__(self, out_fname, max_lines):
         super(OutputFilter, self).__init__(None)
+        self.max_lines = max_lines
+        self.lines = 0
         self.out_fname = out_fname
         if not out_fname:
             self.out = sys.stdout
@@ -125,6 +128,7 @@ class OutputFilter(Filter):
             self.stderr_echo = sys.stderr.isatty()
 
     def process(self, item):
+        self.lines = self.lines + 1
         if not self.out:
             self.out = open(self.out_fname, "a")
         self.out.write(item)
@@ -132,6 +136,8 @@ class OutputFilter(Filter):
         if self.stderr_echo:
             sys.stderr.write(item)
             sys.stderr.flush()
+        if self.max_lines and self.lines >= self.max_lines:
+            sys.exit(0)
 
     def __str__(self):
         if self.out_fname:
@@ -148,6 +154,7 @@ class Main(object):
         global verbose
 
         append_fname  = None
+        max_lines     = 0
         filter_urls   = False
         filter_unique = False
 
@@ -169,6 +176,13 @@ class Main(object):
             elif arg.startswith("--append="):
                 assert(not(append_fname))
                 append_fname = arg.split("=", 1)[1]
+            elif arg in ['--max-lines']:
+                assert(not(max_lines))
+                i = i + 1
+                max_lines = int(args[i])
+            elif arg.startswith("--max-lines="):
+                assert(not(max_lines))
+                max_lines = int(arg.split("=", 1)[1])
             elif arg in ['--unique']:
                 assert(not(filter_unique))
                 filter_unique = True
@@ -182,7 +196,7 @@ class Main(object):
                 raise InvalidArgumentError(arg)
             i = i + 1
 
-        self.first_filter = NewlineFilter(OutputFilter(append_fname))
+        self.first_filter = NewlineFilter(OutputFilter(append_fname, max_lines))
         if filter_urls:
             self.first_filter = UrlFilter(self.first_filter)
         if filter_unique:

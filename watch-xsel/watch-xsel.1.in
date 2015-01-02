@@ -47,6 +47,15 @@ Append to the given
 .I FILE
 \&.
 .TP
+.BI "\-\-max\-lines=" "NO"
+Exit program when
+.I NO
+lines have been printed. A
+.I "NO"
+value of
+.B 1
+means never exit (which is the default).
+.TP
 .BR \-\-unique
 Ignore the new value if it has been printed before, or, when appending to a FILE, if it has appeared in FILE.
 .TP
@@ -55,6 +64,12 @@ Only pass URLs (ftp, http, https)
 .TP
 .BI \-\-verbose
 Verbose output.
+
+.SH "BUGS"
+
+.SS "Unclear semantics for \-\-max\-lines"
+
+Is it total text lines or number of potentially multiline X11 selections printed?
 
 .SH "AUTHOR"
 Hans Ulrich Niedermann <hun@n\-dimensional.de>
