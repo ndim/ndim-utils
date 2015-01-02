@@ -30,6 +30,7 @@ Arguments:
 
       --append=FILE      Append to the given FILE.
       --max-lines=NO     Exit program when NO lines have been printed.
+      --regexp=RE        Only pass text which matches regular expression RE.
       --unique           Ignore the new value if it has been printed before, or,
                          when appending to a FILE, if it has appeared in FILE.
       --urls             Only pass URLs (ftp, http, https)
@@ -80,19 +81,36 @@ class Filter(Consumer):
         self.__next_consumer = cons
 
     def __str__(self):
-        return "%s(next=%s)" % (self.__class__.__name__, self.next_consumer)
+        return "%s(next=%s)" % (self.__class__.__name__,
+                                self.next_consumer)
 
 
-class UrlFilter(Filter):
+class RegexpFilter(Filter):
 
-    def __init__(self):
-        super(UrlFilter, self).__init__()
-        self.r = re.compile(r'^(ftp|https?)://', re.IGNORECASE)
+    def __init__(self, regexp):
+        super(RegexpFilter, self).__init__()
+        self.r = regexp
 
     def consume(self, item):
-        m = self.r.match(item)
+        m = self.r.search(item)
         if m:
             self.next_consumer.consume(item)
+
+    def __str__(self):
+        return "%s(re=%s,next=%s)" % (self.__class__.__name__,
+                                      repr(self.r.pattern),
+                                      self.next_consumer)
+
+
+class UrlFilter(RegexpFilter):
+
+    def __init__(self):
+        r = re.compile(r'^(ftp|https?)://', re.IGNORECASE)
+        super(UrlFilter, self).__init__(r)
+
+    def __str__(self):
+        return "%s(next=%s)" % (self.__class__.__name__,
+                                self.next_consumer)
 
 
 class UniqueFilter(Filter):
@@ -188,6 +206,7 @@ class Main(object):
         filter_urls   = False
         filter_unique = False
         max_lines     = 0
+        regexps       = []
         xsel_timeout  = 0
 
         i = 0
@@ -215,6 +234,11 @@ class Main(object):
             elif arg.startswith("--max-lines="):
                 assert(not(max_lines))
                 max_lines = int(arg.split("=", 1)[1])
+            elif arg in ['--regexp']:
+                i = i + 1
+                regexps.append(re.compile(args[i]))
+            elif arg.startswith("--regexp="):
+                regexps.append(re.compile(arg.split("=", 1)[1]))
             elif arg in ['--unique']:
                 assert(not(filter_unique))
                 filter_unique = True
@@ -248,6 +272,9 @@ class Main(object):
             first_lineno = unique_consumer.init_lines
             consumers.append(unique_consumer)
 
+        for r in regexps:
+            consumers.append(RegexpFilter(r))
+
         consumers.append(NewlineFilter())
 
         consumers.append(OutputConsumer(out_fname=append_fname,
@@ -264,6 +291,10 @@ class Main(object):
         # http://foo.bar/bleh
 
         if verbose:
+            print "Regular Expressions:"
+            for r in regexps:
+                print "  *", repr(r.pattern)
+
             print "Consumers:"
             for cons in consumers:
                 print "  *", cons
