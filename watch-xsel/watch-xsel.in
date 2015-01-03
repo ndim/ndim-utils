@@ -357,7 +357,10 @@ class Main(object):
                                    print_lineno=print_lineno,
                                    ignore_file_not_found=True)
                 consumers.append(f)
-                first_lineno = f.skiplist_lines + 1
+                if f.skiplist_lines is None:
+                    first_lineno = None
+                else:
+                    first_lineno = f.skiplist_lines + 1
             consumers.append(UniqueFilter())
 
         for skip_list in skip_lists:
