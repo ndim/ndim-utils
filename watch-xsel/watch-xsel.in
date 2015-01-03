@@ -46,6 +46,7 @@ Arguments:
 import os
 import pprint
 import re
+import socket
 import subprocess
 import sys
 import time
@@ -260,6 +261,7 @@ class Main(object):
         print_lineno  = False
         regexps       = []
         skip_lists    = []
+        unix_socket   = None
         xsel_timeout  = 0
 
         i = 0
@@ -319,6 +321,16 @@ class Main(object):
                 assert(not(filter_unique))
                 filter_unique = True
 
+            # --unix-socket=SOCK is for internal debug use only,
+            # so there is no user documentation for it.
+            elif arg in ['--unix-socket']:
+                assert(not(unix_socket))
+                i = i + 1
+                unix_socket = args[i]
+            elif arg.startswith("--unix-socket="):
+                assert(not(unix_socket))
+                unix_socket = arg.split("=", 1)[1]
+
             elif arg in ['-U', '--urls']:
                 assert(not(filter_urls))
                 filter_urls = True
@@ -339,6 +351,7 @@ class Main(object):
                 raise InvalidArgumentError(arg)
             i = i + 1
 
+        self.unix_socket  = unix_socket
         self.xsel_timeout = xsel_timeout
 
         consumers = []
@@ -397,6 +410,13 @@ class Main(object):
 
 
     def main_loop(self):
+        if self.unix_socket:
+            self.main_loop_socket()
+        else:
+            self.main_loop_xsel()
+
+
+    def main_loop_xsel(self):
         if verbose:
             sys.stderr.write("X11 Selections:\n")
 
@@ -412,6 +432,25 @@ class Main(object):
                 self.first_consumer.consume(new_sel)
                 last_sel = new_sel
             time.sleep(0.5)
+
+
+    def main_loop_socket(self):
+        if os.path.exists(self.unix_socket):
+            if verbose:
+                sys.stderr.write("Removing existing socket %s" % repr(self.unix_socket))
+            os.remove(self.unix_socket)
+        sock = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+        sock.bind(self.unix_socket)
+        if verbose:
+            sys.stderr.write("Simulated X11 Selections via %s:\n" %
+                             (self.unix_socket, ))
+        while True:
+            sel = sock.recv(8192)
+            sys.stderr.write("SEL %s\n" % repr(sel))
+            self.first_consumer.consume(sel)
+
+        sock.close()
+        os.remove(self.unix_socket)
 
 
     def print_usage(self):

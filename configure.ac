@@ -22,6 +22,8 @@ dnl AC_PROG_CC_C99
 AM_PROG_CC_C_O
 AC_PROG_INSTALL
 
+AM_PATH_PYTHON
+
 AC_LANG_WERROR
 
 ########################################################################

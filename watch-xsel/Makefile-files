@@ -22,3 +22,11 @@ TESTS      += watch-xsel/test_watch-xsel--help.sh
 
 EXTRA_DIST += watch-xsel/test_watch-xsel--version.sh
 TESTS      += watch-xsel/test_watch-xsel--version.sh
+
+TEST_EXTENSIONS   += .twxf
+TWXF_LOG_COMPILER  = $(PYTHON)
+AM_TWXF_LOG_FLAGS  = $(srcdir)/watch-xsel/test-watch-xsel-filters
+EXTRA_DIST        += watch-xsel/test-watch-xsel-filters
+
+EXTRA_DIST += watch-xsel/oneline.twxf
+TESTS      += watch-xsel/oneline.twxf

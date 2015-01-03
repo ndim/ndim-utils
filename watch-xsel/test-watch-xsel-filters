@@ -1,0 +1,81 @@
+#!/usr/bin/python
+
+
+import os
+import signal
+import socket
+import subprocess
+import sys
+import tempfile
+import time
+
+
+def main():
+    assert(len(sys.argv) == 2)
+    xsel_fname = sys.argv[1]
+
+    basename = os.path.splitext(os.path.split(xsel_fname)[1])[0]
+
+    tmpdir = tempfile.mkdtemp(prefix='CHECK-', suffix='-%s'%basename,
+                              dir=os.getcwd())
+    socket_fname = os.path.join(tmpdir, 'SOCK')
+    stderr_fname = os.path.join(tmpdir, 'stderr')
+    stdout_fname = os.path.join(tmpdir, 'stdout')
+
+    sys.stderr.write('starting Popen...\n')
+
+    p = subprocess.Popen(['watch-xsel/watch-xsel',
+                          '--unix-socket', socket_fname],
+                         close_fds=True,
+                         stdin=None,
+                         stderr=open(stderr_fname, 'w'),
+                         stdout=open(stdout_fname, 'w'),
+                         universal_newlines=True)
+
+    sys.stderr.write('waiting for socket %s...\n' % repr(socket_fname))
+
+    tmout = 10
+    while not os.path.exists(socket_fname):
+        time.sleep(0.2)
+        tmout = tmout - 1
+        if tmout <= 0:
+            sys.stderr.write('Timeout waiting for socket %s to appear\n'
+                             % repr(socket_fname))
+            sys.exit(1)
+
+    sys.stderr.write('connecting to socket %s\n' % repr(socket_fname))
+
+    sock = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+    sock.connect(socket_fname)
+
+    sys.stderr.write('starting main loop\n')
+    text = ''
+    for line in open(xsel_fname, "Ur").readlines():
+        sys.stderr.write('sending line %s\n' % repr(line))
+        sock.send(line)
+        text = text + line
+        sys.stderr.write('polling p\n')
+        assert(p.poll() is None)
+        sys.stderr.write('polled p\n')
+
+    sys.stderr.write('sleeping\n')
+    time.sleep(1111)
+
+    assert(p.poll() is None)
+    p.send_signal(signal.SIGINT)
+    p.poll()
+    if p.returncode != 0:
+        sys.stderr.write('child exited with returncode %d\n' % p.returncode)
+        sys.exit(1)
+
+    if st_out != text:
+        sys.stderr.write('Error: Sent and received text differ\n')
+        sys.stderr.write('  sent     %s\n' % repr(text))
+        sys.stderr.write('  received %s\n' % repr(st_out))
+        sys.exit(1)
+
+    sys.exit(0)
+
+
+if __name__ == '__main__':
+    main()
