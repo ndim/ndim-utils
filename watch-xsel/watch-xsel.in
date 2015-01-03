@@ -86,8 +86,7 @@ class Filter(Consumer):
         self.__next_consumer = cons
 
     def __str__(self):
-        return "%s(next=%s)" % (self.__class__.__name__,
-                                self.next_consumer)
+        return "%s()" % (self.__class__.__name__, )
 
 
 class RegexpFilter(Filter):
@@ -102,9 +101,8 @@ class RegexpFilter(Filter):
             self.next_consumer.consume(item)
 
     def __str__(self):
-        return "%s(re=%s,next=%s)" % (self.__class__.__name__,
-                                      repr(self.r.pattern),
-                                      self.next_consumer)
+        return "%s(re=%s)" % (self.__class__.__name__,
+                              repr(self.r.pattern), )
 
 
 class UrlFilter(RegexpFilter):
@@ -114,8 +112,7 @@ class UrlFilter(RegexpFilter):
         super(UrlFilter, self).__init__(r)
 
     def __str__(self):
-        return "%s(next=%s)" % (self.__class__.__name__,
-                                self.next_consumer)
+        return "%s()" % (self.__class__.__name__, )
 
 
 class LineFilter(Filter):
@@ -174,9 +171,8 @@ class SkipListFilter(LineFilter):
         return d
 
     def __str__(self):
-        return "%s(skiplist_fname=%s,next=%s)" % (self.__class__.__name__,
-                                                  repr(self.skiplist_fname),
-                                                  self.next_consumer)
+        return "%s(skiplist_fname=%s)" % (self.__class__.__name__,
+                                          repr(self.skiplist_fname), )
 
 
 class UniqueFilter(LineFilter):
@@ -390,10 +386,6 @@ class Main(object):
             sys.stderr.write("Regular Expressions:\n")
             for r in regexps:
                 sys.stderr.write("  * %s\n" % repr(r.pattern))
-
-            sys.stderr.write("Consumers:\n")
-            for cons in consumers:
-                sys.stderr.write("  * %s\n" % cons)
 
             sys.stderr.write("Filters:\n")
             c = self.first_consumer
