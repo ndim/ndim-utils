@@ -30,3 +30,6 @@ EXTRA_DIST        += watch-xsel/test-watch-xsel-filters
 
 EXTRA_DIST += watch-xsel/oneline.twxf
 TESTS      += watch-xsel/oneline.twxf
+
+EXTRA_DIST += watch-xsel/fourlines.twxf
+TESTS      += watch-xsel/fourlines.twxf
