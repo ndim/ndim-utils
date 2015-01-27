@@ -151,6 +151,7 @@ class SkipListFilter(LineFilter):
         d = {}
         lineno = 0
         if self.ignore_fnf and not(os.path.exists(self.skiplist_fname)):
+            self.__skiplist_lines = 0
             return d
         if verbose:
             sys.stderr.write("Skip lines from %s:\n" %
