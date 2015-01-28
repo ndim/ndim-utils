@@ -281,10 +281,7 @@ class Main(object):
                 assert(not(append_fname))
                 i = i + 1
                 append_fname = args[i]
-            elif arg.startswith("--append="):
-                assert(not(append_fname))
-                append_fname = arg.split("=", 1)[1]
-            elif arg.startswith("-a="):
+            elif arg.startswith("-a=") or arg.startswith("--append="):
                 assert(not(append_fname))
                 append_fname = arg.split("=", 1)[1]
 
@@ -303,17 +300,13 @@ class Main(object):
             elif arg in ['-r', '--regexp']:
                 i = i + 1
                 regexps.append(re.compile(args[i]))
-            elif arg.startswith("--regexp="):
-                regexps.append(re.compile(arg.split("=", 1)[1]))
-            elif arg.startswith("-r="):
+            elif arg.startswith("-r=") or arg.startswith("--regexp="):
                 regexps.append(re.compile(arg.split("=", 1)[1]))
 
             elif arg in ['-s', '--skip-list']:
                 i = i + 1
                 skip_lists.append(args[i])
-            elif arg.startswith("--skip-list="):
-                skip_lists.append(arg.split("=", 1)[1])
-            elif arg.startswith("-s="):
+            elif arg.startswith("-s=") or arg.startswith("--skip-list="):
                 skip_lists.append(arg.split("=", 1)[1])
 
             elif arg in ['-u', '--unique']:
