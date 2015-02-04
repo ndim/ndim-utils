@@ -9,6 +9,8 @@ License:   GPLv2+
 URL:       @PACKAGE_URL@
 Source0:   @distdir@.tar.xz
 
+BuildRequires:  libselinux-devel
+
 
 %package xnest
 Summary:   Xnest helper scripts
