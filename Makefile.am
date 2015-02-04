@@ -94,6 +94,14 @@ srpm: dist-xz
 	mkdir  rpm-dist rpm-build
 	$(RPMBUILD) $(RPMBUILD_OPTS) -ts $(distdir).tar.xz
 
+MOCK = mock
+
+.PHONY: mock-rpm
+mock-rpm: srpm
+	rm -rf mock-results
+	$(MOCK) --resultdir=mock-results \
+		--rebuild "$$(ls -1 rpm-dist/$(PACKAGE_TARNAME)-*.src.rpm | tail -n1)"
+
 .PHONY: upload
 upload: $(SPECFILE) $(srcdir)/README $(srcdir)/NEWS dist srpm
 	rsync -avz --progress \
