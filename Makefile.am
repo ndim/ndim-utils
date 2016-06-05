@@ -75,7 +75,8 @@ $(PACKAGE_TARNAME).spec: $(top_srcdir)/package.spec.in Makefile
 		-e "s,[@]RPM_RELEASE@,$$(echo "$(PACKAGE_VERSION)" | $(SED) s/.*-/git/),g" \
 		$(top_srcdir)/package.spec.in > $(PACKAGE_TARNAME).spec
 
-RPMBUILD = rpmbuild
+if HAVE_RPMBUILD
+
 RPMBUILD_OPTS =
 RPMBUILD_OPTS += --define "_sourcedir $${PWD}"
 RPMBUILD_OPTS += --define "_builddir $${PWD}/rpm-build"
@@ -88,21 +89,27 @@ rpm: dist-xz
 	mkdir  rpm-dist rpm-build
 	$(RPMBUILD) $(RPMBUILD_OPTS) -ta $(distdir).tar.xz
 
-.PHONY: srpm
-srpm: dist-xz
-	rm -rf rpm-dist rpm-build
-	mkdir  rpm-dist rpm-build
-	$(RPMBUILD) $(RPMBUILD_OPTS) -ts $(distdir).tar.xz
+endif
 
-MOCK = mock
+if HAVE_FEDPKG
 
-.PHONY: mock-rpm
-mock-rpm: srpm
-	rm -rf mock-results
-	$(MOCK) --resultdir=mock-results \
-		--rebuild "$$(ls -1 rpm-dist/$(PACKAGE_TARNAME)-*.src.rpm | tail -n1)"
+FEDPKG_OPTS =
+FEDPKG_OPTS += --module-name=$(PACKAGE_TARNAME)
+FEDPKG_OPTS += --dist=f$(NDIM_FEDORA_VERSION)
 
-.PHONY: upload
+.PHONY: mockbuild
+mockbuild: dist-xz
+	$(FEDPKG) $(FEDPKG_OPTS) mockbuild
+if RUN_EXTRA_i386_BUILD
+	$(FEDPKG) $(FEDPKG_OPTS) mockbuild --root $(NDIM_i386_MOCK_ROOT)
+endif
+
+endif
+
+dist-hook: dist-hook-rm-INSTALL-file
+dist-hook-rm-INSTALL-file:
+	rm -f "$(distdir)/INSTALL"
+
 upload: $(SPECFILE) $(srcdir)/README $(srcdir)/NEWS dist srpm
 	rsync -avz --progress \
 		$(SPECFILE) \
