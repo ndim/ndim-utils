@@ -59,44 +59,8 @@ AM_CONDITIONAL([HAVE_GIT], [test "x$GIT" != "xno"])
 
 ########################################################################
 
-AC_ARG_VAR([RPMBUILD], [rpm package manager build utility])
-AC_PATH_PROG([RPMBUILD], [rpmbuild], [no])
-
-AC_ARG_VAR([FEDPKG], [fedora package build utility])
-AC_PATH_PROG([FEDPKG], [fedpkg], [no])
-
-AM_CONDITIONAL([HAVE_RPMBUILD], [test "x$RPMBUILD" != "xno"])
-AM_CONDITIONAL([HAVE_FEDPKG], [test "x$FEDPKG" != "xno"])
-
-AC_MSG_CHECKING([rpmbuild %{fedora} version])
-NDIM_FEDORA_VERSION="n/a"
-if test "x$RPMBUILD" != "xno"; then
-   NDIM_FEDORA_VERSION="$(${RPMBUILD} --eval '%{fedora}')"
-fi
-AC_MSG_RESULT([$NDIM_FEDORA_VERSION])
-AC_SUBST([NDIM_FEDORA_VERSION])
-
-AC_MSG_CHECKING([rpmbuild %{_arch}])
-NDIM_RPM_ARCH="n/a"
-if test "x$RPMBUILD" != "xno"; then
-   NDIM_RPM_ARCH="$(${RPMBUILD} --eval '%{_arch}')"
-fi
-AC_MSG_RESULT([$NDIM_RPM_ARCH])
-
-AC_MSG_CHECKING([spec file for main package 'BuildArch: noarch'])
-dnl Note: m4 eats [], so we need to put more here than sed actually needs
-if test "xnoarch" = "x$(${SED} -n '/^%package/q; s/^BuildArch:[[[:space:]]]*\(noarch\)[[[:space:]]]*/\1/p' "${srcdir}/package.spec.in")"; then
-   NDIM_MAINPKG_NOARCH=yes
-else
-   NDIM_MAINPKG_NOARCH=no
-fi
-AC_MSG_RESULT([$NDIM_MAINPKG_NOARCH])
-
-AC_SUBST([NDIM_i386_MOCK_ROOT], [fedora-${NDIM_FEDORA_VERSION}-i386])
-AM_CONDITIONAL([RUN_EXTRA_i386_BUILD],
-               [test "x$NDIM_MAINPKG_NOARCH" = "xno" &&
-	        test "x$NDIM_RPM_ARCH" = "xx86_64" &&
-	        test -f "/etc/mock/${NDIM_i386_MOCK_ROOT}.cfg"])
+m4_pattern_forbid([NDIM_BUILD_RPMS])dnl
+NDIM_BUILD_RPMS()dnl
 
 ########################################################################
 

@@ -10,6 +10,10 @@ EXTRA_DIST += hotplug.m4
 EXTRA_DIST += systemconfig.m4
 EXTRA_DIST += upload.m4
 
+EXTRA_DIST += ndim-build-rpms.m4
+EXTRA_DIST += ndim-build-rpms.mk
+EXTRA_DIST += ndim-build-rpms.README.md
+
 CLEANFILES += README
 EXTRA_DIST += README
 noinst_DATA = README

@@ -11,6 +11,8 @@ noinst_SCRIPTS =
 EXTRA_SCRIPTS =
 dist_bin_SCRIPTS =
 
+CLEAN_LOCAL_TARGETS =
+
 TESTS =
 TEST_EXTENSIONS =
 XFAIL_TESTS =
@@ -59,52 +61,7 @@ include misc-scripts/Makefile-files
 include params/Makefile-files
 include watch-xsel/Makefile-files
 
-clean-local:
-	rm -rf rpm-build rpm-dist
-
-CLEANFILES += $(PACKAGE_TARNAME).spec
-EXTRA_DIST += $(PACKAGE_TARNAME).spec
-EXTRA_DIST += package.spec.in
-$(PACKAGE_TARNAME).spec: $(top_srcdir)/package.spec.in Makefile
-	$(SED) \
-		-e 's,[@]distdir@,$(distdir),g' \
-		-e 's,[@]PACKAGE_NAME@,$(PACKAGE_NAME),g' \
-		-e 's,[@]PACKAGE_TARNAME@,$(PACKAGE_TARNAME),g' \
-		-e 's,[@]PACKAGE_URL@,$(PACKAGE_URL),g' \
-		-e "s,[@]RPM_VERSION@,$$(echo "$(PACKAGE_VERSION)" | $(SED) s/-.*//),g" \
-		-e "s,[@]RPM_RELEASE@,$$(echo "$(PACKAGE_VERSION)" | $(SED) s/.*-/git/),g" \
-		$(top_srcdir)/package.spec.in > $(PACKAGE_TARNAME).spec
-
-if HAVE_RPMBUILD
-
-RPMBUILD_OPTS =
-RPMBUILD_OPTS += --define "_sourcedir $${PWD}"
-RPMBUILD_OPTS += --define "_builddir $${PWD}/rpm-build"
-RPMBUILD_OPTS += --define "_srcrpmdir $${PWD}/rpm-dist"
-RPMBUILD_OPTS += --define "_rpmdir $${PWD}/rpm-dist"
-
-.PHONY: rpm
-rpm: dist-xz
-	rm -rf rpm-dist rpm-build
-	mkdir  rpm-dist rpm-build
-	$(RPMBUILD) $(RPMBUILD_OPTS) -ta $(distdir).tar.xz
-
-endif
-
-if HAVE_FEDPKG
-
-FEDPKG_OPTS =
-FEDPKG_OPTS += --module-name=$(PACKAGE_TARNAME)
-FEDPKG_OPTS += --dist=f$(NDIM_FEDORA_VERSION)
-
-.PHONY: mockbuild
-mockbuild: dist-xz
-	$(FEDPKG) $(FEDPKG_OPTS) mockbuild
-if RUN_EXTRA_i386_BUILD
-	$(FEDPKG) $(FEDPKG_OPTS) mockbuild --root $(NDIM_i386_MOCK_ROOT)
-endif
-
-endif
+include m4/ndim-build-rpms.mk
 
 dist-hook: dist-hook-rm-INSTALL-file
 dist-hook-rm-INSTALL-file:
@@ -118,5 +75,7 @@ upload: $(SPECFILE) $(srcdir)/README $(srcdir)/NEWS dist srpm
 		$(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.gz \
 		$(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.bz2 \
 		$(RSYNC_HOST):n-dimensional.de/software/ndim-utils/
+
+clean-local: $(CLEAN_LOCAL_TARGETS)
 
 # End of file.
