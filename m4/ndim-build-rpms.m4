@@ -28,6 +28,7 @@ AS_IF([test "x$RPMBUILD" != "xno"],
       [NDIM_RPM_ARCH="$(${RPMBUILD} --eval '%{_arch}')"],
       [NDIM_RPM_ARCH="n/a"])
 AC_MSG_RESULT([$NDIM_RPM_ARCH])
+AC_SUBST([NDIM_RPM_ARCH])
 
 AC_MSG_CHECKING([whether spec file contains 'BuildArch: noarch' for main package])
 dnl Note: m4 eats [], so we need to put more here than sed actually needs
@@ -35,6 +36,7 @@ AS_IF([test "xnoarch" = "x$(${SED} -n '/^%package/q; s/^BuildArch:[[[:space:]]]*
       [NDIM_MAINPKG_NOARCH=yes],
       [NDIM_MAINPKG_NOARCH=no])
 AC_MSG_RESULT([$NDIM_MAINPKG_NOARCH])
+AC_SUBST([NDIM_MAINPKG_NOARCH])
 
 AC_SUBST([NDIM_i386_MOCK_ROOT], [fedora-${NDIM_FEDORA_VERSION}-i386])
 

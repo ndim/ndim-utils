@@ -25,7 +25,6 @@ RPMBUILD_OPTS += --define "_builddir $${PWD}/rpm-build"
 RPMBUILD_OPTS += --define "_srcrpmdir $${PWD}/rpm-dist"
 RPMBUILD_OPTS += --define "_rpmdir $${PWD}/rpm-dist"
 
-.PHONY: rpm
 rpm: dist-xz
 	rm -rf rpm-dist rpm-build
 	mkdir  rpm-dist rpm-build
@@ -39,11 +38,47 @@ FEDPKG_OPTS =
 FEDPKG_OPTS += --module-name=$(PACKAGE_TARNAME)
 FEDPKG_OPTS += --dist=f$(NDIM_FEDORA_VERSION)
 
-.PHONY: mockbuild
 mockbuild: dist-xz
 	$(FEDPKG) $(FEDPKG_OPTS) mockbuild
 if DO_EXTRA_i386_BUILD
 	$(FEDPKG) $(FEDPKG_OPTS) mockbuild --root $(NDIM_i386_MOCK_ROOT)
 endif
+
+mockbuild-all: dist-xz
+	@echo SHELL="$$SHELL"; fail=""; succ=""; \
+	if test "x$(NDIM_RPM_ARCH)" = "xx86_64" && test "x$(NDIM_MAINPKG_NOARCH)" = "xno"; then \
+	for mockroot in /etc/mock/fedora-*-x86_64.cfg /etc/mock/epel-*-x86_64.cfg /etc/mock/fedora-*-i386.cfg /etc/mock/epel-*-i386.cfg; do \
+		if test -f "$$mockroot"; then :; else echo "No such mock config: $$mockroot"; exit 1; fi; \
+		echo "$(FEDPKG) $(FEDPKG_OPTS) mockbuild --root $$mockroot"; \
+		if $(FEDPKG) $(FEDPKG_OPTS) mockbuild --root "$$mockroot"; then \
+			succ="$${succ} $$(basename "$${mockroot}")"; \
+		else \
+			fail="$${fail} $$(basename "$${mockroot}")"; \
+		fi; \
+	done; \
+	else \
+	for mockroot in /etc/mock/{fedora,epel}-*-$(NDIM_RPM_ARCH).cfg; do \
+		if test -f "$$mockroot"; then :; else echo "No such mock config: $$mockroot"; exit 1; fi; \
+		echo "$(FEDPKG) $(FEDPKG_OPTS) mockbuild --root $$mockroot"; \
+		if $(FEDPKG) $(FEDPKG_OPTS) mockbuild --root "$$mockroot"; then \
+			succ="$${succ} $$(basename "$${mockroot}")"; \
+		else \
+			fail="$${fail} $$(basename "$${mockroot}")"; \
+		fi; \
+	done; \
+	fi; \
+	for f in $${succ}; do \
+		clean=false; \
+		echo "SUCC build for $${f}"; \
+	done; \
+	dirty=false; \
+	for f in $${fail}; do \
+		dirty=true; \
+		echo "FAIL build for $${f}"; \
+	done; \
+	if "$$dirty"; then \
+		echo "Some builds failed."; \
+		exit 2; \
+	fi
 
 endif
