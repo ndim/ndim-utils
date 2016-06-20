@@ -1,7 +1,7 @@
 # -*- mode: rpm-spec -*-
 Name:      @PACKAGE_TARNAME@
 Version:   @RPM_VERSION@
-Release:   1@RPM_RELEASE@%{?dist}
+Release:   @RPM_RELEASE@%{?dist}
 Summary:   ndim's utility collection
 
 Group:     Applications/System
