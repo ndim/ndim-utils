@@ -72,9 +72,8 @@ upload: $(SPECFILE) $(srcdir)/README $(srcdir)/NEWS dist srpm
 		$(SPECFILE) \
 		$(srcdir)/README $(srcdir)/NEWS \
 		$(srcdir)/misc-scripts/list-debuginfo-rpms \
-		$(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.gz \
-		$(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.bz2 \
-		$(RSYNC_HOST):n-dimensional.de/software/ndim-utils/
+		$(distdir).tar.xz \
+		$(RSYNC_HOST):n-dimensional.de/software/$(PACKAGE_TARNAME)/
 
 clean-local: $(CLEAN_LOCAL_TARGETS)
 
