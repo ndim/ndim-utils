@@ -25,7 +25,8 @@ SUBDIRS += pkg-info
 SUBDIRS += palm-scripts
 SUBDIRS += traffic
 
-doc_DATA = README AUTHORS NEWS
+dist_doc_DATA = README.md
+doc_DATA = AUTHORS NEWS
 
 ACLOCAL_AMFLAGS = -I m4 --install
 
@@ -67,10 +68,10 @@ dist-hook: dist-hook-rm-INSTALL-file
 dist-hook-rm-INSTALL-file:
 	rm -f "$(distdir)/INSTALL"
 
-upload: $(SPECFILE) $(srcdir)/README $(srcdir)/NEWS dist srpm
+upload: $(SPECFILE) $(srcdir)/README.md $(srcdir)/NEWS dist srpm
 	rsync -avz --progress \
 		$(SPECFILE) \
-		$(srcdir)/README $(srcdir)/NEWS \
+		$(srcdir)/README.md $(srcdir)/NEWS \
 		$(srcdir)/misc-scripts/list-debuginfo-rpms \
 		$(distdir).tar.xz \
 		$(RSYNC_HOST):n-dimensional.de/software/$(PACKAGE_TARNAME)/
