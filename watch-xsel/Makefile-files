@@ -1,24 +1,24 @@
 # -*- Makefile -*-
 
-EXTRA_DIST  += watch-xsel/watch-xsel.in
-bin_SCRIPTS += watch-xsel/watch-xsel
-CLEANFILES  += watch-xsel/watch-xsel
-watch-xsel/watch-xsel: watch-xsel/watch-xsel.in $(PACKAGE_SUBST_DEP)
-	$(PACKAGE_SUBST) $(srcdir)/watch-xsel/watch-xsel.in watch-xsel/watch-xsel
-	chmod +x watch-xsel/watch-xsel
+EXTRA_DIST  += %reldir%/watch-xsel.in
+bin_SCRIPTS += %reldir%/watch-xsel
+CLEANFILES  += %reldir%/watch-xsel
+%reldir%/watch-xsel: %reldir%/watch-xsel.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/watch-xsel.in %reldir%/watch-xsel
+	chmod +x %reldir%/watch-xsel
 
-EXTRA_DIST += watch-xsel/watch-xsel.1.in
-CLEANFILES += watch-xsel/watch-xsel.1
-man_MANS   += watch-xsel/watch-xsel.1
-watch-xsel/watch-xsel.1: watch-xsel/watch-xsel.1.in $(PACKAGE_SUBST_DEP)
-	$(PACKAGE_SUBST) $(srcdir)/watch-xsel/watch-xsel.1.in watch-xsel/watch-xsel.1
+EXTRA_DIST += %reldir%/watch-xsel.1.in
+CLEANFILES += %reldir%/watch-xsel.1
+man_MANS   += %reldir%/watch-xsel.1
+%reldir%/watch-xsel.1: %reldir%/watch-xsel.1.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/watch-xsel.1.in %reldir%/watch-xsel.1
 
 TEST_EXTENSIONS += .sh
 SH_LOG_COMPILER = /bin/sh
 AM_SH_LOG_FLAGS = -x
 
-EXTRA_DIST += watch-xsel/test_watch-xsel--help.sh
-TESTS      += watch-xsel/test_watch-xsel--help.sh
+EXTRA_DIST += %reldir%/test_watch-xsel--help.sh
+TESTS      += %reldir%/test_watch-xsel--help.sh
 
-EXTRA_DIST += watch-xsel/test_watch-xsel--version.sh
-TESTS      += watch-xsel/test_watch-xsel--version.sh
+EXTRA_DIST += %reldir%/test_watch-xsel--version.sh
+TESTS      += %reldir%/test_watch-xsel--version.sh

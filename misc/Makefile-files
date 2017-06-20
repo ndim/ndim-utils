@@ -1,10 +1,10 @@
 # -*- Makefile -*-
 
-bin_PROGRAMS     += misc/one
-misc_one_SOURCES  = misc/one.c
+bin_PROGRAMS     += %reldir%/one
+%canon_reldir%_one_SOURCES  = %reldir%/one.c
 
-man_MANS   += misc/one.1
-CLEANFILES += misc/one.1
-EXTRA_DIST += misc/one.1.in
-misc/one.1: misc/one.1.in $(PACKAGE_SUBST_DEP)
-	$(PACKAGE_SUBST) $(srcdir)/misc/one.1.in misc/one.1
+man_MANS   += %reldir%/one.1
+CLEANFILES += %reldir%/one.1
+EXTRA_DIST += %reldir%/one.1.in
+%reldir%/one.1: %reldir%/one.1.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/one.1.in %reldir%/one.1

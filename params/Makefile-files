@@ -1,45 +1,45 @@
 # -*- Makefile -*-
 
 
-AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += params/params-stderr$(EXEEXT)
-bin_PROGRAMS += params/params-stderr
-params_params_stderr_SOURCES  = params/params-stderr.c
-params_params_stderr_SOURCES += params/report-params.c params/report-params.h
-params_params_stderr_CPPFLAGS = -D_GNU_SOURCE
-params_params_stderr_LDADD    = -lselinux
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += %reldir%/params-stderr$(EXEEXT)
+bin_PROGRAMS += %reldir%/params-stderr
+%canon_reldir%_params_stderr_SOURCES  = %reldir%/params-stderr.c
+%canon_reldir%_params_stderr_SOURCES += %reldir%/report-params.c %reldir%/report-params.h
+%canon_reldir%_params_stderr_CPPFLAGS = -D_GNU_SOURCE
+%canon_reldir%_params_stderr_LDADD    = -lselinux
 
 
-bin_PROGRAMS += params/params-stdout
-params_params_stdout_SOURCES  = params/params-stdout.c
-params_params_stdout_SOURCES += params/report-params.c params/report-params.h
-params_params_stdout_CPPFLAGS = -D_GNU_SOURCE
-params_params_stdout_LDADD    = -lselinux
+bin_PROGRAMS += %reldir%/params-stdout
+%canon_reldir%_params_stdout_SOURCES  = %reldir%/params-stdout.c
+%canon_reldir%_params_stdout_SOURCES += %reldir%/report-params.c %reldir%/report-params.h
+%canon_reldir%_params_stdout_CPPFLAGS = -D_GNU_SOURCE
+%canon_reldir%_params_stdout_LDADD    = -lselinux
 
 
-AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += params/params-logfile$(EXEEXT)
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += %reldir%/params-logfile$(EXEEXT)
 LOGFILE_NAME = /tmp/params-logfile.log
-bin_PROGRAMS += params/params-logfile
-params_params_logfile_SOURCES   = params/params-logfile.c
-params_params_logfile_SOURCES  += params/report-params.c params/report-params.h
-params_params_logfile_CPPFLAGS  = -D_GNU_SOURCE
-params_params_logfile_CPPFLAGS += '-DLOGFILE_NAME="$(LOGFILE_NAME)"'
-params_params_logfile_LDADD     = -lselinux
+bin_PROGRAMS += %reldir%/params-logfile
+%canon_reldir%_params_logfile_SOURCES   = %reldir%/params-logfile.c
+%canon_reldir%_params_logfile_SOURCES  += %reldir%/report-params.c %reldir%/report-params.h
+%canon_reldir%_params_logfile_CPPFLAGS  = -D_GNU_SOURCE
+%canon_reldir%_params_logfile_CPPFLAGS += '-DLOGFILE_NAME="$(LOGFILE_NAME)"'
+%canon_reldir%_params_logfile_LDADD     = -lselinux
 
 
-EXTRA_DIST += params/params-outfile.1.in
+EXTRA_DIST += %reldir%/params-outfile.1.in
 
-man_MANS += params/params-stderr.1
-CLEANFILES += params/params-stderr.1
-params/params-stderr.1: params/params-outfile.1.in $(PACKAGE_SUBST_DEP)
-	$(PACKAGE_SUBST) $(srcdir)/params/params-outfile.1.in params/params-stderr.1 OUTFILE=stderr
+man_MANS += %reldir%/params-stderr.1
+CLEANFILES += %reldir%/params-stderr.1
+%reldir%/params-stderr.1: %reldir%/params-outfile.1.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/params-outfile.1.in %reldir%/params-stderr.1 OUTFILE=stderr
 
-man_MANS += params/params-stdout.1
-CLEANFILES += params/params-stdout.1
-params/params-stdout.1: params/params-outfile.1.in $(PACKAGE_SUBST_DEP)
-	$(PACKAGE_SUBST) $(srcdir)/params/params-outfile.1.in params/params-stdout.1 OUTFILE=stdout
+man_MANS += %reldir%/params-stdout.1
+CLEANFILES += %reldir%/params-stdout.1
+%reldir%/params-stdout.1: %reldir%/params-outfile.1.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/params-outfile.1.in %reldir%/params-stdout.1 OUTFILE=stdout
 
-man_MANS   += params/params-logfile.1
-EXTRA_DIST += params/params-logfile.1.in
-CLEANFILES += params/params-logfile.1
-params/params-logfile.1: params/params-logfile.1.in $(PACKAGE_SUBST_DEP)
-	$(PACKAGE_SUBST) $(srcdir)/params/params-logfile.1.in params/params-logfile.1 LOGFILE_NAME="$(LOGFILE_NAME)"
+man_MANS   += %reldir%/params-logfile.1
+EXTRA_DIST += %reldir%/params-logfile.1.in
+CLEANFILES += %reldir%/params-logfile.1
+%reldir%/params-logfile.1: %reldir%/params-logfile.1.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/params-logfile.1.in %reldir%/params-logfile.1 LOGFILE_NAME="$(LOGFILE_NAME)"

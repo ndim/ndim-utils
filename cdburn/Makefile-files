@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 
-EXTRA_DIST  += cdburn/burn-directory.in
-bin_SCRIPTS += cdburn/burn-directory
-CLEANFILES  += cdburn/burn-directory
-cdburn/burn-directory: cdburn/burn-directory.in $(PACKAGE_SUBST_DEP)
-	$(PACKAGE_SUBST) $(srcdir)/cdburn/burn-directory.in cdburn/burn-directory
+EXTRA_DIST  += %reldir%/burn-directory.in
+bin_SCRIPTS += %reldir%/burn-directory
+CLEANFILES  += %reldir%/burn-directory
+%reldir%/burn-directory: %reldir%/burn-directory.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/burn-directory.in %reldir%/burn-directory
