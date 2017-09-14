@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-"""strace-normalize.py - normalize PIDs in strace log file
+"""\
+strace-normalize.py - normalize PIDs in strace log file
 Copyright (C) 2007 Hans Ulrich Niedermann <hun@n-dimensional.de>
 
 Example Usage:
@@ -54,7 +55,7 @@ class Register(object):
 		if not self.regmap.has_key(index):
 			self.regmap[index] = self.regcnt
 			self.regcnt = self.regcnt + 1
-			self.ofile.write("##### Mapped %s to %s%d\n" % 
+			self.ofile.write("##### Mapped %s to %s%d\n" %
 					 (index, self.prefix, self.regmap[index]))
 			if verbose:
 				print "  Mapped %s to %s%d" % (index, self.prefix, self.regmap[index])
@@ -84,7 +85,6 @@ class MemRegister(Register):
 	"""Memory register"""
 	def __init__(self, ofile):
 		Register.__init__(self, ofile, 'MEM')
-
 
 
 def convert(ifname, ofname):
@@ -152,7 +152,7 @@ def convert(ifname, ofname):
 						return pidreg[arg]
 					else:
 						return arg
-				for a in args:					
+				for a in args:
 					m = equal_re.match(a)
 					if m:
 						lhs, rhs = m.groups()
