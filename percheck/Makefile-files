@@ -1,0 +1,13 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %reldir%/percheck.in
+bin_SCRIPTS += %reldir%/percheck
+CLEANFILES  += %reldir%/percheck
+%reldir%/percheck: %reldir%/percheck.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/percheck.in %reldir%/percheck
+
+EXTRA_DIST  += %reldir%/percheck.1.in
+man_MANS    += %reldir%/percheck.1
+CLEANFILES  += %reldir%/percheck.1
+%reldir%/percheck.1: %reldir%/percheck.1.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/percheck.1.in %reldir%/percheck.1

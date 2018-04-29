@@ -1,0 +1,8 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %reldir%/pdf2minibook.in
+bin_SCRIPTS += %reldir%/pdf2minibook
+CLEANFILES  += %reldir%/pdf2minibook
+%reldir%/pdf2minibook: %reldir%/pdf2minibook.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/pdf2minibook.in %reldir%/pdf2minibook
+

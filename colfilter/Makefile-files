@@ -1,0 +1,8 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %reldir%/colfilter.in
+bin_SCRIPTS += %reldir%/colfilter
+CLEANFILES  += %reldir%/colfilter
+%reldir%/colfilter: %reldir%/colfilter.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/colfilter.in %reldir%/colfilter
+

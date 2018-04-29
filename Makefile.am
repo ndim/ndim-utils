@@ -56,11 +56,21 @@ PACKAGE_SUBST_DEP = package-subst
 
 include build-helpers/package-version.mk
 
+include bing/Makefile-files
 include cdburn/Makefile-files
-include misc/Makefile-files
+include colfilter/Makefile-files
+include list-debuginfo-rpms/Makefile-files
 include misc-scripts/Makefile-files
+include np/Makefile-files
+include one/Makefile-files
 include params/Makefile-files
+include pdf2minibook/Makefile-files
+include percheck/Makefile-files
+include ps2lj4/Makefile-files
+include strace-normalize/Makefile-files
+include umlxterm/Makefile-files
 include watch-xsel/Makefile-files
+include xnest/Makefile-files
 
 include m4/ndim-build-rpms.mk
 

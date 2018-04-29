@@ -1,0 +1,4 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %reldir%/np
+#bin_SCRIPTS += %reldir%/np

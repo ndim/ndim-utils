@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %reldir%/strace-normalize.in
+bin_SCRIPTS += %reldir%/strace-normalize
+CLEANFILES  += %reldir%/strace-normalize
+%reldir%/strace-normalize: %reldir%/strace-normalize.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/strace-normalize.in %reldir%/strace-normalize

@@ -1,0 +1,5 @@
+# -*- Makefile -*-
+
+AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += %reldir%/bing
+EXTRA_DIST  += %reldir%/bing
+bin_SCRIPTS += %reldir%/bing

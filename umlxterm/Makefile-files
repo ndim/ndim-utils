@@ -1,0 +1,4 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %reldir%/umlxterm
+#bin_SCRIPTS += %reldir%/umlxterm

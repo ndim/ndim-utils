@@ -1,0 +1,8 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %reldir%/xnest.in
+bin_SCRIPTS += %reldir%/xnest
+# noinst_SCRIPTS += %reldir%/xnest
+CLEANFILES  += %reldir%/xnest
+%reldir%/xnest: %reldir%/xnest.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/xnest.in %reldir%/xnest

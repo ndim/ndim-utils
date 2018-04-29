@@ -1,0 +1,4 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %reldir%/list-debuginfo-rpms
+#bin_SCRIPTS += %reldir%/list-debuginfo-rpms
