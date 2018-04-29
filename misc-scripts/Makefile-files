@@ -1,5 +1,0 @@
-# -*- Makefile -*-
-
-profiledir   = $(sysconfdir)/profile.d
-EXTRA_DIST  += %reldir%/ndim-utils.sh
-profile_DATA = %reldir%/ndim-utils.sh

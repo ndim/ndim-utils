@@ -60,12 +60,12 @@ include bing/Makefile-files
 include cdburn/Makefile-files
 include colfilter/Makefile-files
 include list-debuginfo-rpms/Makefile-files
-include misc-scripts/Makefile-files
 include np/Makefile-files
 include one/Makefile-files
 include params/Makefile-files
 include pdf2minibook/Makefile-files
 include percheck/Makefile-files
+include profile/Makefile-files
 include ps2lj4/Makefile-files
 include strace-normalize/Makefile-files
 include umlxterm/Makefile-files
