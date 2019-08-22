@@ -1,0 +1,80 @@
+#!/usr/bin/python3
+
+
+import argparse
+import os
+import sys
+
+
+prog_version = "0.0.0"
+
+
+# Note:
+#
+# It would be nice and pythonic and all to read the file and split it
+# into words with something like
+#
+#     for line in infile:
+#         for word in line.split():
+#             # handle the word
+#
+# but that DOES NOT WORK for LONG lines: It will stop somewhere in the
+# middle of the line.
+
+
+def run(infile, outfile, exclude_words):
+    already_written_set = set()
+    exclude_set = set(exclude_words)
+
+    def stage3(word):
+        if word in already_written_set:
+            pass
+        else:
+            outfile.write(word)
+            outfile.write('\n')
+            already_written_set.add(word)
+
+    def stage2(word):
+        if word in exclude_set:
+            pass
+        else:
+            stage3(word)
+
+    word = ''
+    while True:
+        c = infile.read(1)
+        if not c:
+            break
+        if c.isspace():
+            if word:
+                stage2(word)
+            word = ''
+        else:
+            word = word + c
+
+
+def parse_commandline(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Read whitespace limited words, filter out some words, "
+        "skip repeated words, and write the resulting list "
+        "of words line by line."
+    )
+    parser.add_argument('input', type=argparse.FileType('r'), metavar='INPUT_FILE',
+                        help='the input file to read ("-" for stdin)',
+                        default=sys.stdin)
+    parser.add_argument('-x', '--exclude', action='append', metavar='WORD',
+                        dest='exclude_wordlist',
+                        help='exclude the given word')
+    parser.add_argument('-V', '--version', action='version',
+                        help='print version information and exit',
+                        version="%%(prog)s %s" % prog_version)
+    return parser.parse_args(argv)
+
+
+def main():
+    args = parse_commandline()
+    run(args.input, sys.stdout, args.exclude_wordlist)
+
+
+if __name__ == '__main__':
+    main()
