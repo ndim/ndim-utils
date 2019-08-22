@@ -88,6 +88,7 @@ rm -rf "%{buildroot}"
 %files
 %defattr(-,root,root,-)
 %doc %{_docdir}/*
+%{_sysconfdir}/profile.d/ndim-utils-CRLF.sh
 %{_sysconfdir}/profile.d/ndim-utils-mkcd.sh
 %{_bindir}/bing
 %{_bindir}/burn-directory
