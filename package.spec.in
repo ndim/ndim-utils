@@ -9,6 +9,7 @@ License:   GPLv2+
 URL:       @PACKAGE_URL@
 Source0:   @distdir@.tar.xz
 
+BuildRequires:  gcc
 BuildRequires:  libselinux-devel
 
 
