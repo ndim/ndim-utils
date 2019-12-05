@@ -6,3 +6,5 @@ dist_profile_DATA =
 dist_profile_DATA += %reldir%/ndim-utils-CRLF.sh
 dist_profile_DATA += %reldir%/ndim-utils-mkcd.sh
 
+dist_profile_DATA += %reldir%/ndim-utils-vim-editor.csh
+dist_profile_DATA += %reldir%/ndim-utils-vim-editor.sh
