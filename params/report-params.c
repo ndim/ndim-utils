@@ -118,10 +118,11 @@ void report_grouplist(FILE *out)
 static
 void report_context(FILE *out)
 {
-    security_context_t con;
-    assert(0 == getcon(&con));
-    fprintf(out, "%6s %s", "CTX", con);
-    freecon(con);
+    char *con;
+    if (0 == getcon(&con)) {
+        fprintf(out, "%6s %s", "CTX", con);
+        freecon(con);
+    }
 }
 
 
