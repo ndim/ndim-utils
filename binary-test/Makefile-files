@@ -20,13 +20,27 @@ noinst_PROGRAMS += %reldir%/binary-test
 %canon_reldir%_binary_test_LDFLAGS += -Wl,$(srcdir)/%reldir%/binary-test.c
 %canon_reldir%_binary_test_LDFLAGS += -Wl,--format=default
 
+# %canon_reldir%_binary_test_LDADD  =
+# %canon_reldir%_binary_test_LDADD += --format=binary
+# %canon_reldir%_binary_test_LDADD += $(srcdir)/%reldir%/binary-test.c
+# %canon_reldir%_binary_test_LDADD += --format=default
+
 BUILT_SOURCES += %reldir%/binary-test.h
 CLEANFILES    += %reldir%/binary-test.h
 %reldir%/binary-test.h: %reldir%/binary-test.c Makefile
 	$(MKDIR_P) '%reldir%/'
-	(base="$$(echo '_binary_$(srcdir)/%reldir%/binary-test.c' | sed 's,[/\.-],_,g')"; \
-	echo "extern const char  data_start[] asm(\"$${base}_start\");"; \
-	echo "extern const char  data_end[]   asm(\"$${base}_end\");"; \
-	echo "extern const char _data_size[]  asm(\"$${base}_size\");"; \
-	echo "#define data_size ((size_t)((void *)(_data_size)))"; \
+	(base="$$(echo '_binary__%reldir%/binary-test.c' | sed 's,[/\.-],_,g')"; \
+	echo "#ifndef BINARY_TEST_BINARY_TEST_H"; \
+	echo "#define BINARY_TEST_BINARY_TEST_H"; \
+	echo "#ifdef __cplusplus"; \
+	echo "extern \"C\" {"; \
+	echo "#endif"; \
+	echo "  extern const char  data_start[] asm(\"$${base}_start\");"; \
+	echo "  extern const char  data_end[]   asm(\"$${base}_end\");"; \
+	echo "  extern const char _data_size[]  asm(\"$${base}_size\");"; \
+	echo "  #define data_size ((size_t)((void *)(_data_size)))"; \
+	echo "#ifdef __cplusplus"; \
+	echo "}"; \
+	echo "#endif"; \
+	echo "#endif /* BINARY_TEST_BINARY_TEST_H */"; \
 	) > %reldir%/binary-test.h
