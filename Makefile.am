@@ -57,7 +57,7 @@ PACKAGE_SUBST_DEP = package-subst
 
 include build-helpers/package-version.mk
 
-include binary-test/Makefile-files
+# include binary-test/Makefile-files
 include bing/Makefile-files
 include cdburn/Makefile-files
 include colfilter/Makefile-files
