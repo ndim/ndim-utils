@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case "$1" in
+    --help)
+	cat<<EOF
+Usage: ndim-gnome-fixes
+
+Applies some fixes to the Gnome user interface, such as e.g.
+  * permanently show scrollbars
+
+Less magic and movement in UIs is always better.
+EOF
+	exit 0
+    ;;
+    --version)
+	echo "ndim-gnome-fixes (@PACKAGE_NAME@) @PACKAGE_VERSION@"
+	exit 0
+	;;
+esac
+
+gsettings set org.gnome.desktop.interface overlay-scrolling false

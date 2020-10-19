@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %reldir%/ndim-gnome-fixes.in
+bin_SCRIPTS += %reldir%/ndim-gnome-fixes
+CLEANFILES  += %reldir%/ndim-gnome-fixes
+%reldir%/ndim-gnome-fixes: %reldir%/ndim-gnome-fixes.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/ndim-gnome-fixes.in %reldir%/ndim-gnome-fixes

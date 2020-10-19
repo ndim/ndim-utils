@@ -96,6 +96,7 @@ rm -rf "%{buildroot}"
 %{_bindir}/bing
 %{_bindir}/burn-directory
 %{_bindir}/colfilter
+%{_bindir}/ndim-gnome-fixes
 %{_bindir}/one
 %{_bindir}/params-logfile
 %{_bindir}/params-stderr
