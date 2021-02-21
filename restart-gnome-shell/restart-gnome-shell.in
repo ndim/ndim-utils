@@ -1,0 +1,19 @@
+#!/bin/sh
+
+case "$1" in
+    --help)
+	cat<<EOF
+Usage: restart-gnome-shell
+
+Restart this user's gnome shell via D-Bus.
+EOF
+	exit 0
+	;;
+    --version)
+	echo "restart-gnome-shell (@PACKAGE_NAME@) @PACKAGE_VERSION@"
+	exit 0
+	;;
+esac
+
+
+busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting…")'

@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %reldir%/restart-gnome-shell.in
+bin_SCRIPTS += %reldir%/restart-gnome-shell
+CLEANFILES  += %reldir%/restart-gnome-shell
+%reldir%/restart-gnome-shell: %reldir%/restart-gnome-shell.in
+	$(PACKAGE_SUBST) $(srcdir)/%reldir%/restart-gnome-shell.in %reldir%/restart-gnome-shell

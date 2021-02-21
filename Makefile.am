@@ -70,6 +70,7 @@ include pdf2minibook/Makefile-files
 include percheck/Makefile-files
 include profile/Makefile-files
 include ps2lj4/Makefile-files
+include restart-gnome-shell/Makefile-files
 include strace-normalize/Makefile-files
 include umlxterm/Makefile-files
 include watch-xsel/Makefile-files

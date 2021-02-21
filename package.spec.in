@@ -12,6 +12,8 @@ Source0:   @distdir@.tar.xz
 BuildRequires:  gcc
 BuildRequires:  libselinux-devel
 
+Requires:  /usr/bin/busctl
+
 
 %package xnest
 Summary:   Xnest helper scripts
@@ -103,6 +105,7 @@ rm -rf "%{buildroot}"
 %{_bindir}/params-stdout
 %{_bindir}/pdf2minibook
 %{_bindir}/percheck
+%{_bindir}/restart-gnome-shell
 %{_bindir}/strace-normalize
 %{_mandir}/man1/one.1.gz
 %{_mandir}/man1/percheck.1.gz
