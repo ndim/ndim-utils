@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 """\
 strace-normalize.py - normalize PIDs in strace log file
@@ -52,13 +52,13 @@ class Register(object):
 		return self.__getitem(index)
 
 	def __getitem(self, index):
-		if not self.regmap.has_key(index):
+		if index not in self.regmap:
 			self.regmap[index] = self.regcnt
 			self.regcnt = self.regcnt + 1
 			self.ofile.write("##### Mapped %s to %s%d\n" %
 					 (index, self.prefix, self.regmap[index]))
 			if verbose:
-				print "  Mapped %s to %s%d" % (index, self.prefix, self.regmap[index])
+				print("  Mapped %s to %s%d" % (index, self.prefix, self.regmap[index]))
 		return "%s%d" % (self.prefix, self.regmap[index])
 
 	def has_key(self, index):
@@ -68,8 +68,8 @@ class Register(object):
 			m = self.re.match(index)
 			if m:
 				lhs, rhs = m.groups()
-				return self.regmap.has_key(rhs)
-		return self.regmap.has_key(index)
+				return rhs in self.regmap
+		return index in self.regmap
 
 	def count(self):
 		return (self.regcnt+1)
@@ -91,10 +91,10 @@ def convert(ifname, ofname):
 	"""Convert input file ifname to output file ofname"""
 
 	if verbose:
-		print ""
-		print "Converting", ifname, "to", ofname
+		print("")
+		print("Converting", ifname, "to", ofname)
 	else:
-		print "%s..." % ifname,
+		print("%s..." % ifname, end=' ')
 		sys.stdout.flush()
 
 	ifile = open(ifname, "r")
@@ -122,7 +122,7 @@ def convert(ifname, ofname):
 			pass
 		elif fun_m:
 			fun, arglist, space1, space2, ret = fun_m.groups()
-			args = map(lambda x: x.strip(), arglist.split(','))
+			args = [x.strip() for x in arglist.split(',')]
 			if fun == 'brk':
 				subst_args = [memreg[args[0]]]
 			elif fun == 'munmap':
@@ -146,9 +146,9 @@ def convert(ifname, ofname):
 			else:
 				subst_args = []
 				def substitute(arg):
-					if memreg.has_key(arg):
+					if arg in memreg:
 						return memreg[arg]
-					elif pidreg.has_key(arg):
+					elif arg in pidreg:
 						return pidreg[arg]
 					else:
 						return arg
@@ -166,36 +166,36 @@ def convert(ifname, ofname):
 			last = "%s(%s)%s=%s%s" % (fun,', '.join(subst_args),
 						    space1,space2,ret)
 		else:
-			print "# No match for line: ", repr(line)
+			print("# No match for line: ", repr(line))
 
 		ofile.write("%-5s %s\n" % (pseudo, last))
 
 	ifile.close()
 	ofile.close()
 	if verbose:
-		print "Conversion from", ifname, "to", ofname, "finished:"
-		print "  Process IDs:      %6d" % pidreg.count()
-		print "  Memory addresses: %6d" % memreg.count()
+		print("Conversion from", ifname, "to", ofname, "finished:")
+		print("  Process IDs:      %6d" % pidreg.count())
+		print("  Memory addresses: %6d" % memreg.count())
 	else:
-		print "\r%s: %d PIDs, %d mem addrs" % (ofname, pidreg.count(), memreg.count())
+		print("\r%s: %d PIDs, %d mem addrs" % (ofname, pidreg.count(), memreg.count()))
 
 
 def main(filenames):
 	if verbose:
-		print "Converting strace logs into \"unified\" format"
+		print("Converting strace logs into \"unified\" format")
 	for ifname in filenames:
 		base,ext = os.path.splitext(ifname)
 		if ext != ".strace":
-			print "W: input file %s does not end in .strace" % ifname
+			print("W: input file %s does not end in .strace" % ifname)
 		ofname = "%s.normalized-strace" % base
 		convert(ifname, ofname)
 
 
 if __name__ == '__main__':
-        if sys.argv[1:] == ['--help']:
-                sys.stdout.write(__doc__)
-                sys.exit(0)
-        elif sys.argv[1:] == ['--version']:
-                sys.stdout.write("strace-normalize (@PACKAGE_NAME@) @PACKAGE_VERSION@\n")
-                sys.exit(0)
+	if sys.argv[1:] == ['--help']:
+		sys.stdout.write(__doc__)
+		sys.exit(0)
+	elif sys.argv[1:] == ['--version']:
+		sys.stdout.write("strace-normalize (@PACKAGE_NAME@) @PACKAGE_VERSION@\n")
+		sys.exit(0)
 	main(sys.argv[1:])

@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 
 """
@@ -42,7 +42,7 @@ TODO:
 
 
 import sys
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import os
 
 router_host = "milou"
@@ -201,7 +201,7 @@ class Stage3:
                              (self.sent, "sent"),
                              (self.rcvd, "received")):
                 outfile.write("    %s traffic:\n" % text)
-                for name,value in vars(var).items():
+                for name,value in list(vars(var).items()):
                     if name in ("values"): continue
                     outfile.write("        %-10s %9s\n" % (name,format_byte_value(value)))
 
@@ -368,7 +368,7 @@ class LogFileParser:
 class HTTPParser:
 
     def __init__(self, url):
-        self.x = urllib2.urlopen(url)
+        self.x = urllib.request.urlopen(url)
         self.lines = []
 
     def handle_log_line(self, log_line):
@@ -438,7 +438,7 @@ def update_logs(log_file, router_host):
     if dirty:
         # no, we don't create empty log files
         debug(1,"Writing updated log file to %s...", log_file)
-        fd = os.open(log_file, os.O_WRONLY|os.O_CREAT|os.O_EXCL, 0600)
+        fd = os.open(log_file, os.O_WRONLY|os.O_CREAT|os.O_EXCL, 0o600)
         f = os.fdopen(fd,"w")
         for x in content:
             f.write(x)

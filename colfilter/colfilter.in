@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 """Improve formatting of column output of misc. commands
 
@@ -78,7 +78,7 @@ def column_filter(infile, outfile, mode = None):
     for y in a:
         line = ""
         assert(len(w) == len(y))
-        for x in zip(w,y,range(len(y))):
+        for x in zip(w,y,list(range(len(y)))):
             t = (x[1], ' ' * (x[0]-len(x[1])))
             if mode == "df":
                 if x[2] not in (0,len(w)-1):

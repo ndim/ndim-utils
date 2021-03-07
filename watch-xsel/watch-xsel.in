@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 
 prog = 'watch-xsel'
@@ -64,9 +64,7 @@ class InvalidArgumentError(RuntimeError):
         super(InvalidArgumentError, self).__init__(msg)
 
 
-class Consumer(object):
-
-    __metaclass__ = ABCMeta
+class Consumer(object, metaclass=ABCMeta):
 
     @abstractmethod
     def consume(self, item):
@@ -82,7 +80,7 @@ class Filter(Consumer):
     @next_consumer.setter
     def next_consumer(self, cons):
         if hasattr(self, '__next_consumer'):
-            raise "next_consumer already set"
+            raise Exception("next_consumer already set")
         self.__next_consumer = cons
 
     def __str__(self):

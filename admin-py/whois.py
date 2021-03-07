@@ -1,6 +1,3 @@
-#!/usr/bin/python2
-
-
 """whois library"""
 
 
@@ -84,7 +81,7 @@ class DomainInfos:
 
     def __str__(self):
         x = "DomainInfos for domain %s:\n" % self.domain
-        ks = vars(self).keys()
+        ks = list(vars(self).keys())
         ks.sort()
         for k in ks:
             if not k == 'domain':
@@ -124,7 +121,7 @@ class DenicParser(AbstractParser):
         for line in page.splitlines():
             n = n + 1
             linetype = None
-            for (k,v) in re_map.items():
+            for (k,v) in list(re_map.items()):
                 match = v.match(line)
                 if match:
                     linetype = k
@@ -134,7 +131,7 @@ class DenicParser(AbstractParser):
                 # print "            ", match.groups()
                 pass
             else:
-                print "Parse error: Unrecognized line type"
+                print("Parse error: Unrecognized line type")
                 sys.exit(1)
             if linetype == 'header':
                 break
@@ -182,7 +179,7 @@ class CrsnicParser(AbstractParser):
                 # print "            ", match.groups()
                 pass
             else:
-                print "Parse error: Unrecognized line type"
+                print("Parse error: Unrecognized line type")
                 sys.exit(1)
             if linetype == 'header':
                 break
@@ -226,7 +223,7 @@ class NameParser(AbstractParser):
                 # print "            ", match.groups()
                 pass
             else:
-                print "Parse error: Unrecognized line type"
+                print("Parse error: Unrecognized line type")
                 sys.exit(1)
             if linetype == 'header':
                 break
@@ -278,17 +275,19 @@ class WhoisEngine:
                 s.setblocking(0)
                 try:
                     s.connect((whois_server, 43))
-                except socket.error, (ecode, reason):
+                except socket.error as xxx_todo_changeme:
+                    (ecode, reason) = xxx_todo_changeme.args
                     if ecode in [115, 150]: pass
                     else:
-                        raise socket.error, (ecode, reason)
+                        raise socket.error(ecode, reason)
                 ret = select.select([s],[s],[],30)
                 if len(ret[1]) == 0 and len(ret[0]) == 0:
                     s.close()
-                    raise TimedOut, "on connect "
+                    raise TimedOut("on connect ")
                 s.setblocking(1)
-            except socket.error, (ecode, reason):
-                print ecode, reason
+            except socket.error as xxx_todo_changeme1:
+                (ecode, reason) = xxx_todo_changeme1.args
+                print(ecode, reason)
                 time.sleep(10)
                 s = None
         return s
@@ -326,7 +325,7 @@ class WhoisEngine:
             self.rawdata.write(page)
         # page = open("testdata","r").read()
         if page:
-            if WhoisEngine.parser_list.has_key(server):
+            if server in WhoisEngine.parser_list:
                 cls = WhoisEngine.parser_list[server]
                 parser = cls()
                 return parser.parse(page,infos)

@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 """
 Usage:
@@ -57,7 +57,7 @@ def write_nameserver_report(domains,output):
 if __name__ == '__main__':
     if "--help" in sys.argv:
         progname = sys.argv[0]
-        print __doc__ % vars()
+        print(__doc__ % vars())
         sys.exit(0)
     infile = sys.stdin
     outfile = sys.stdout
