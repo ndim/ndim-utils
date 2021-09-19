@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: [ ubuntu-latest, macos-latest ]
 
     steps:
     - uses: actions/checkout@v2
@@ -17,7 +17,7 @@ jobs:
         fetch-depth: 0
     - name: install-software-linux
       if: runner.os == 'Linux'
-      run: sudo apt install gettext
+      run: sudo apt install autopoint gettext
     - name: install-software-macos
       if: runner.os == 'macOS'
       run: sudo brew install gettext
