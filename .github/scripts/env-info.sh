@@ -7,3 +7,5 @@ pwd
 ls -d .git
 git status
 git describe
+
+:
