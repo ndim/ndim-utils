@@ -41,6 +41,10 @@ AM_CONDITIONAL([HAVE_LIBSELINUX], [test "x$have_libselinux" = "xyes"])
 
 ########################################################################
 
+AC_CHECK_FUNCS([getresuid getresgid])
+
+########################################################################
+
 pkgdocdir="${datadir}/doc/${PACKAGE_TARNAME}"
 AC_SUBST(pkgdocdir)
 

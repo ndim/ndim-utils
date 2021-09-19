@@ -74,6 +74,7 @@ static
 void report_setXid(FILE *out)
 {
     do {
+#ifdef HAVE_GETRESUID
         uid_t ruid, euid, suid;
         assert(0 == getresuid(&ruid, &euid, &suid));
         fprintf(out,
@@ -82,9 +83,19 @@ void report_setXid(FILE *out)
                 ruid, uid_to_name(ruid),
                 euid, uid_to_name(euid),
                 suid, uid_to_name(suid));
+#else
+        const uid_t uid = getuid();
+        const uid_t euid = geteuid();
+        fprintf(out,
+                "%6s uid=%d(%s) euid=%d(%s)\n",
+                "eUID",
+                uid,  uid_to_name(uid),
+                euid, uid_to_name(euid));
+#endif
     } while (0);
 
     do {
+#ifdef HAVE_GETRESGID
         gid_t rgid, egid, sgid;
         assert(0 == getresgid(&rgid, &egid, &sgid));
         fprintf(out,
@@ -93,6 +104,15 @@ void report_setXid(FILE *out)
                 rgid, gid_to_name(rgid),
                 egid, gid_to_name(egid),
                 sgid, gid_to_name(sgid));
+#else
+        const gid_t gid = getgid();
+        const gid_t egid = getegid();
+        fprintf(out,
+                "%6s gid=%d(%s) egid=%d(%s)\n",
+                "eGID",
+                gid,  gid_to_name(gid),
+                egid, gid_to_name(egid));
+#endif
     } while (0);
 }
 
