@@ -24,7 +24,7 @@ jobs:
       run: sudo apt install autopoint gettext
     - name: install-software-macos
       if: runner.os == 'macOS'
-      run: brew install gettext
+      run: brew install automake autoconf gettext libtool
     - name: install-software-windows
       if: runner.os == 'Windows'
       run: choco install gettext
