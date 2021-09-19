@@ -120,7 +120,7 @@ void report_context(FILE *out)
 {
     char *con;
     if (0 == getcon(&con)) {
-        fprintf(out, "%6s %s", "CTX", con);
+        fprintf(out, "%6s %s\n", "CTX", con);
         freecon(con);
     }
 }
