@@ -13,8 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: get-git-tags
-      run: git fetch -v --tags
+      fetch-depth: 0
     - name: env-info
       run: ./.github/scripts/env-info.sh
       shell: sh
