@@ -16,13 +16,13 @@ jobs:
       with:
         fetch-depth: 0
     - name: install-software-linux
-      if: runner.os == "Linux"
+      if: runner.os == 'Linux'
       run: sudo apt install gettext
     - name: install-software-macos
-      if: runner.os == "macOS"
+      if: runner.os == 'macOS'
       run: sudo brew install gettext
     - name: install-software-windows
-      if: runner.os == "Windows"
+      if: runner.os == 'Windows'
       run: choco install gettext
     - name: env-info
       run: ./.github/scripts/env-info.sh
