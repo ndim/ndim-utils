@@ -41,3 +41,9 @@ IFS='
     -e 's|[@]PACKAGE_TARNAME@|@PACKAGE_TARNAME@|g' \
     -e 's|[@]PACKAGE_VERSION@|@PACKAGE_VERSION@|g' \
     < "$INFILE" > "$OUTFILE"
+
+head -n1 < "$OUTFILE" > "$OUTFILE.tmp"
+trap "rm -f \"$OUTFILE.tmp\"" EXIT
+if grep '^#!' "$OUTFILE.tmp" > /dev/null; then
+    chmod +x "$OUTFILE"
+fi
