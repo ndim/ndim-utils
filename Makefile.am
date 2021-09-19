@@ -78,6 +78,9 @@ include xnest/Makefile-files
 
 include m4/ndim-build-rpms.mk
 
+all-local:
+	ls -l $$(for f in $(bin_SCRIPTS); do if test -f "$$f"; then echo "$$f"; else echo "$(srcdir)/$$f"; fi; done)
+
 dist-hook: dist-hook-rm-INSTALL-file
 dist-hook-rm-INSTALL-file:
 	rm -f "$(distdir)/INSTALL"
