@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "x$1" == "x--help" ]
+if [ "x$1" = "x--help" ]
 then
     cat<<EOF
 Usage:
@@ -9,7 +9,7 @@ Usage:
 Burn the content of the given directory to CD.
 EOF
     exit 0
-elif [ "x$1" == "x--version" ]
+elif [ "x$1" = "x--version" ]
 then
     echo "burn-directory (@PACKAGE_NAME@) @PACKAGE_VERSION@"
     exit 0
