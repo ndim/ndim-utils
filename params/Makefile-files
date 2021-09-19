@@ -3,27 +3,33 @@
 
 AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += %reldir%/params-stderr$(EXEEXT)
 bin_PROGRAMS += %reldir%/params-stderr
-%canon_reldir%_params_stderr_SOURCES  = %reldir%/params-stderr.c
-%canon_reldir%_params_stderr_SOURCES += %reldir%/report-params.c %reldir%/report-params.h
-%canon_reldir%_params_stderr_CPPFLAGS = -D_GNU_SOURCE
-%canon_reldir%_params_stderr_LDADD    = -lselinux
+%canon_reldir%_params_stderr_LDADD     =
+%canon_reldir%_params_stderr_SOURCES   = %reldir%/params-stderr.c
+%canon_reldir%_params_stderr_SOURCES  += %reldir%/report-params.c %reldir%/report-params.h
+%canon_reldir%_params_stderr_CPPFLAGS  = -D_GNU_SOURCE
+%canon_reldir%_params_stderr_CPPFLAGS += $(LIBSELINUX_CFLAGS)
+%canon_reldir%_params_stderr_LDADD    += $(LIBSELINUX_LIBS)
 
 
 bin_PROGRAMS += %reldir%/params-stdout
-%canon_reldir%_params_stdout_SOURCES  = %reldir%/params-stdout.c
-%canon_reldir%_params_stdout_SOURCES += %reldir%/report-params.c %reldir%/report-params.h
-%canon_reldir%_params_stdout_CPPFLAGS = -D_GNU_SOURCE
-%canon_reldir%_params_stdout_LDADD    = -lselinux
+%canon_reldir%_params_stdout_LDADD     =
+%canon_reldir%_params_stdout_SOURCES   = %reldir%/params-stdout.c
+%canon_reldir%_params_stdout_SOURCES  += %reldir%/report-params.c %reldir%/report-params.h
+%canon_reldir%_params_stdout_CPPFLAGS  = -D_GNU_SOURCE
+%canon_reldir%_params_stdout_CPPFLAGS += $(LIBSELINUX_CFLAGS)
+%canon_reldir%_params_stdout_LDADD    += $(LIBSELINUX_LIBS)
 
 
 AM_INSTALLCHECK_STD_OPTIONS_EXEMPT += %reldir%/params-logfile$(EXEEXT)
 LOGFILE_NAME = /tmp/params-logfile.log
 bin_PROGRAMS += %reldir%/params-logfile
+%canon_reldir%_params_logfile_LDADD     =
 %canon_reldir%_params_logfile_SOURCES   = %reldir%/params-logfile.c
 %canon_reldir%_params_logfile_SOURCES  += %reldir%/report-params.c %reldir%/report-params.h
 %canon_reldir%_params_logfile_CPPFLAGS  = -D_GNU_SOURCE
 %canon_reldir%_params_logfile_CPPFLAGS += '-DLOGFILE_NAME="$(LOGFILE_NAME)"'
-%canon_reldir%_params_logfile_LDADD     = -lselinux
+%canon_reldir%_params_logfile_CPPFLAGS += $(LIBSELINUX_CFLAGS)
+%canon_reldir%_params_logfile_LDADD    += $(LIBSELINUX_LIBS)
 
 
 EXTRA_DIST += %reldir%/params-outfile.1.in

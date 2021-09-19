@@ -10,7 +10,11 @@
 #include <grp.h>
 #include <pwd.h>
 
+#include "config.h"
+
+#ifdef HAVE_LIBSELINUX
 #include <selinux/selinux.h>
+#endif
 
 #include "report-params.h"
 
@@ -115,6 +119,7 @@ void report_grouplist(FILE *out)
 }
 
 
+#ifdef HAVE_LIBSELINUX
 static
 void report_context(FILE *out)
 {
@@ -124,6 +129,7 @@ void report_context(FILE *out)
         freecon(con);
     }
 }
+#endif
 
 
 static
@@ -163,7 +169,9 @@ void report_misc(FILE *out)
 
     report_setXid(out);
     report_grouplist(out);
+#ifdef HAVE_LIBSELINUX
     report_context(out);
+#endif
 }
 
 

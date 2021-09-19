@@ -33,6 +33,14 @@ NDIM_CHECK_CONFIGURATION
 
 ########################################################################
 
+PKG_CHECK_MODULES([LIBSELINUX], [libselinux],
+                  [have_libselinux=yes
+                   AC_DEFINE([HAVE_LIBSELINUX], [1], [Whether libselinux is present])],
+                  [have_libselinux=no])
+AM_CONDITIONAL([HAVE_LIBSELINUX], [test "x$have_libselinux" = "xyes"])
+
+########################################################################
+
 pkgdocdir="${datadir}/doc/${PACKAGE_TARNAME}"
 AC_SUBST(pkgdocdir)
 
