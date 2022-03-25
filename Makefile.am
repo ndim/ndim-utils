@@ -29,7 +29,7 @@ SUBDIRS += traffic
 dist_doc_DATA = README.md
 doc_DATA = AUTHORS NEWS
 
-ACLOCAL_AMFLAGS = --install -I auto-m4 -I m4
+ACLOCAL_AMFLAGS = --install
 
 EXTRA_DIST += LICENSE
 

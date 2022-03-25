@@ -9,12 +9,12 @@ AC_INIT([ndim utility collection],
 AC_CONFIG_AUX_DIR([auto-aux])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
-AC_CONFIG_MACRO_DIR([auto-m4])
+AC_CONFIG_MACRO_DIRS([auto-m4 m4])
 AM_INIT_AUTOMAKE([
   -Wall
   -Werror
   foreign
-  1.11.1
+  1.16
   no-dist-gzip
   dist-xz
   readme-alpha
