@@ -10,9 +10,18 @@ AC_CONFIG_AUX_DIR([auto-aux])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
 AC_CONFIG_MACRO_DIR([auto-m4])
-AM_INIT_AUTOMAKE([-Wall -Werror foreign 1.11.1 no-dist-gzip dist-xz
-                  readme-alpha tar-pax subdir-objects std-options])
-dnl TODO: Make us compatible with 'std-options'
+AM_INIT_AUTOMAKE([
+  -Wall
+  -Werror
+  foreign
+  1.11.1
+  no-dist-gzip
+  dist-xz
+  readme-alpha
+  tar-pax
+  subdir-objects
+  std-options
+])
 
 ########################################################################
 
