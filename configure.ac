@@ -3,9 +3,9 @@
 AC_PREREQ(2.61)
 AC_INIT([ndim utility collection],
         [m4_esyscmd([./build-helpers/package-version . version-stamp])],
-        [hun@n-dimensional.de],
+        [https://github.com/ndim/ndim-utils/issues],
         [ndim-utils],
-        [http://n-dimensional.de/software/ndim-utils/])
+        [https://github.com/ndim/ndim-utils])
 AC_CONFIG_AUX_DIR([auto-aux])
 AC_CONFIG_HEADER([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
