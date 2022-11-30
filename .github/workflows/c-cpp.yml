@@ -31,6 +31,10 @@ jobs:
     - name: env-info
       run: ./.github/scripts/env-info.sh
       shell: sh
+    - name: python?
+      run: |
+        python --version
+        python3 --version
     - name: autoreconf
       run: autoreconf -vis .
     - name: configure
