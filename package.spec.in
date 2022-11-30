@@ -67,13 +67,12 @@ Scripts related to the X11 selection available via xsel(1).
 
 
 %build
-%configure --mandir=%{_mandir}
-make %{?_smp_mflags}
+%configure
+%make_build
 
 
 %install
-rm -rf "%{buildroot}"
-make install DESTDIR="%{buildroot}"
+%make_install
 rm %{buildroot}%{_bindir}/ppp-traffic-analysis.py*
 while read file; do
   rm "%{buildroot}$file"
@@ -82,10 +81,6 @@ done<<RMXXX
    %{_bindir}/ndim-utils-info.sh
    %{_bindir}/ndim-utils-info2.sh
 RMXXX
-
-
-%clean
-rm -rf "%{buildroot}"
 
 
 %files
