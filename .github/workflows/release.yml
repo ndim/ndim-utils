@@ -1,0 +1,57 @@
+name: Release Assist
+
+on:
+  push:
+    tags:
+    - 'v\d*'
+
+env:
+  LC_ALL: C
+
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Update Software Database
+        run: sudo apt-get update
+      - name: Install Build Requirements
+        run: sudo apt-get install -y autoconf automake autopoint gettext libtool
+      - name: Build Step "autoreconf"
+        run: autoreconf -vis .
+      - name: Build Step "configure"
+        run: ./configure
+      - name: Build Step "make"
+        run: make -j$(nproc) -l$(nproc)
+      - name: Build Step "make check"
+        run: make -j$(nproc) -l$(nproc) check
+      - name: Build Step "make distcheck"
+        run: |
+          make -j$(nproc) -l$(nproc) distcheck
+          ls ndim-utils-*.tar.xz | while read tarball; do if test -f "$tarball"; then echo "RELEASE_TARBALL=$tarball" >> $GITHUB_ENV; break; fi; done
+      - name: Create Release
+        id: create_release
+        if: false
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
+      - name: Upload Release Assets
+        id: upload-release-assets
+        if: false
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.RELEASE_TARBALL }}
+          asset_name: ${{ env.RELEASE_TARBALL }}
+          asset_content_type: application/x-xz
