@@ -9,6 +9,8 @@ License:   GPLv2+
 URL:       @PACKAGE_URL@
 Source0:   @distdir@.tar.xz
 
+BuildRequires:  ImageMagick
+BuildRequires:  firefox
 BuildRequires:  gcc
 BuildRequires:  libselinux-devel
 
@@ -107,6 +109,11 @@ RMXXX
 %{_mandir}/man1/params-logfile.1.gz
 %{_mandir}/man1/params-stderr.1.gz
 %{_mandir}/man1/params-stdout.1.gz
+
+%{_bindir}/firefox-killer
+%{_datadir}/applications/firefox_killer.desktop
+%{_datadir}/icons/hicolor/48x48/apps/firefox_killer.png
+%{_datadir}/icons/hicolor/256x256/apps/firefox_killer.png
 
 
 %files xnest

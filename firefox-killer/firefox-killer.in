@@ -1,0 +1,25 @@
+#!/bin/sh
+
+print_usage() {
+    cat<<EOF
+Usage: firefox-killer [options...]
+
+Run \`killall [options...] firefox\`.
+EOF
+}
+
+case "$1" in
+    --help)
+	print_usage
+	exit 0
+	;;
+    --version)
+	printf "%s (%s) %s\n" "firefox-killer" "@PACKAGE_NAME@" "@PACKAGE_VERSION@"
+	exit 0
+	;;
+esac
+
+echo "Press ENTER to kill firefox, press Ctrl-C to let firefox alone."
+read
+killall "$@" firefox
+sleep 10

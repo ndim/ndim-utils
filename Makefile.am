@@ -12,6 +12,12 @@ noinst_SCRIPTS =
 EXTRA_SCRIPTS =
 dist_bin_SCRIPTS =
 
+desktopdir = $(datadir)/applications
+icondir    = $(datadir)/icons/hicolor
+
+desktop_DATA     =
+nobase_icon_DATA =
+
 CLEAN_LOCAL_TARGETS =
 
 TESTS =
@@ -62,6 +68,7 @@ include build-helpers/package-version.mk
 include bing/Makefile-files
 include cdburn/Makefile-files
 include colfilter/Makefile-files
+include firefox-killer/Makefile-files
 include gnome-fixes/Makefile-files
 include list-debuginfo-rpms/Makefile-files
 include np/Makefile-files

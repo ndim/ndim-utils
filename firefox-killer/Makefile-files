@@ -1,0 +1,45 @@
+# -*- Makefile -*-
+
+EXTRA_DIST  += %D%/firefox-killer.in
+CLEANFILES  += %D%/firefox-killer
+bin_SCRIPTS += %D%/firefox-killer
+%D%/firefox-killer: %D%/firefox-killer.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $< $@
+	chmod +x $@
+
+EXTRA_DIST   += %D%/firefox-killer.desktop.in
+CLEANFILES   += %D%/firefox_killer.desktop
+desktop_DATA += %D%/firefox_killer.desktop
+%D%/firefox_killer.desktop: %D%/firefox-killer.desktop.in $(PACKAGE_SUBST_DEP)
+	$(PACKAGE_SUBST) $< $@ icondir='$(icondir)' bindir='$(bindir)'
+if HAVE_DESKTOP_FILE_VALIDATE
+	desktop-file-validate $@
+endif
+
+if HAVE_ALL_FIREFOX_ICONS
+if HAVE_CONVERT
+
+nobase_icon_DATA += 256x256/apps/firefox_killer.png
+CLEANFILES       += 256x256/apps/firefox_killer.png
+256x256/apps/firefox_killer.png: /usr/share/icons/hicolor/256x256/apps/firefox.png Makefile
+	@$(MKDIR_P) $(@D)
+	$(CONVERT) $< \
+		-stroke red \
+		-strokewidth 37 \
+		-draw "line 0,0 255,255" \
+		-draw "line 255,0 0,255" \
+		$@
+
+nobase_icon_DATA += 48x48/apps/firefox_killer.png
+CLEANFILES       += 48x48/apps/firefox_killer.png
+48x48/apps/firefox_killer.png: /usr/share/icons/hicolor/48x48/apps/firefox.png Makefile
+	@$(MKDIR_P) $(@D)
+	$(CONVERT) $< \
+		-stroke red \
+		-strokewidth 7 \
+		-draw "line 0,0 47,47" \
+		-draw "line 47,0 0,47" \
+		$@
+
+endif
+endif

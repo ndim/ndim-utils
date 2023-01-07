@@ -74,6 +74,36 @@ AC_SUBST([AM_CFLAGS])
 
 ########################################################################
 
+AC_ARG_VAR([CONVERT], [convert tool from ImageMagick])
+AS_VAR_IF([CONVERT], [], [dnl
+AC_PATH_PROG([CONVERT], [convert], [no])
+])
+AM_CONDITIONAL([HAVE_CONVERT], [test "x$CONVERT" != xno])
+
+########################################################################
+
+m4_define([firefox_icon_sizes], [48 256])dnl
+have_all_firefox_icons=yes
+AC_CHECK_FILES([dnl
+  /usr/share/icons/hicolor/48x48/apps/firefox.png
+  /usr/share/icons/hicolor/256x256/apps/firefox.png
+], [dnl
+], [dnl
+  have_all_firefox_icons=no
+])
+AM_CONDITIONAL([HAVE_ALL_FIREFOX_ICONS], [test "x$have_all_firefox_icons" = xyes])
+
+########################################################################
+
+AC_ARG_VAR([DESKTOP_FILE_VALIDATE], [desktop-file-validate utility program])
+AS_VAR_IF([DESKTOP_FILE_VALIDATE], [], [dnl
+AC_PATH_PROG([DESKTOP_FILE_VALIDATE], [desktop-file-validate], [no])
+])
+AM_CONDITIONAL([HAVE_DESKTOP_FILE_VALIDATE],
+               [test "x$DESKTOP_FILE_VALIDATE" != xno])
+
+########################################################################
+
 AC_ARG_VAR([GIT], [git revision control system])
 AS_VAR_IF([GIT], [], [dnl
 AC_PATH_PROG([GIT], [git], [no])

@@ -1,0 +1,23 @@
+[Desktop Entry]
+Version=1.0
+Name=Firefox Killer 9
+GenericName=Firefox Killer 9
+Comment=Kill all firefox processes
+Exec=@bindir@/firefox-killer -9
+Icon=@icondir@/256x256/apps/firefox_killer.png
+# Icon=firefox_killer
+Terminal=true
+Type=Application
+SingleMainWindow=true
+StartupNotify=false
+Categories=Network;WebBrowser;
+Keywords=web;browser;internet;
+Actions=sigterm;sigkill
+
+[Desktop Action sigterm]
+Name=killall -s SIGTERM firefox
+Exec=@bindir@/firefox-killer -s SIGTERM
+
+[Desktop Action sigkill]
+Name=killall -s SIGKILL firefox
+Exec=@bindir@/firefox-killer -s SIGKILL
