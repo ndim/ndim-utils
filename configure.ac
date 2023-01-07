@@ -75,8 +75,10 @@ AC_SUBST([AM_CFLAGS])
 ########################################################################
 
 AC_ARG_VAR([GIT], [git revision control system])
+AS_VAR_IF([GIT], [], [dnl
 AC_PATH_PROG([GIT], [git], [no])
-AM_CONDITIONAL([HAVE_GIT], [test "x$GIT" != "xno"])
+])
+AM_CONDITIONAL([HAVE_GIT], [test "x$GIT" != xno])
 
 ########################################################################
 
