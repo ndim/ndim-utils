@@ -92,6 +92,7 @@ RMXXX
 %{_sysconfdir}/profile.d/ndim-utils-mkcd.sh
 %{_sysconfdir}/profile.d/ndim-utils-vim-editor.csh
 %{_sysconfdir}/profile.d/ndim-utils-vim-editor.sh
+%{_sysconfdir}/profile.d/zzzzz-ndim-utils-shell-prompt.sh
 %{_bindir}/bing
 %{_bindir}/burn-directory
 %{_bindir}/colfilter
