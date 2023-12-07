@@ -102,8 +102,8 @@ def convert(ifname, ofname):
 
 	pidreg = PidRegister(ofile)
 	memreg = MemRegister(ofile)
-	fun_re = re.compile("([a-zA-Z0-9_]+)\((.*)\)(\s+)=(\s+)(\S+)")
-	equal_re = re.compile("([a-zA-Z0-9_]+)=(.*)")
+	fun_re = re.compile(r"([a-zA-Z0-9_]+)\((.*)\)(\s+)=(\s+)(\S+)")
+	equal_re = re.compile(r"([a-zA-Z0-9_]+)=(.*)")
 	for line in ifile.readlines():
 		assert(line[5] == ' ')
 		assert(line[-1] == '\n')
