@@ -21,7 +21,8 @@ XFAIL_TESTS =
 SUBDIRS =
 SUBDIRS += m4
 SUBDIRS += include
-SUBDIRS += admin-py
+# whois is dead
+# SUBDIRS += admin-py
 SUBDIRS += pkg-info
 SUBDIRS += palm-scripts
 SUBDIRS += traffic
