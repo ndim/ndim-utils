@@ -1,4 +1,4 @@
-# -*- Makefile -*-
+# -*- makefile-automake -*-
 
 TESTS           += %reldir%/binary-test
 check_PROGRAMS  += %reldir%/binary-test

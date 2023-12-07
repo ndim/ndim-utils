@@ -1,4 +1,4 @@
-# -*- Makefile -*-
+# -*- makefile-automake -*-
 
 EXTRA_DIST  += %reldir%/ndim-gnome-fixes.in
 bin_SCRIPTS += %reldir%/ndim-gnome-fixes

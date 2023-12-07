@@ -1,4 +1,4 @@
-# -*- Makefile -*-
+# -*- makefile-automake -*-
 
 bin_PROGRAMS               += %reldir%/one
 

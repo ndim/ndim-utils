@@ -1,4 +1,4 @@
-# -*- Makefile -*-
+# -*- makefile-automake -*-
 
 profiledir        = $(sysconfdir)/profile.d
 dist_profile_DATA =

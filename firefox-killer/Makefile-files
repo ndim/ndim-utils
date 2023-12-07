@@ -1,4 +1,4 @@
-# -*- Makefile -*-
+# -*- makefile-automake -*-
 
 EXTRA_DIST  += %D%/firefox-killer.in
 CLEANFILES  += %D%/firefox-killer

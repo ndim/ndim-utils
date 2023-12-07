@@ -1,4 +1,4 @@
-# -*- Makefile -*-
+# -*- makefile-automake -*-
 
 EXTRA_DIST  += %reldir%/burn-directory.in
 bin_SCRIPTS += %reldir%/burn-directory

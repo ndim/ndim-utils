@@ -1,4 +1,4 @@
-# -*- Makefile -*-
+# -*- makefile-automake -*-
 
 EXTRA_DIST  += %reldir%/strace-normalize.in
 bin_SCRIPTS += %reldir%/strace-normalize

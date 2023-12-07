@@ -1,4 +1,4 @@
-# -*- Makefile -*-
+# -*- makefile-automake -*-
 
 EXTRA_DIST  += %reldir%/ps2lj4
 #bin_SCRIPTS += %reldir%/ps2lj4
