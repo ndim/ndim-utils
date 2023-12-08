@@ -42,7 +42,7 @@ Requires:  xsel
     Miscellaneous helpers programs.
 
   misc-scripts/
-    Miscellanrous scripts.
+    Miscellaneous scripts.
 
   palm-scripts/
     Hotplug scripts for using a Palm device (upload, backup, PPP).
