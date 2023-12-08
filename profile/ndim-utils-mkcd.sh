@@ -1,3 +1,5 @@
+# -*- mode: bash; indent-tabs-mode: nil -*-
+
 # make directory (tree) (if necessary), and then change to it
 mkcd() {
     if [ "$#" -gt 1 ]; then
