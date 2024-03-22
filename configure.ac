@@ -7,7 +7,7 @@ AC_INIT([ndim utility collection],
         [ndim-utils],
         [https://github.com/ndim/ndim-utils])
 AC_CONFIG_AUX_DIR([auto-aux])
-AC_CONFIG_HEADER([include/config.h])
+AC_CONFIG_HEADERS([include/config.h])
 AC_CONFIG_SRCDIR([pkg-info/pkg-info.c])
 AC_CONFIG_MACRO_DIRS([auto-m4 m4])
 AM_INIT_AUTOMAKE([
