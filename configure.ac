@@ -1,8 +1,10 @@
 ########################################################################
 
 AC_PREREQ(2.61)
+m4_define([nu_version],
+          m4_esyscmd([./build-helpers/package-version . version-stamp]))
 AC_INIT([ndim utility collection],
-        [m4_esyscmd([./build-helpers/package-version . version-stamp])],
+        [m4_defn([nu_version])],
         [https://github.com/ndim/ndim-utils/issues],
         [ndim-utils],
         [https://github.com/ndim/ndim-utils])
